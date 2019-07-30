@@ -5,6 +5,10 @@ interface Props {
     text: any,
 }
 
+interface States {
+    name: string,
+}
+
 export class IconText extends React.Component<Props, {}> {
 
     constructor(props: Props) {
