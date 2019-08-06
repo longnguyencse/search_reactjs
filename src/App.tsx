@@ -1,8 +1,10 @@
 import React from 'react';
 import {Avatar, Col, Input, List, Row} from 'antd';
 import {IconText} from './component/IconText';
+import axios from 'axios';
 
 import './App.css';
+import {API} from "./service/API";
 
 const {Search} = Input;
 
@@ -24,6 +26,19 @@ class App extends React.Component<{}, {}> {
             });
         }
     }
+
+    componentDidMount(): void {
+        axios.get('http://localhost:5200/redmine').then(res => {
+            console.log(res);
+        });
+        const response = API.Instant().get('/redmine').then(
+            res => {
+                console.log(res);
+            }
+        );
+        console.log(response);
+    }
+
 
     render() {
         return (
