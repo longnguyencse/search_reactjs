@@ -1,12 +1,10 @@
-import React from 'react';
-import { Avatar, Col, Input, List, Row, Layout, Menu, Icon, Breadcrumb } from 'antd';
+import React, { Fragment } from 'react';
+import { Avatar, Col, Input, List, Row, Layout } from 'antd';
 
 import { IconText } from './component/IconText';
 import axios from 'axios';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Index from './pages/ProductOrder';
-import Detail from './pages/ProductOrder/detail';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
 
 import LeftMenu from './components/LeftMenu';
 import MainContent from './components/MainContent';
@@ -14,8 +12,7 @@ import './App.css';
 import { API } from "./service/API";
 
 const { Search } = Input;
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Footer } = Layout;
 
 class App extends React.Component<IAppProps, IAppState> {
 
@@ -35,15 +32,7 @@ class App extends React.Component<IAppProps, IAppState> {
         //     });
         // }
 
-        this.state = {
-            collapsed: false,
-        };
     }
-
-    onCollapse = (collapsed: boolean) => {
-        console.log(collapsed);
-        this.setState({ collapsed });
-    };
 
     componentDidMount(): void {
         // axios.get('http://localhost:5200/redmine').then(res => {
@@ -60,23 +49,17 @@ class App extends React.Component<IAppProps, IAppState> {
 
     render() {
         return (
-            <Layout>
-                <LeftMenu></LeftMenu>
-                <Layout style={{ marginLeft: 200 }}>
-                    <MainContent></MainContent>
-                    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-                </Layout>
-            </Layout>
-        );
-        return (
-            <main className="contaier">
-                <Router>
-                    <Switch>
-                        <Route exact path="/" component={Index} />
-                        <Route path="/:name" component={Detail} />
-                    </Switch>
-                </Router>
-            </main>
+            <Router>
+                <Switch>
+                    <Layout>
+                        <LeftMenu></LeftMenu>
+                        <Layout style={{ marginLeft: 200 }}>
+                            <MainContent></MainContent>
+                            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                        </Layout>
+                    </Layout>
+                </Switch>
+            </Router>
         );
         return (
             <section className="App">

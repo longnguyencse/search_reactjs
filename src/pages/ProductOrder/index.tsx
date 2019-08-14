@@ -1,32 +1,29 @@
 import React from "react";
-import {Link} from 'react-router-dom';
 
-export default class Index extends React.Component<IListProps, IListState> {
-    constructor(props: IListProps){
+import { Route } from 'react-router-dom';
+
+import List from './list';
+import Detail from './detail';
+
+export default class ProductOrder extends React.Component<IProductOrderProps, IProductOrderState> {
+    constructor(props: IProductOrderProps){
         super(props);
-
-        this.state = {
-            names: ['A', 'B', 'C', 'D']
-        };
     }
 
     render(){
         return (
-            <ul className="list-group">
-                {this.state.names.map(name => {
-                    return <li className="list-group-item">
-                        <Link to={`/${name}`}>{name}</Link>
-                    </li>
-                })}
-            </ul>
+            <div>
+                <Route exact path="/" component={List} />
+                <Route exact path="/po" component={List} />
+                <Route exact path="/po/:name" component={Detail} />
+            </div>
         );
     }
 };
 
-interface IListProps {
+interface IProductOrderProps {
 
 }
 
-interface IListState {
-    names: Array<string>
+interface IProductOrderState {
 }

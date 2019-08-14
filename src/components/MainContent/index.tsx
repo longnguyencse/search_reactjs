@@ -2,7 +2,9 @@ import React from 'react';
 
 import {Layout} from 'antd';
 
-import "./style.css";
+import ProductOrder from '../../pages/ProductOrder';
+
+import "./styles.scss";
 
 const {Content} = Layout;
 
@@ -15,7 +17,8 @@ export default class MainContent extends React.Component<IMainContentProps, IMai
         return (
             <Content className="main-content">
                         <div className="div-main-content">
-                            ...
+                            <ProductOrder></ProductOrder>
+                            {/* ...
                   <br />
                             Really
                   <br />
@@ -109,7 +112,7 @@ export default class MainContent extends React.Component<IMainContentProps, IMai
                   <br />
                             ...
                   <br />
-                            content
+                            content */}
                 </div>
                     </Content>
         );

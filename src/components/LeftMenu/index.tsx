@@ -1,7 +1,9 @@
 import React from "react";
 import {Layout, Menu, Icon} from 'antd';
 
-import './style.css';
+import {Link} from 'react-router-dom';
+
+import './styles.scss';
 const {Sider} = Layout;
 
 export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuState> {
@@ -19,7 +21,9 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
                         <Menu.Item key="1">
                             <Icon type="appstore-o" />
-                            <span className="nav-text">Product Order</span>
+                            <span className="nav-text">
+                                <Link to="/po">Product Order</Link>
+                            </span>
                         </Menu.Item>
                         <Menu.Item key="2">
                             <Icon type="user" />
