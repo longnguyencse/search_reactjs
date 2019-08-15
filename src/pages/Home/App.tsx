@@ -1,15 +1,15 @@
 import React, { Fragment } from 'react';
 import { Avatar, Col, Input, List, Row, Layout } from 'antd';
 
-import { IconText } from './component/IconText';
+import { IconText } from '../../components/Icon/IconText';
 import axios from 'axios';
 
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 
-import LeftMenu from './components/LeftMenu';
-import MainContent from './components/MainContent';
+import LeftMenu from '../../components/LeftMenu';
+import MainContent from '../../components/MainContent';
 import './App.css';
-import { API } from "./service/API";
+import { API } from "../../service/API";
 
 const { Search } = Input;
 const { Footer } = Layout;

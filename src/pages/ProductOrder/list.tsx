@@ -1,7 +1,7 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import {Table} from 'antd';
+import { Table } from 'antd';
 
 const columns = [
     {
@@ -53,10 +53,10 @@ const columns = [
 export default class List extends React.Component<IListProps, IListState> {
     private data: any[] = new Array();
 
-    constructor(props: IListProps){
+    constructor(props: IListProps) {
         super(props);
 
-        for(let i = 0 ; i < 46 ; i++){
+        for (let i = 0; i < 46; i++) {
             const soLuong = i + 1;
             const thanhTien = 1000 * soLuong;
             this.data.push(
@@ -80,18 +80,14 @@ export default class List extends React.Component<IListProps, IListState> {
         };
     }
 
-    onSelectChange = ( selectedRowKeys: Array<Object> ) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
+    onSelectChange = (selectedRowKeys: Array<Object>) => {
+        console.log('selectedRowKeys changed: ', selectedRowKeys);
+        this.setState({ selectedRowKeys });
     };
 
-    render(){
-        const {selectedRowKeys} = this.state;
-        const rowSelection = {
-            selectedRowKeys,
-            onChange: this.onSelectChange,
-            hideDefaultSelections: true
-        }
+    render() {
+        const { selectedRowKeys } = this.state;
+        
         return <Table columns={columns} dataSource={this.data} />;
     }
 };
