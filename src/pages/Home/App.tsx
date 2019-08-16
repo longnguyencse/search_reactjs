@@ -55,8 +55,8 @@ class App extends React.Component<IAppProps, IAppState> {
                         <LeftMenu></LeftMenu>
                         <Layout style={{ marginLeft: 200 }}>
                             <MainContent></MainContent>
-                            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
                         </Layout>
+                        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
                     </Layout>
                 </Switch>
             </Router>
