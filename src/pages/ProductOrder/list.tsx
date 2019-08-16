@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 
 const columns = [
     {
@@ -39,15 +39,13 @@ const columns = [
     {
         title: "Action",
         dataIndex: "action",
+        render: () => <a href="#">Delete</a>,
     },
     {
-        title: "Chon tat ca",
-        dataIndex: "chonTatCa",
+        title: "Ngay tao 1",
+        dataIndex: "ngayTao1",
     },
-    {
-        title: "Ngay tao",
-        dataIndex: "ngayTao",
-    },
+
 ];
 
 export default class List extends React.Component<IListProps, IListState> {
@@ -87,8 +85,13 @@ export default class List extends React.Component<IListProps, IListState> {
 
     render() {
         const { selectedRowKeys } = this.state;
-        
-        return <Table columns={columns} dataSource={this.data} />;
+
+        const rowSelection = {
+            selectedRowKeys,
+            onChange: this.onSelectChange,
+        };
+
+        return <Table rowSelection={rowSelection} columns={columns} dataSource={this.data} rowKey={record => record.key} />;
     }
 };
 
@@ -96,5 +99,5 @@ interface IListProps {
 }
 
 interface IListState {
-    selectedRowKeys: Array<Object>
+    selectedRowKeys: any
 }
