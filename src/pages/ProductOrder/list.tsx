@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-import { Table, Radio, Button } from 'antd';
+import { Table, Radio, Button, Pagination } from 'antd';
 
 import './styles.scss';
 
@@ -58,7 +58,7 @@ export default class List extends React.Component<IListProps, IListState> {
     constructor(props: IListProps) {
         super(props);
 
-        for (let i = 0; i < 46; i++) {
+        for (let i = 0; i < 10; i++) {
             const soLuong = i + 1;
             const thanhTien = 1000 * soLuong;
             this.dataChoDuyet.push(
@@ -158,9 +158,11 @@ export default class List extends React.Component<IListProps, IListState> {
                 </Radio.Group>
                 <Table pagination={false} rowSelection={rowSelection} columns={columns} dataSource={dataRender} rowKey={record => record.key} />
                 <div className="table-operations">
-                    <Button>Sort age</Button>
-                    <Button>Clear filters</Button>
-                    <Button>Clear filters and sorters</Button>
+                    <div className="btn-pagination">
+                        <Button className="btn-duyet" type="primary">Duyet</Button>
+                        <Pagination className="pagination" defaultCurrent={6} total={500} />
+                    </div>
+                    
                 </div>
             </div>
         );
