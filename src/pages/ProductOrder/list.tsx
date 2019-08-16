@@ -156,7 +156,7 @@ export default class List extends React.Component<IListProps, IListState> {
                     <Radio.Button value="daDuyet">Da Duyet</Radio.Button>
                     <Radio.Button value="huy">Huy</Radio.Button>
                 </Radio.Group>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={dataRender} rowKey={record => record.key} />
+                <Table pagination={false} rowSelection={rowSelection} columns={columns} dataSource={dataRender} rowKey={record => record.key} />
                 <div className="table-operations">
                     <Button>Sort age</Button>
                     <Button>Clear filters</Button>
