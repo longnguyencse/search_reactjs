@@ -14,7 +14,7 @@ const { Footer } = Layout;
 
 class App extends React.Component<IAppProps, IAppState> {
 
-    private listData: any[] = new Array();
+    private listData: any[] = [];
 
     constructor(props: {}) {
         super(props);
