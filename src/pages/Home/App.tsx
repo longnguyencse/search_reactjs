@@ -1,22 +1,20 @@
-import React, { Fragment } from 'react';
-import { Avatar, Col, Input, List, Row, Layout } from 'antd';
+import React from 'react';
+import {Avatar, Col, Input, Layout, List, Row} from 'antd';
 
-import { IconText } from '../../components/Icon/IconText';
-import axios from 'axios';
+import {IconText} from '../../components/Icon/IconText';
 
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 
 import LeftMenu from '../../components/LeftMenu';
 import MainContent from '../../components/MainContent';
 import './App.css';
-import { API } from "../../service/API";
 
 const { Search } = Input;
 const { Footer } = Layout;
 
 class App extends React.Component<IAppProps, IAppState> {
 
-    private listData: any[] = new Array();
+    private listData: any[] = [];
 
     constructor(props: {}) {
         super(props);
@@ -56,7 +54,7 @@ class App extends React.Component<IAppProps, IAppState> {
                         <Layout style={{ marginLeft: 200 }}>
                             <MainContent></MainContent>
                         </Layout>
-                        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                        <Footer style={{textAlign: 'center'}}>ERP Mini@2019</Footer>
                     </Layout>
                 </Switch>
             </Router>

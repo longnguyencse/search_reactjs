@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 
-import { Table, Radio, Button, Pagination } from 'antd';
+import {Button, Pagination, Radio, Table} from 'antd';
 
 import './styles.scss';
 
@@ -54,7 +53,7 @@ export default class List extends React.Component<IListProps, IListState> {
     private dataChoDuyet: any[] = new Array();
     private dataDaDuyet: any[] = new Array();
     private dataHuy: any[] = new Array();
-
+    private link: string = "";
     constructor(props: IListProps) {
         super(props);
 
@@ -125,7 +124,7 @@ export default class List extends React.Component<IListProps, IListState> {
             mode
         });
         console.log(mode);
-    }
+    };
 
     render() {
         const { selectedRowKeys, mode } = this.state;
