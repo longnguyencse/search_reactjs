@@ -3,8 +3,8 @@ import { Button, Checkbox, Form, Icon, Input, Layout } from 'antd';
 
 import './login.scss';
 
-import {LoginInfoState} from '../../store/login/types';
-import {loginSystem} from '../../store/login/actions';
+import {AuthState} from '../../store/auth/types';
+import {loginSystem, logoutSystem} from '../../store/auth/actions';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 
@@ -17,8 +17,9 @@ export interface ILoginState {
 
 export interface ILoginProps {
     form?: any,
-    loginSystem: typeof loginSystem
-    loginInfo: LoginInfoState,
+    loginSystem: typeof loginSystem,
+    logoutSystem: typeof logoutSystem,
+    auth: AuthState,
 }
 
 class Login extends Component<ILoginProps, ILoginState> {
@@ -40,12 +41,19 @@ class Login extends Component<ILoginProps, ILoginState> {
         });
     };
 
+    onLogout = () => {
+        const authInfo = {
+            token: "1234",
+        };
+        this.props.logoutSystem(authInfo);
+    }
+
     render() {
+        console.log(this.props.auth);
         const { getFieldDecorator } = this.props.form;
 
         return (
             <div>
-                <Header>Header</Header>
                 <Content>
                     <div className="content-login">
                         <Form onSubmit={this.handleSubmit} className="login-form">
@@ -80,13 +88,15 @@ class Login extends Component<ILoginProps, ILoginState> {
                                 </a>
                                 <Button type="primary" htmlType="submit" className="login-form-button">
                                     Log in
-                    </Button>
+                                </Button>
+                                <Button type="danger" htmlType="button" className="logout-form-button" onClick = {this.onLogout}>
+                                    Logout
+                                </Button>
                             </Form.Item>
                         </Form>
                     </div>
 
                 </Content>
-                <Footer>Footer</Footer>
             </div>
         );
 
@@ -97,11 +107,14 @@ const LoginForm = Form.create({})(Login);
 
 
 const mapStateToProps = (state: AppState) => ({
-    loginInfo: state.login,
+    auth: state.auth,
 });
 
 export default connect(
     mapStateToProps,
-    {loginSystem}
+    {
+        loginSystem,
+        logoutSystem
+    }
 )(LoginForm);
 

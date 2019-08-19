@@ -2,11 +2,11 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import {loginReducer} from './login/reducers';
+import {authReducer} from './auth/reducers';
 
 
 const rootReducers = combineReducers({
-    login: loginReducer,
+    auth: authReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducers>;
