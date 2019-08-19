@@ -3,10 +3,11 @@ import {Avatar, Col, Input, Layout, List, Row} from 'antd';
 
 import {IconText} from '../../components/Icon/IconText';
 
-import {BrowserRouter as Router, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import LeftMenu from '../../components/LeftMenu';
 import MainContent from '../../components/MainContent';
+import Login from "../Login/Login";
 import './App.css';
 
 const { Search } = Input;
@@ -49,13 +50,15 @@ class App extends React.Component<IAppProps, IAppState> {
         return (
             <Router>
                 <Switch>
+                    <Route exact path="/login" component={Login}/>
                     <Layout>
                         <LeftMenu></LeftMenu>
                         <Layout style={{ marginLeft: 200 }}>
                             <MainContent></MainContent>
                         </Layout>
-                        <Footer style={{textAlign: 'center'}}>ERP Mini@2019</Footer>
                     </Layout>
+                        <Footer style={{textAlign: 'center'}}>ERP Mini@2019</Footer>
+
                 </Switch>
             </Router>
         );
