@@ -6,11 +6,28 @@ import ProductOrder from '../../pages/ProductOrder';
 
 import "./styles.scss";
 
+import {AuthState} from '../../store/auth/types';
+import {checkAuthenticate} from '../../store/auth/actions';
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
+
 const {Content} = Layout;
 
-export default class MainContent extends React.Component<IMainContentProps, IMainContentState> {
+
+interface IMainContentProps {
+    checkAuthenticate: typeof checkAuthenticate,
+    auth: AuthState,
+}
+
+interface IMainContentState {
+
+}
+
+class MainContent extends React.Component<IMainContentProps, IMainContentState> {
     constructor(props: IMainContentProps){
         super(props);
+
+        props.checkAuthenticate(props.auth);
     }
 
     render(){
@@ -119,10 +136,14 @@ export default class MainContent extends React.Component<IMainContentProps, IMai
     }
 }
 
-interface IMainContentProps {
 
-}
+const mapStateToProps = (state: AppState) => ({
+    auth: state.auth,
+});
 
-interface IMainContentState {
-
-}
+export default connect(
+    mapStateToProps,
+    {
+        checkAuthenticate
+    }
+)(MainContent);

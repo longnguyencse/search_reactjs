@@ -7,6 +7,7 @@ export interface AuthState {
 
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const CHECK_AUTHENICATE = "CHECK_AUTHENICATE";
 
 interface LoginAction {
     type: typeof LOGIN,
@@ -18,4 +19,9 @@ interface LogoutAction {
     payload: AuthState,
 }
 
-export type LoginActionType = LoginAction | LogoutAction;
+interface CheckAuthenticateAction {
+    type: typeof CHECK_AUTHENICATE,
+    payload: AuthState,
+}
+
+export type LoginActionType = LoginAction | LogoutAction | CheckAuthenticateAction;

@@ -1,14 +1,14 @@
 import {Action} from 'redux';
-import {AuthState, LOGIN, LOGOUT} from './types';
+import {AuthState, LOGIN, LOGOUT, CHECK_AUTHENICATE} from './types';
 import LocalStorage from '../../services/LocalStorage';
 import { ThunkAction } from 'redux-thunk';
 
-export function loginSystem(newLogin: AuthState){
-    excuteLogin(newLogin);
-    return {
+export const loginSystem = (newLogin: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
+    const newAuth = await excuteLogin(newLogin);
+    dispatch({
         type: LOGIN,
-        payload: newLogin,
-    }
+        payload: newAuth,
+    });
 }
 
 export const logoutSystem = (auth: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
@@ -26,17 +26,31 @@ export const logoutSystem = (auth: AuthState): ThunkAction<void, AuthState, null
     // }
 // }
 
+export const checkAuthenticate = (auth: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
+    const newAuth = await executeCheckAuth(auth);
+    dispatch({
+        type: CHECK_AUTHENICATE,
+        payload: newAuth,
+    });
+}
+
 async function excuteLogin(newLogin: AuthState){
     const {userName, password} = newLogin;
 
     const localS = new LocalStorage();
+    let token = "";
     if(userName === "nhan" && password === "vo"){
-        const token = "nhan_vo";
+        token = "nhan_vo";
         localS.setValue("token", token);
     }
     else {
         console.error("Error");
     }
+
+    return {
+        ...newLogin,
+        token
+    };
 }
 
 async function excuteLogout(auth: AuthState){
@@ -56,4 +70,23 @@ async function excuteLogout(auth: AuthState){
     }
 
     return res;
-} 
+}
+
+async function executeCheckAuth(auth: AuthState){
+    const localS = new LocalStorage();
+
+    let token:any = await localS.getValue('token');
+
+    token = token.value;
+
+    console.log(token);
+
+    if(!token){
+        token = "";
+    }
+
+    return {
+        ...auth,
+        token
+    };
+}

@@ -4,9 +4,11 @@ import { Button, Checkbox, Form, Icon, Input, Layout } from 'antd';
 import './login.scss';
 
 import {AuthState} from '../../store/auth/types';
-import {loginSystem, logoutSystem} from '../../store/auth/actions';
+import {loginSystem, logoutSystem, checkAuthenticate} from '../../store/auth/actions';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
+
+import {Redirect} from 'react-router-dom';
 
 const { Header, Footer, Content } = Layout;
 
@@ -19,12 +21,17 @@ export interface ILoginProps {
     form?: any,
     loginSystem: typeof loginSystem,
     logoutSystem: typeof logoutSystem,
+    checkAuthenticate: typeof checkAuthenticate,
     auth: AuthState,
 }
 
 class Login extends Component<ILoginProps, ILoginState> {
     constructor(props: ILoginProps) {
         super(props);
+    }
+
+    componentWillMount(){
+        this.props.checkAuthenticate(this.props.auth);
     }
 
     handleSubmit = (e: any) => {
@@ -49,9 +56,11 @@ class Login extends Component<ILoginProps, ILoginState> {
     }
 
     render() {
-        console.log(this.props.auth);
         const { getFieldDecorator } = this.props.form;
-
+        console.log(this.props.auth)
+        // if(this.props.auth.token){
+        //     return <Redirect to="/" />
+        // }
         return (
             <div>
                 <Content>
@@ -114,7 +123,8 @@ export default connect(
     mapStateToProps,
     {
         loginSystem,
-        logoutSystem
+        logoutSystem,
+        checkAuthenticate
     }
 )(LoginForm);
 

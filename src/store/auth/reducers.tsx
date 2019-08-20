@@ -1,4 +1,4 @@
-import { AuthState, LOGIN, LOGOUT, LoginActionType } from './types';
+import { AuthState, LOGIN, LOGOUT, CHECK_AUTHENICATE, LoginActionType } from './types';
 
 const initialState: AuthState = {
     userName: "",
@@ -10,12 +10,10 @@ const initialState: AuthState = {
 export function authReducer(state = initialState, action: LoginActionType): AuthState {
     switch (action.type) {
         case LOGIN:
-            {
-                console.log("LOGIN");
-                return {
-                    ...state,
-                    ...action.payload
-                }
+            console.log("LOGIN");
+            return {
+                ...state,
+                ...action.payload
             }
 
         case LOGOUT: {
@@ -25,6 +23,14 @@ export function authReducer(state = initialState, action: LoginActionType): Auth
                 ...action.payload,
             }
         }
+        case CHECK_AUTHENICATE: {
+            console.log("CHECK_AUTHENTICATE");
+            return {
+                ...state,
+                ...action.payload,
+            }
+        }
+
         default:
             return state;
     }
