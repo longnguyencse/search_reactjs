@@ -1,7 +1,7 @@
 import {Action} from 'redux';
-import {AuthState, LOGIN, LOGOUT, CHECK_AUTHENICATE} from './types';
+import {AuthState, CHECK_AUTHENICATE, LOGIN, LOGOUT} from './types';
 import LocalStorage from '../../services/LocalStorage';
-import { ThunkAction } from 'redux-thunk';
+import {ThunkAction} from 'redux-thunk';
 
 export const loginSystem = (newLogin: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
     const newAuth = await excuteLogin(newLogin);
@@ -32,7 +32,7 @@ export const checkAuthenticate = (auth: AuthState): ThunkAction<void, AuthState,
         type: CHECK_AUTHENICATE,
         payload: newAuth,
     });
-}
+};
 
 async function excuteLogin(newLogin: AuthState){
     const {userName, password} = newLogin;
