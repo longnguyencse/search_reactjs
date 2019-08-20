@@ -1,10 +1,12 @@
 import React from "react";
-import {Layout, Menu, Icon} from 'antd';
+import {Icon, Layout, Menu} from 'antd';
 
 import {Link} from 'react-router-dom';
 
 import './styles.scss';
+
 const {Sider} = Layout;
+const {SubMenu} = Menu;
 
 export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuState> {
     constructor(props: ILeftMenuProps){
@@ -15,9 +17,6 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
         return (
             <Sider className="left-sider">
                 <Menu>
-                    {/* <div className="logo">
-                        <img src="https://images.unsplash.com/photo-1533407411655-dcce1534c1a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=752&q=80" alt="" width="100px"/>
-                    </div> */}
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
                         <Menu.Item key="1">
                             <Icon type="appstore-o" />
@@ -29,7 +28,20 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                             <Icon type="user" />
                             <span className="nav-text">Test</span>
                         </Menu.Item>
-                        
+                        <SubMenu
+                            key="sub4"
+                            title={
+                                <span>
+                <Icon type="setting"/>
+                <span>Navigation Three</span>
+              </span>
+                            }
+                        >
+                            <Menu.Item key="9">Option 9</Menu.Item>
+                            <Menu.Item key="10">Option 10</Menu.Item>
+                            <Menu.Item key="11">Option 11</Menu.Item>
+                            <Menu.Item key="12">Option 12</Menu.Item>
+                        </SubMenu>
                     </Menu>
                 </Menu>
             </Sider>
