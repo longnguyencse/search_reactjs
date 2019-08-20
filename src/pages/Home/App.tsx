@@ -3,12 +3,13 @@ import {Avatar, Col, Input, Layout, List, Row} from 'antd';
 
 import {IconText} from '../../components/Icon/IconText';
 
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import LeftMenu from '../../components/LeftMenu';
 import MainContent from '../../components/MainContent';
 import Login from "../Login/Login";
 import './App.css';
+import AddDiscountForm from "../Discount/Add/AddDiscountForm";
 
 const { Search } = Input;
 const { Footer } = Layout;
@@ -51,6 +52,7 @@ class App extends React.Component<IAppProps, IAppState> {
             <Router>
                 <Switch>
                     <Route exact path="/login" component={Login}/>
+                    <Route exact path="/addDiscount" component={AddDiscountForm}/>
                     <Layout>
                         <LeftMenu></LeftMenu>
                         <Layout style={{ marginLeft: 200 }}>

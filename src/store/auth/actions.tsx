@@ -1,7 +1,7 @@
 import {Action} from 'redux';
 import {AuthState, LOGIN, LOGOUT} from './types';
 import LocalStorage from '../../services/LocalStorage';
-import { ThunkAction } from 'redux-thunk';
+import {ThunkAction} from 'redux-thunk';
 
 export function loginSystem(newLogin: AuthState){
     excuteLogin(newLogin);
@@ -17,7 +17,7 @@ export const logoutSystem = (auth: AuthState): ThunkAction<void, AuthState, null
         type: LOGOUT,
         payload: newAuth,
     });
-}
+};
 // export async function logoutSystem(auth: AuthState){
     // const newAuth = await excuteLogout(auth);
     // return {
@@ -56,4 +56,4 @@ async function excuteLogout(auth: AuthState){
     }
 
     return res;
-} 
+}

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Button, Checkbox, Form, Icon, Input, Layout } from 'antd';
+import React, {Component} from 'react';
+import {Button, Checkbox, Form, Icon, Input, Layout} from 'antd';
 
 import './login.scss';
 
 import {AuthState} from '../../store/auth/types';
 import {loginSystem, logoutSystem} from '../../store/auth/actions';
-import { AppState } from '../../store';
-import { connect } from 'react-redux';
+import {AppState} from '../../store';
+import {connect} from 'react-redux';
 
 const { Header, Footer, Content } = Layout;
 
@@ -46,7 +46,7 @@ class Login extends Component<ILoginProps, ILoginState> {
             token: "1234",
         };
         this.props.logoutSystem(authInfo);
-    }
+    };
 
     render() {
         console.log(this.props.auth);
