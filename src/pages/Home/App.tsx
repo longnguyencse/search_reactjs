@@ -1,25 +1,33 @@
 import React from 'react';
-import {Avatar, Col, Input, Layout, List, Row} from 'antd';
-
-import {IconText} from '../../components/Icon/IconText';
-
+import {Breadcrumb, Icon, Layout, Menu} from 'antd';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-
 import LeftMenu from '../../components/LeftMenu';
 import MainContent from '../../components/MainContent';
 import Login from "../Login/Login";
 import './App.css';
 import AddDiscountForm from "../Discount/Add/AddDiscountForm";
+import List from "../ProductOrder/list";
 
-const { Search } = Input;
-const { Footer } = Layout;
+interface IAppProps {
+
+}
+
+interface IAppState {
+    collapsed: boolean
+}
+
+const {Header, Content, Footer, Sider} = Layout;
+const {SubMenu} = Menu;
 
 class App extends React.Component<IAppProps, IAppState> {
 
     private listData: any[] = [];
 
-    constructor(props: {}) {
+    constructor(props: IAppProps) {
         super(props);
+        this.state = ({
+            collapsed: false,
+        });
         // for (let i = 0; i < 23; i++) {
         //     this.listData.push({
         //         href: 'http://ant.design',
@@ -33,6 +41,13 @@ class App extends React.Component<IAppProps, IAppState> {
         // }
 
     }
+
+    onCollapse = (collapsed: any) => {
+        console.log(collapsed);
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    };
 
     componentDidMount(): void {
         // axios.get('http://localhost:5200/redmine').then(res => {
@@ -48,6 +63,75 @@ class App extends React.Component<IAppProps, IAppState> {
 
 
     render() {
+        return <Layout style={{minHeight: '100vh'}}>
+            <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+                <div className="logo"/>
+                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                    <SubMenu key="sub0" title={
+                        <span>
+                                <Icon type="pie-chart"/>
+                                <span>Đơn Hàng</span>
+                            </span>
+                    }>
+                        <Menu.Item key="1">Nhập ĐH</Menu.Item>
+                        <Menu.Item key="2">Duyệt ĐH</Menu.Item>
+                    </SubMenu>
+
+                    <SubMenu key="sub1" title={
+                        <span>
+                                <Icon type="user"/>
+                                <span>Chiết khấu</span>
+                         </span>
+                    }>
+                        <Menu.Item key="3">Nhập CK</Menu.Item>
+                        <Menu.Item key="4">Xem CK</Menu.Item>
+                    </SubMenu>
+
+                    <SubMenu key="sub2" title={
+                        <span>
+                                <Icon type="team"/>
+                                <span>Nhà Cung Cấp</span>
+                            </span>
+                    }>
+                        <Menu.Item key="5">Tạo NCC</Menu.Item>
+                        <Menu.Item key="6">Xem NCC</Menu.Item>
+                    </SubMenu>
+
+                    <SubMenu key="sub3" title={
+                        <span>
+                                <Icon type="pie-chart"/>
+                                <span>Sản Phẩm</span>
+                            </span>
+                    }>
+                        <Menu.Item key="7">Nhập SP</Menu.Item>
+                        <Menu.Item key="8">Duyệt SP</Menu.Item>
+                        <Menu.Item key="9">Xem SP</Menu.Item>
+                    </SubMenu>
+
+                    <SubMenu key="sub4" title={
+                        <span>
+                                <Icon type="user"/>
+                                <span>Người Dùng</span>
+                            </span>
+                    }>
+                        <Menu.Item key="10">Thông Tin</Menu.Item>
+                        <Menu.Item key="11">Thoát</Menu.Item>
+                    </SubMenu>
+                </Menu>
+
+            </Sider>
+            <Layout>
+                {/*<Header style={{background: '#fff', padding: 0}}/>*/}
+                <Content style={{margin: '0 16px'}}>
+                    <Breadcrumb style={{margin: '16px 0'}}>
+                        <Breadcrumb.Item>Đơn Hàng</Breadcrumb.Item>
+                        <Breadcrumb.Item>Duyệt ĐH</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <div style={{padding: 24, background: '#fff', minHeight: 1000}}><List/></div>
+                </Content>
+                <Footer style={{textAlign: 'center'}}>Design ©2019 Created by LNL</Footer>
+            </Layout>
+        </Layout>;
         return (
             <Router>
                 <Switch>
@@ -64,61 +148,8 @@ class App extends React.Component<IAppProps, IAppState> {
                 </Switch>
             </Router>
         );
-        return (
-            <section className="App">
-                <Row type="flex" justify="center">
-                    <Col span={16}>
-                        <Search placeholder="input search text" onChange={value => console.log(value)} enterButton />
-                    </Col>
-                    <Col span={16}>
-                        <List itemLayout="vertical" size="large" pagination={{
-                            onChange: page => {
-                                console.log(page);
-                            },
-                            pageSize: 3,
-                        }}
-                            dataSource={this.listData}
-                            footer={
-                                <div>
-                                    <b>ant design</b> footer part
-                                  </div>
-                            }
-                            renderItem={item => (
-                                <List.Item
-                                    key={item.title}
-                                    actions={[
-                                        <IconText text={12} />,
-                                        <IconText text={'long'} />,
-                                        <IconText text={'adayroi'} />,
-                                    ]}
-                                    extra={
-                                        <img
-                                            width={272}
-                                            alt="logo"
-                                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                                        />
-                                    }
-                                >
-                                    <List.Item.Meta
-                                        avatar={<Avatar src={item.avatar} />}
-                                        title={<a href={item.href}>{item.title}</a>}
-                                        description={item.description}
-                                    />
-                                    {item.content}
-                                </List.Item>
-                            )} />
-                    </Col>
-                </Row>
-            </section>
-        )
     }
 }
 
-interface IAppProps {
 
-}
-
-interface IAppState {
-    collapsed: boolean
-}
 export default App;
