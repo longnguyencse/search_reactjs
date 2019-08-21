@@ -79,7 +79,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
                     <SubMenu key="sub1" title={
                         <span>
-                                <Icon type="user"/>
+                                <Icon type="dollar"/>
                                 <span>Chiết khấu</span>
                          </span>
                     }>
@@ -99,7 +99,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
                     <SubMenu key="sub3" title={
                         <span>
-                                <Icon type="pie-chart"/>
+                                <Icon type="gift"/>
                                 <span>Sản Phẩm</span>
                             </span>
                     }>
@@ -127,7 +127,7 @@ class App extends React.Component<IAppProps, IAppState> {
                         <Breadcrumb.Item>Đơn Hàng</Breadcrumb.Item>
                         <Breadcrumb.Item>Duyệt ĐH</Breadcrumb.Item>
                     </Breadcrumb>
-                    <div style={{padding: 24, background: '#fff', minHeight: 1000}}><List/></div>
+                    <div style={{padding: 24, background: '#fff', minHeight: 600}}><List/></div>
                 </Content>
                 <Footer style={{textAlign: 'center'}}>Design ©2019 Created by LNL</Footer>
             </Layout>
