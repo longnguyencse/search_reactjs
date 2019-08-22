@@ -5,6 +5,7 @@ import {Breadcrumb, Layout} from 'antd';
 import ProductOrder from '../../pages/ProductOrder';
 import Product from '../../pages/Product';
 import Supplier from '../../pages/Supplier';
+import Discount from '../../pages/Discount';
 
 import "./styles.scss";
 
@@ -12,6 +13,7 @@ import {checkAuthenticate} from '../../store/auth/actions';
 import {AppState} from '../../store';
 import {connect} from 'react-redux';
 import {Dispatch} from "redux";
+import User from "../../pages/User";
 
 const {Content} = Layout;
 
@@ -42,6 +44,8 @@ class MainContent extends React.Component<IMainContentProps, IMainContentState> 
                     <ProductOrder/>
                     <Product/>
                     <Supplier/>
+                    <Discount/>
+                    <User/>
                 </div>
             </Content>
         );

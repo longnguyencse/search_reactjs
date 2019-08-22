@@ -11,7 +11,7 @@ interface IDiscountFormStates {
 
 }
 
-class AddDiscountForm extends React.Component<IDiscountFormProps, IDiscountFormStates> {
+class CreateDiscount extends React.Component<IDiscountFormProps, IDiscountFormStates> {
     constructor(props: IDiscountFormProps) {
         super(props);
     }
@@ -38,4 +38,4 @@ class AddDiscountForm extends React.Component<IDiscountFormProps, IDiscountFormS
     }
 }
 
-export default AddDiscountForm;
+export default CreateDiscount;
