@@ -1,19 +1,21 @@
-.btn-change-status {
-    margin: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
+#po-list {
+    .po-list-header {
+        margin-bottom: 30px;
 
-.btn-pagination {
-    // float: right;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+        .po-list-title {
+            display: inline;
+        }
     
-    .btn-duyet {
-        margin-right: 20px;
+        .btn-change-status {
+            float: right
+        }
     }
+    
+    .po-list-footer {
+        margin-top: 30px;
 
+        .pagination {
+            float: right;
+        }
+    }
 }

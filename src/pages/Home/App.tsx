@@ -25,9 +25,6 @@ class App extends React.Component<IAppProps, IAppState> {
 
     constructor(props: IAppProps) {
         super(props);
-        this.state = ({
-            collapsed: false,
-        });
         // for (let i = 0; i < 23; i++) {
         //     this.listData.push({
         //         href: 'http://ant.design',
@@ -42,12 +39,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
     }
 
-    onCollapse = (collapsed: any) => {
-        console.log(collapsed);
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    };
+    
 
     componentDidMount(): void {
         // axios.get('http://localhost:5200/redmine').then(res => {
@@ -63,87 +55,32 @@ class App extends React.Component<IAppProps, IAppState> {
 
 
     render() {
-        return <Layout style={{minHeight: '100vh'}}>
-            <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-                <div className="logo"/>
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                    <SubMenu key="sub0" title={
-                        <span>
-                                <Icon type="pie-chart"/>
-                                <span>Đơn Hàng</span>
-                            </span>
-                    }>
-                        <Menu.Item key="1">Nhập ĐH</Menu.Item>
-                        <Menu.Item key="2">Duyệt ĐH</Menu.Item>
-                    </SubMenu>
-
-                    <SubMenu key="sub1" title={
-                        <span>
-                                <Icon type="dollar"/>
-                                <span>Chiết khấu</span>
-                         </span>
-                    }>
-                        <Menu.Item key="3">Nhập CK</Menu.Item>
-                        <Menu.Item key="4">Xem CK</Menu.Item>
-                    </SubMenu>
-
-                    <SubMenu key="sub2" title={
-                        <span>
-                                <Icon type="team"/>
-                                <span>Nhà Cung Cấp</span>
-                            </span>
-                    }>
-                        <Menu.Item key="5">Tạo NCC</Menu.Item>
-                        <Menu.Item key="6">Xem NCC</Menu.Item>
-                    </SubMenu>
-
-                    <SubMenu key="sub3" title={
-                        <span>
-                                <Icon type="gift"/>
-                                <span>Sản Phẩm</span>
-                            </span>
-                    }>
-                        <Menu.Item key="7">Nhập SP</Menu.Item>
-                        <Menu.Item key="8">Duyệt SP</Menu.Item>
-                        <Menu.Item key="9">Xem SP</Menu.Item>
-                    </SubMenu>
-
-                    <SubMenu key="sub4" title={
-                        <span>
-                                <Icon type="user"/>
-                                <span>Người Dùng</span>
-                            </span>
-                    }>
-                        <Menu.Item key="10">Thông Tin</Menu.Item>
-                        <Menu.Item key="11">Thoát</Menu.Item>
-                    </SubMenu>
-                </Menu>
-
-            </Sider>
-            <Layout>
-                {/*<Header style={{background: '#fff', padding: 0}}/>*/}
-                <Content style={{margin: '0 16px'}}>
-                    <Breadcrumb style={{margin: '16px 0'}}>
-                        <Breadcrumb.Item>Đơn Hàng</Breadcrumb.Item>
-                        <Breadcrumb.Item>Duyệt ĐH</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div style={{padding: 24, background: '#fff', minHeight: 600}}><List/></div>
-                </Content>
-                <Footer style={{textAlign: 'center'}}>Design ©2019 Created by LNL</Footer>
-            </Layout>
-        </Layout>;
+        // return <Layout style={{minHeight: '100vh'}}>
+        //     <LeftMenu></LeftMenu>
+        //     <Layout>
+        //         {/*<Header style={{background: '#fff', padding: 0}}/>*/}
+        //         <Content style={{margin: '0 16px'}}>
+        //             <Breadcrumb style={{margin: '16px 0'}}>
+        //                 <Breadcrumb.Item>Đơn Hàng</Breadcrumb.Item>
+        //                 <Breadcrumb.Item>Duyệt ĐH</Breadcrumb.Item>
+        //             </Breadcrumb>
+        //             <div style={{padding: 24, background: '#fff', minHeight: 600}}><List/></div>
+        //         </Content>
+        //         <Footer style={{textAlign: 'center'}}>Design ©2019 Created by LNL</Footer>
+        //     </Layout>
+        // </Layout>;
         return (
             <Router>
                 <Switch>
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/addDiscount" component={AddDiscountForm}/>
-                    <Layout>
+                    <Layout style={{minHeight: '100vh'}}>
                         <LeftMenu></LeftMenu>
-                        <Layout style={{ marginLeft: 200 }}>
+                        <Layout>
                             <MainContent></MainContent>
+                            {/* <Footer style={{textAlign: 'center'}}>Design ©2019 Created by LNL</Footer> */}
                         </Layout>
                     </Layout>
-                        <Footer style={{textAlign: 'center'}}>ERP Mini@2019</Footer>
 
                 </Switch>
             </Router>

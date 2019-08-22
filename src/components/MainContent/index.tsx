@@ -1,10 +1,12 @@
 import React from 'react';
 
-import {Layout} from 'antd';
+import {Layout, Breadcrumb} from 'antd';
 
 import ProductOrder from '../../pages/ProductOrder';
+import Product from '../../pages/Product';
 
-import "./styles.scss";
+// import "./styles.scss";
+
 import {checkAuthenticate} from '../../store/auth/actions';
 import {AppState} from '../../store';
 import {connect} from 'react-redux';
@@ -30,11 +32,16 @@ class MainContent extends React.Component<IMainContentProps, IMainContentState> 
 
     render(){
         return (
-            <Content className="main-content">
-                        <div className="div-main-content">
-                            <ProductOrder></ProductOrder>
-                </div>
-                    </Content>
+            <Content style={{margin: '0 16px'}}>
+            <Breadcrumb style={{margin: '16px 0'}}>
+                {/* <Breadcrumb.Item>Đơn Hàng</Breadcrumb.Item>
+                <Breadcrumb.Item>Duyệt ĐH</Breadcrumb.Item> */}
+            </Breadcrumb>
+            <div style={{padding: 24, background: '#fff', minHeight: 600}}>
+                <ProductOrder />
+                <Product />
+            </div>
+        </Content>
         );
     }
 }

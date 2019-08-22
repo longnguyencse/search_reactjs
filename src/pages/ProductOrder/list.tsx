@@ -57,7 +57,7 @@ export default class List extends React.Component<IListProps, IListState> {
     constructor(props: IListProps) {
         super(props);
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 5; i++) {
             const soLuong = i + 1;
             const thanhTien = 1000 * soLuong;
             this.dataChoDuyet.push(
@@ -148,17 +148,19 @@ export default class List extends React.Component<IListProps, IListState> {
                 break;
         }
         return (
-            <div>
-                <h3>Danh sach PO</h3>
-                <Radio.Group className="btn-change-status" onChange={this.selectPOStatus} value={mode}>
-                    <Radio.Button value="choDuyet">Cho Duyet</Radio.Button>
-                    <Radio.Button value="daDuyet">Da Duyet</Radio.Button>
-                    <Radio.Button value="huy">Huy</Radio.Button>
-                </Radio.Group>
+            <div id="po-list">
+                <div className="po-list-header">
+                    <h3 className="po-list-title">Danh sach PO</h3>
+                    <Radio.Group className="btn-change-status" onChange={this.selectPOStatus} value={mode}>
+                        <Radio.Button value="choDuyet">Cho Duyet</Radio.Button>
+                        <Radio.Button value="daDuyet">Da Duyet</Radio.Button>
+                        <Radio.Button value="huy">Huy</Radio.Button>
+                    </Radio.Group>
+                </div>
                 <Table pagination={false} rowSelection={rowSelection} columns={columns} dataSource={dataRender} rowKey={record => record.key} />
                 <div className="table-operations">
-                    <div className="btn-pagination">
-                        <Button className="btn-duyet" type="primary">Duyet</Button>
+                    <div className="po-list-footer">
+                        <Button className="btn-approve" type="primary">Duyet</Button>
                         <Pagination className="pagination" defaultCurrent={6} total={500} />
                     </div>
                     
