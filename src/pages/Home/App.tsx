@@ -1,12 +1,10 @@
 import React from 'react';
-import {Breadcrumb, Icon, Layout, Menu} from 'antd';
+import {Layout, Menu} from 'antd';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import LeftMenu from '../../components/LeftMenu';
 import MainContent from '../../components/MainContent';
 import Login from "../Login/Login";
 import './App.css';
-import AddDiscountForm from "../Discount/Add/AddDiscountForm";
-import List from "../ProductOrder/list";
 
 interface IAppProps {
 
@@ -73,7 +71,6 @@ class App extends React.Component<IAppProps, IAppState> {
             <Router>
                 <Switch>
                     <Route exact path="/login" component={Login}/>
-                    <Route exact path="/addDiscount" component={AddDiscountForm}/>
                     <Layout style={{minHeight: '100vh'}}>
                         <LeftMenu></LeftMenu>
                         <Layout>

@@ -49,8 +49,12 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                                 <span>Chiết khấu</span>
                          </span>
                     }>
-                        <Menu.Item key="3">Nhập CK</Menu.Item>
-                        <Menu.Item key="4">Xem CK</Menu.Item>
+                        <Menu.Item key="3">
+                            <Link to="/create/discount">Nhập CK</Link>
+                        </Menu.Item>
+                        <Menu.Item key="4">
+                            <Link to="/discounts">Xem CK</Link>
+                        </Menu.Item>
                     </SubMenu>
 
                     <SubMenu key="sub2" title={
@@ -62,7 +66,9 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                         <Menu.Item key="5">
                             <Link to={"/supplier/create"}>Tạo NCC</Link>
                         </Menu.Item>
-                        <Menu.Item key="6">Xem NCC</Menu.Item>
+                        <Menu.Item key="6">
+                            <Link to={"/suppliers"}>Xem NCC</Link>
+                        </Menu.Item>
                     </SubMenu>
 
                     <SubMenu key="sub3" title={
@@ -86,8 +92,11 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                                 <span>Người Dùng</span>
                             </span>
                     }>
-                        <Menu.Item key="10">Thông Tin</Menu.Item>
-                        <Menu.Item key="11">Thoát</Menu.Item>
+                        <Menu.Item key="10">
+                            <Link to="/user/profile">Thông Tin</Link></Menu.Item>
+                        <Menu.Item key="11">
+                            <Link to="/logout">Thoát</Link>
+                        </Menu.Item>
                     </SubMenu>
                 </Menu>
 

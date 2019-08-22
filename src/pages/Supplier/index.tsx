@@ -3,6 +3,7 @@ import React from 'react';
 import CreateSupplierForm from './create';
 
 import {Route} from 'react-router-dom';
+import ListSupplier from "./list";
 
 interface IProductProps {
 
@@ -20,7 +21,8 @@ class Supplier extends React.Component <IProductProps, IProductState> {
     render() {
         return (
             <div id="supplier">
-                <Route path="/supplier/create" component={CreateSupplierForm}/>
+                <Route exact path="/supplier/create" component={CreateSupplierForm}/>
+                <Route exact path="/suppliers" component={ListSupplier}/>
             </div>
         );
     }
