@@ -2,21 +2,7 @@ import React from "react";
 
 import {Button, Pagination, Radio, Table} from 'antd';
 
-// import './styles.scss';
-
 const columns = [
-    {
-        title: "Ngay tao",
-        dataIndex: "ngayTao",
-    },
-    {
-        title: "Ngay giao hang",
-        dataIndex: "ngayGiaoHang",
-    },
-    {
-        title: "Ma PO",
-        dataIndex: "maPO",
-    },
     {
         title: "Nha cung cap",
         dataIndex: "nhaCungCap",
@@ -26,16 +12,8 @@ const columns = [
         dataIndex: "tenSanPham",
     },
     {
-        title: "So luong",
-        dataIndex: "soLuong",
-    },
-    {
-        title: "Don vi",
-        dataIndex: "donVi",
-    },
-    {
-        title: "Thanh tien",
-        dataIndex: "thanhTien",
+        title: "Ma san pham",
+        dataIndex: "maSanPham",
     },
     {
         title: "Trang Thai",
@@ -63,14 +41,9 @@ export default class List extends React.Component<IListProps, IListState> {
             this.dataChoDuyet.push(
                 {
                     key: i,
-                    ngayTao: "1/1/2019",
-                    ngayGiaoHang: "2/1/2019",
-                    maPO: `maPO-${i}`,
                     nhaCungCap: `nhaCungCap-${i}`,
                     tenSanPham: `tenSanPham-${i}`,
-                    soLuong,
-                    donVi: "Gi Cung Duoc",
-                    thanhTien,
+                    maSanPham:  `maSanPham-${i}`,
                     trangThai: "Cho Duyet"
                 }
             );
@@ -78,14 +51,9 @@ export default class List extends React.Component<IListProps, IListState> {
             this.dataDaDuyet.push(
                 {
                     key: i,
-                    ngayTao: "1/1/2019",
-                    ngayGiaoHang: "2/1/2019",
-                    maPO: `maPO-${i}`,
                     nhaCungCap: `nhaCungCap-${i}`,
                     tenSanPham: `tenSanPham-${i}`,
-                    soLuong,
-                    donVi: "Gi Cung Duoc",
-                    thanhTien,
+                    maSanPham:  `maSanPham-${i}`,
                     trangThai: "Da Duyet"
                 }
             );
@@ -93,14 +61,9 @@ export default class List extends React.Component<IListProps, IListState> {
             this.dataHuy.push(
                 {
                     key: i,
-                    ngayTao: "1/1/2019",
-                    ngayGiaoHang: "2/1/2019",
-                    maPO: `maPO-${i}`,
                     nhaCungCap: `nhaCungCap-${i}`,
                     tenSanPham: `tenSanPham-${i}`,
-                    soLuong,
-                    donVi: "Gi Cung Duoc",
-                    thanhTien,
+                    maSanPham:  `maSanPham-${i}`,
                     trangThai: "Huy"
                 }
             );
@@ -148,9 +111,9 @@ export default class List extends React.Component<IListProps, IListState> {
                 break;
         }
         return (
-            <div id="po-list" className="page-list">
+            <div id="product-list" className="page-list">
                 <div className="page-list-header">
-                    <h3 className="page-list-title">Danh sach PO</h3>
+                    <h3 className="page-list-title">Danh sach Product</h3>
                     <Radio.Group className="btn-change-status" onChange={this.selectPOStatus} value={mode}>
                         <Radio.Button value="choDuyet">Cho Duyet</Radio.Button>
                         <Radio.Button value="daDuyet">Da Duyet</Radio.Button>

@@ -67,9 +67,13 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                                 <span>Sản Phẩm</span>
                             </span>
                     }>
-                        <Menu.Item key="7">Nhập SP</Menu.Item>
-                        <Menu.Item key="8">Duyệt SP</Menu.Item>
-                        <Menu.Item key="9">Xem SP</Menu.Item>
+                        <Menu.Item key="7">
+                            <Link to="/product/create">Nhập SP</Link>
+                        </Menu.Item>
+                        <Menu.Item key="8">
+                            <Link to="/product">Duyệt SP</Link>
+                        </Menu.Item>
+                        {/* <Menu.Item key="9">Xem SP</Menu.Item> */}
                     </SubMenu>
 
                     <SubMenu key="sub4" title={

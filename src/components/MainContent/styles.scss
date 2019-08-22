@@ -1,9 +1,31 @@
-.main-content {
-    margin: 24px 16px 0;
-    overflow: initial;
-    .div-main-content {
-        padding: 24;
-        background: #fff;
-        text-align: center;
+// .main-content {
+//     margin: 24px 16px 0;
+//     overflow: initial;
+//     .div-main-content {
+//         padding: 24;
+//         background: #fff;
+//         text-align: center;
+//     }
+// }
+
+.page-list {
+    .page-list-header {
+        margin-bottom: 30px;
+
+        .page-list-title {
+            display: inline;
+        }
+    
+        .btn-change-status {
+            float: right
+        }
+    }
+    
+    .page-list-footer {
+        margin-top: 30px;
+
+        .pagination {
+            float: right;
+        }
     }
 }

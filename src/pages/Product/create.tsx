@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Form, Row, Col, Input, Button, Icon } from 'antd';
 
+import SelectSupplier from './components/SelectSupplier';
+
 interface ICreateProductProps {
     form?: any,
 }
@@ -10,8 +12,8 @@ interface ICreateProductState {
     expand: boolean
 }
 
-class CreateProduct extends React.Component <ICreateProductProps, ICreateProductState> {
-    constructor(props: ICreateProductProps){
+class CreateProduct extends React.Component<ICreateProductProps, ICreateProductState> {
+    constructor(props: ICreateProductProps) {
         super(props);
 
         this.state = {
@@ -23,46 +25,69 @@ class CreateProduct extends React.Component <ICreateProductProps, ICreateProduct
         this.handSubmit = this.handSubmit.bind(this);
     }
 
-    getFields(){
+    getFields() {
         const count = this.state.expand ? 10 : 6;
         const { getFieldDecorator } = this.props.form;
-        const children = [];
-        for (let i = 0; i < 10; i++) {
-        children.push(
-            <Col span={8} key={i} style={{ display: i < count ? 'block' : 'none' }}>
-            <Form.Item label={`Field ${i}`}>
-                {getFieldDecorator(`field-${i}`, {
-                rules: [
-                    {
-                    required: true,
-                    message: 'Input something!',
-                    },
-                ],
-                })(<Input placeholder="placeholder" />)}
-            </Form.Item>
-            </Col>,
+        const children = (
+            <div>
+                <Col span={8}>
+                    <Form.Item label={`Supplier`}>
+                        {getFieldDecorator(`field-supplier`, {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Input something!',
+                                },
+                            ],
+                        })(<SelectSupplier />)}
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item label={`Product Name`}>
+                        {getFieldDecorator(`field-productName`, {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Input something!',
+                                },
+                            ],
+                        })(<Input placeholder="placeholder" />)}
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item label={`Product Code`}>
+                        {getFieldDecorator(`field-productCode`, {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Input something!',
+                                },
+                            ],
+                        })(<Input placeholder="placeholder" />)}
+                    </Form.Item>
+                </Col>
+            </div>
         );
-        }
         return children;
     }
 
-    handleReset(){
+    handleReset() {
         this.props.form.resetFields();
     }
 
-    toggle(){
+    toggle() {
         const { expand } = this.state;
         this.setState({ expand: !expand });
     }
 
-    handSubmit = (e:any) => {
+    handSubmit = (e: any) => {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
-          console.log('Received values of form: ', values);
+            console.log('Received values of form: ', values);
         });
-      };
+    };
 
-    render(){
+    render() {
         // const {expand} = this.state;
         return (
             <div id="create-product">
@@ -71,13 +96,13 @@ class CreateProduct extends React.Component <ICreateProductProps, ICreateProduct
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
                             <Button type="primary" htmlType="submit">
-                            Search
+                                Submit
                             </Button>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-                            Clear
+                                Reset
                             </Button>
                             <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-                            Collapse <Icon type={this.state.expand ? 'up' : 'down'} />
+                                Collapse <Icon type={this.state.expand ? 'up' : 'down'} />
                             </a>
                         </Col>
                     </Row>

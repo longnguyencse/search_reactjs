@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CreateProductForm from './create';
+import List from './list';
 
 import {Route} from 'react-router-dom';
 
@@ -20,7 +21,8 @@ export default class Product extends React.Component <IProductProps, IProductSta
     render(){
         return (
             <div id="product">
-                <Route path="/product/create" component={CreateProductForm}></Route>
+                <Route exact path="/product" component={List}></Route>
+                <Route exact path="/product/create" component={CreateProductForm}></Route>
             </div>
         );
     }

@@ -5,7 +5,7 @@ import {Layout, Breadcrumb} from 'antd';
 import ProductOrder from '../../pages/ProductOrder';
 import Product from '../../pages/Product';
 
-// import "./styles.scss";
+import "./styles.scss";
 
 import {checkAuthenticate} from '../../store/auth/actions';
 import {AppState} from '../../store';
