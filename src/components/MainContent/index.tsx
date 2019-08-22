@@ -1,9 +1,10 @@
 import React from 'react';
 
-import {Layout, Breadcrumb} from 'antd';
+import {Breadcrumb, Layout} from 'antd';
 
 import ProductOrder from '../../pages/ProductOrder';
 import Product from '../../pages/Product';
+import Supplier from '../../pages/Supplier';
 
 import "./styles.scss";
 
@@ -24,24 +25,25 @@ interface IMainContentState {
 }
 
 class MainContent extends React.Component<IMainContentProps, IMainContentState> {
-    constructor(props: IMainContentProps){
+    constructor(props: IMainContentProps) {
         super(props);
 
         // props.checkAuthenticate(props.auth);
     }
 
-    render(){
+    render() {
         return (
             <Content style={{margin: '0 16px'}}>
-            <Breadcrumb style={{margin: '16px 0'}}>
-                {/* <Breadcrumb.Item>Đơn Hàng</Breadcrumb.Item>
+                <Breadcrumb style={{margin: '16px 0'}}>
+                    {/* <Breadcrumb.Item>Đơn Hàng</Breadcrumb.Item>
                 <Breadcrumb.Item>Duyệt ĐH</Breadcrumb.Item> */}
-            </Breadcrumb>
-            <div style={{padding: 24, background: '#fff', minHeight: 600}}>
-                <ProductOrder />
-                <Product />
-            </div>
-        </Content>
+                </Breadcrumb>
+                <div style={{padding: 24, background: '#fff', minHeight: 600}}>
+                    <ProductOrder/>
+                    <Product/>
+                    <Supplier/>
+                </div>
+            </Content>
         );
     }
 }

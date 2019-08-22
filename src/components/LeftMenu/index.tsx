@@ -35,7 +35,9 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                                 <span>Đơn Hàng</span>
                             </span>
                     }>
-                        <Menu.Item key="1">Nhập ĐH</Menu.Item>
+                        <Menu.Item key="1">
+                            <Link to="/create/po">Nhập ĐH</Link>
+                        </Menu.Item>
                         <Menu.Item key="2">
                             <Link to="/po">Duyệt ĐH</Link>
                         </Menu.Item>
@@ -57,7 +59,9 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                                 <span>Nhà Cung Cấp</span>
                             </span>
                     }>
-                        <Menu.Item key="5">Tạo NCC</Menu.Item>
+                        <Menu.Item key="5">
+                            <Link to={"/supplier/create"}>Tạo NCC</Link>
+                        </Menu.Item>
                         <Menu.Item key="6">Xem NCC</Menu.Item>
                     </SubMenu>
 
