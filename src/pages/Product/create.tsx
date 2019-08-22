@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form, Row, Col, Input, Button, Icon } from 'antd';
+import {Button, Col, Form, Input, Row} from 'antd';
 
 import SelectSupplier from './components/SelectSupplier';
 
@@ -101,9 +101,6 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
                                 Reset
                             </Button>
-                            <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-                                Collapse <Icon type={this.state.expand ? 'up' : 'down'} />
-                            </a>
                         </Col>
                     </Row>
                 </Form>
