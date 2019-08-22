@@ -2,7 +2,9 @@ import React from 'react';
 
 import {Button, Col, Form, Input, Row} from 'antd';
 
-import SelectSupplier from './components/SelectSupplier';
+import SupplierSelect from './components/SupplierSelect';
+import ProductNameInput from './components/ProductNameInput';
+import ProductCodeInput from './components/ProductCodeInput';
 
 interface ICreateProductProps {
     form?: any,
@@ -33,8 +35,8 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
     getFields(keys:any) {
         // const count = this.state.productNumber;
-        const { getFieldDecorator } = this.props.form;
-        let buttonRemove:any = "";
+        const { form } = this.props;
+        let buttonRemove:any = null;
 
         const childrens = keys.map((k: any, value: any) => {
             if(k > 0){
@@ -49,40 +51,13 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             return (
                 <div key={k}>
                     <Col span={7}>
-                        <Form.Item label={`Supplier`}>
-                            {getFieldDecorator(`field-supplier-${k}`, {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: 'Input something!',
-                                    },
-                                ],
-                            })(<SelectSupplier />)}
-                        </Form.Item>
+                        <SupplierSelect form={form} k={k}/>
                     </Col>
                     <Col span={7}>
-                        <Form.Item label={`Product Name`}>
-                            {getFieldDecorator(`field-productName-${k}`, {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: 'Input something!',
-                                    },
-                                ],
-                            })(<Input placeholder="placeholder" />)}
-                        </Form.Item>
+                        <ProductNameInput form={form} k={k} />
                     </Col>
                     <Col span={7}>
-                        <Form.Item label={`Product Code`}>
-                            {getFieldDecorator(`field-productCode-${k}`, {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: 'Input something!',
-                                    },
-                                ],
-                            })(<Input placeholder="placeholder" />)}
-                        </Form.Item>
+                        <ProductCodeInput form={form} k={k} />
                     </Col>
                     {buttonRemove}
                 </div>
