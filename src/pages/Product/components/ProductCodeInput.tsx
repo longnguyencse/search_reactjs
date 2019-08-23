@@ -25,7 +25,7 @@ export default class productCodeInput extends React.Component<IProductCodeInputP
         
         return (
             <Form.Item label={`Product Name`}>
-                {getFieldDecorator(`field-productCode-${k}`, {
+                {getFieldDecorator(`productCode[${k}]`, {
                     rules: [
                         {
                             required: true,

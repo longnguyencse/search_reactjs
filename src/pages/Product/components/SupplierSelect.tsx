@@ -46,7 +46,7 @@ export default class SupplierSelect extends React.Component<ISupplierSelectProps
         
         return (
             <Form.Item label={`Supplier`}>
-                {getFieldDecorator(`field-supplier-${k}`, {
+                {getFieldDecorator(`supplier[${k}]`, {
                     rules: [
                         {
                             required: true,

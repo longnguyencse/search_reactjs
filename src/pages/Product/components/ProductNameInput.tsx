@@ -25,7 +25,7 @@ export default class ProductNameInput extends React.Component<IProductNameInputP
         
         return (
             <Form.Item label={`Product Name`}>
-                {getFieldDecorator(`field-productName-${k}`, {
+                {getFieldDecorator(`productName[${k}]`, {
                     rules: [
                         {
                             required: true,

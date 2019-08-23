@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Button, Col, Form, Input, Row} from 'antd';
+import {Button, Col, Form, Row, Table} from 'antd';
 
 import SupplierSelect from './components/SupplierSelect';
 import ProductNameInput from './components/ProductNameInput';
@@ -13,9 +13,31 @@ interface ICreateProductProps {
 interface ICreateProductState {
     expand: boolean,
     productNumber: number,
+    products: any,
 }
 
 let productNumber:number = 1;
+
+const columns = [
+    {
+        title: "Nha cung cap",
+        dataIndex: "nhaCungCap",
+    },
+    {
+        title: "Ten san pham",
+        dataIndex: "tenSanPham",
+    },
+    {
+        title: "Ma san pham",
+        dataIndex: "maSanPham",
+    },
+    {
+        title: "Action",
+        dataIndex: "action",
+        render: () => <a href="#">Update</a>,
+    },
+
+];
 
 class CreateProduct extends React.Component<ICreateProductProps, ICreateProductState> {
     constructor(props: ICreateProductProps) {
@@ -24,6 +46,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
         this.state = {
             expand: false,
             productNumber: 1,
+            products: null
         };
 
         this.handleReset = this.handleReset.bind(this);
@@ -31,6 +54,13 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAddMore = this.handleAddMore.bind(this);
         this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
+    }
+
+    componentWillMount(){
+        const {products} = this.state;
+        if(!products){
+            return;
+        }
     }
 
     getFields(keys:any) {
@@ -79,7 +109,18 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
     handleSubmit = (e: any) => {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
-            console.log('Received values of form: ', values);
+            const {keys, supplier, productName, productCode}= values;
+            const products = keys.map((k:any, index:any) => {
+                return {
+                    nhaCungCap: supplier[k],
+                    tenSanPham: productName[k],
+                    maSanPham: productCode[k]  
+                };
+            });
+            this.setState({
+                products
+            });
+            console.log('Received values of form: ', products);
         });
     };
 
@@ -134,6 +175,9 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                         </Col>
                     </Row>
                 </Form>
+                <div className="search-result-list">
+                    <Table pagination={false} columns={columns} dataSource={this.state.products} />
+                </div>
             </div>
         );
     }
