@@ -3,6 +3,7 @@ import {AuthState, CHECK_AUTHENICATE, LOGIN, LOGOUT} from './types';
 import LocalStorage from '../../services/LocalStorage';
 import {ThunkAction} from 'redux-thunk';
 
+
 export const loginSystem = (newLogin: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
     const newAuth = await excuteLogin(newLogin);
     dispatch({
@@ -28,6 +29,9 @@ export const logoutSystem = (auth: AuthState): ThunkAction<void, AuthState, null
 
 export const checkAuthenticate = (auth: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
     const newAuth = await executeCheckAuth(auth);
+
+    console.log("newAuth", newAuth);
+
     dispatch({
         type: CHECK_AUTHENICATE,
         payload: newAuth,
@@ -41,7 +45,7 @@ async function excuteLogin(newLogin: AuthState){
     let token = "";
     if(userName === "nhan" && password === "vo"){
         token = "nhan_vo";
-        localS.setValue("token", token);
+        await localS.setValue("token", token);
     }
     else {
         console.error("Error");
@@ -57,33 +61,28 @@ async function excuteLogout(auth: AuthState){
     const localS = new LocalStorage();
     let token = await localS.getValue('token');
 
-    let res;
-    if(token){
-        token = "remove";
-        res = {
-            ...auth,
-            token
-        }
-    }
-    else {
-        res = auth;
+    if(token) {
+        token = "";
     }
 
-    return res;
+    await localS.setValue("token", token);
+    console.log("++++++++++token", token);
+
+
+    return {
+        ...auth,
+        token
+    };
 }
 
 async function executeCheckAuth(auth: AuthState){
     const localS = new LocalStorage();
 
+    console.log("xxxxx")
+
     let token:any = await localS.getValue('token');
-
+    
     token = token.value;
-
-    console.log(token);
-
-    if(!token){
-        token = "";
-    }
 
     return {
         ...auth,

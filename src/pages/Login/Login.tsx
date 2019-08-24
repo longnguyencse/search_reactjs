@@ -14,7 +14,8 @@ const { Header, Footer, Content } = Layout;
 
 
 export interface ILoginState {
-
+    isRedirect: boolean,
+    loading: boolean,
 }
 
 export interface ILoginProps {
@@ -28,10 +29,27 @@ export interface ILoginProps {
 class Login extends Component<ILoginProps, ILoginState> {
     constructor(props: ILoginProps) {
         super(props);
+
+        console.warn = function(){
+            return;
+        }
+
+        this.state = {
+            isRedirect: false,
+            loading: true,
+        }
     }
 
-    componentWillMount(){
-        this.props.checkAuthenticate(this.props.auth);
+    componentDidMount(){
+        this.handleCheckAuthenticate();
+
+        // console.log("componentDidMount - Loading....")
+        // await this.props.checkAuthenticate(this.props.auth);
+
+        // const {auth} = this.props;
+
+        // console.log("componentDidMount - Compelete...", auth)
+        
     }
 
     handleSubmit = (e: any) => {
@@ -44,6 +62,8 @@ class Login extends Component<ILoginProps, ILoginState> {
                     userName, password, rememberMe
                 };
                 this.props.loginSystem(loginInfo);
+
+                this.handleCheckAuthenticate();
             }
         });
     };
@@ -55,12 +75,41 @@ class Login extends Component<ILoginProps, ILoginState> {
         this.props.logoutSystem(authInfo);
     }
 
+    async handleCheckAuthenticate(){
+        console.log("Auth.Token - 1")
+
+        await this.props.checkAuthenticate(this.props.auth);
+
+        const {auth} = this.props;
+
+        console.log("Auth.Token - 2", auth)
+
+        if(auth.token){
+            this.setState({
+                isRedirect: true,
+                loading: false,
+            })
+        }
+        else {
+            this.setState({
+                isRedirect: false,
+                loading: true,
+            })
+        }
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
-        console.log(this.props.auth)
-        // if(this.props.auth.token){
-        //     return <Redirect to="/" />
-        // }
+
+        const { loading, isRedirect } = this.state;
+        if(loading){
+            return <h1>Loading...</h1>;
+        }
+
+        if(isRedirect){
+            return <Redirect to="/" />
+        }
+
         return (
             <div>
                 <Content>

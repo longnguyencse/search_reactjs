@@ -1,19 +1,46 @@
 import React from "react";
-import {Icon, Layout, Menu} from 'antd';
+import {Icon, Layout, Menu, Button} from 'antd';
 
 import {Link} from 'react-router-dom';
 
 import './styles.scss';
 
+import {AuthState} from '../../store/auth/types';
+import {loginSystem, logoutSystem, checkAuthenticate} from '../../store/auth/actions';
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk'
+
 const {Sider} = Layout;
 const {SubMenu} = Menu;
 
-export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuState> {
-    constructor(props: ILeftMenuProps){
+
+interface ILeftMenuState {
+    collapsed: boolean
+    isRedirect: boolean,
+}
+
+interface OwnProps {
+}
+
+interface DispatchProps {
+    logoutSystem: typeof logoutSystem,
+    checkAuthenticate: typeof checkAuthenticate,
+}
+
+interface StateProps {
+    auth: AuthState
+}
+
+type Props = OwnProps & DispatchProps & StateProps;
+
+class LeftMenu extends React.Component<Props, ILeftMenuState> {
+    constructor(props: Props){
         super(props);
 
         this.state = ({
             collapsed: false,
+            isRedirect: false,
         });
     }
 
@@ -23,6 +50,12 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
             collapsed: !this.state.collapsed,
         });
     };
+
+    handleLogout = () => {
+        // this.props.logoutSystem({});
+        this.props.logoutSystem({});
+        console.log(this.props);
+    }
 
     render(){
         return (
@@ -98,7 +131,12 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
                             <Link to="/logout">Thoát</Link>
                         </Menu.Item>
                     </SubMenu>
+
+                    <Menu.Item key="9">
+                        <Button type="danger" onClick={this.handleLogout}>Logout</Button>
+                    </Menu.Item>
                 </Menu>
+                
 
             </Sider>
         );
@@ -135,12 +173,19 @@ export default class LeftMenu extends React.Component<ILeftMenuProps, ILeftMenuS
             </Sider>
         );
     }
-};
-
-interface ILeftMenuProps {
-
 }
 
-interface ILeftMenuState {
-    collapsed: boolean
-}
+const mapStateToProps = (states: AppState, ownProps: OwnProps) => ({
+    auth: states.auth,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    logoutSystem: logoutSystem,
+    checkAuthenticate: checkAuthenticate,
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LeftMenu);
+

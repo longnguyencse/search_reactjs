@@ -109,9 +109,13 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
     handleSubmit = (e: any) => {
         e.preventDefault();
         this.props.form.validateFields((err: any, values: any) => {
+            if(err){
+                return;
+            }
             const {keys, supplier, productName, productCode}= values;
             const products = keys.map((k:any, index:any) => {
                 return {
+                    key: k,
                     nhaCungCap: supplier[k],
                     tenSanPham: productName[k],
                     maSanPham: productCode[k]  
@@ -120,6 +124,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             this.setState({
                 products
             });
+            this.handleReset();
             console.log('Received values of form: ', products);
         });
     };
@@ -157,6 +162,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
         const { getFieldDecorator, getFieldValue } = this.props.form;
         getFieldDecorator('keys', { initialValue: [0] });
         const keys = getFieldValue('keys');
+        const {products} = this.state;
         return (
             <div id="create-product">
                 <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
@@ -176,7 +182,10 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                     </Row>
                 </Form>
                 <div className="search-result-list">
-                    <Table pagination={false} columns={columns} dataSource={this.state.products} />
+                    { products ?
+                        <Table pagination={false} columns={columns} dataSource={products} rowKey="key"/>
+                        : null
+                    }
                 </div>
             </div>
         );
