@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@firebase/app": "^0.4.15",
+    "@firebase/firestore": "^1.4.11",
     "@types/jest": "24.0.15",
     "@types/moment": "^2.13.0",
     "@types/node": "12.6.8",
@@ -15,6 +17,7 @@
     "@types/redux-thunk": "^2.1.0",
     "antd": "^3.20.5",
     "axios": "^0.19.0",
+    "firebase": "^6.4.1",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
