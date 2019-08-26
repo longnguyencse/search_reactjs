@@ -6,9 +6,28 @@ import SupplierSelect from './components/SupplierSelect';
 import ProductNameInput from './components/ProductNameInput';
 import ProductCodeInput from './components/ProductCodeInput';
 
-interface ICreateProductProps {
-    form?: any,
+import {Product} from '../../store/product/types';
+import {createMultiProduct} from '../../store/product/actions';
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
+
+import {Redirect} from 'react-router-dom';
+
+import { ThunkDispatch } from 'redux-thunk';
+
+interface OwnProps {
+    form?: any
 }
+
+interface StateProps {
+    products: Product[]
+}
+
+interface DispatchProps {
+    createMultiProduct: typeof createMultiProduct,
+}
+
+type ICreateProductProps = OwnProps & StateProps & DispatchProps;
 
 interface ICreateProductState {
     expand: boolean,
@@ -20,21 +39,19 @@ let productNumber:number = 1;
 
 const columns = [
     {
-        title: "Nha cung cap",
-        dataIndex: "nhaCungCap",
-    },
-    {
         title: "Ten san pham",
-        dataIndex: "tenSanPham",
+        dataIndex: "name",
     },
     {
         title: "Ma san pham",
-        dataIndex: "maSanPham",
+        dataIndex: "code",
     },
     {
         title: "Action",
         dataIndex: "action",
-        render: () => <a href="#">Update</a>,
+        render: (text:any, row:any, index:any) => {
+            return <a href={row.id}>Update</a>;
+        },
     },
 
 ];
@@ -71,7 +88,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
         const childrens = keys.map((k: any, value: any) => {
             if(k > 0){
                 buttonRemove = (
-                    <Col span={3}>
+                    <Col span={4}>
                         <Form.Item label={`Remove`}>
                             <Button type="danger" onClick={() => this.handleRemoveProduct(k)}>X</Button>
                         </Form.Item>
@@ -80,13 +97,10 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             }
             return (
                 <div key={k}>
-                    <Col span={7}>
-                        <SupplierSelect form={form} k={k}/>
-                    </Col>
-                    <Col span={7}>
+                    <Col span={10}>
                         <ProductNameInput form={form} k={k} />
                     </Col>
-                    <Col span={7}>
+                    <Col span={10}>
                         <ProductCodeInput form={form} k={k} />
                     </Col>
                     {buttonRemove}
@@ -108,24 +122,26 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
     handleSubmit = (e: any) => {
         e.preventDefault();
-        this.props.form.validateFields((err: any, values: any) => {
+        this.props.form.validateFields(async (err: any, values: any) => {
             if(err){
                 return;
             }
             const {keys, supplier, productName, productCode}= values;
-            const products = keys.map((k:any, index:any) => {
+            const products = keys.map((value:any, index:any) => {
                 return {
-                    key: k,
-                    nhaCungCap: supplier[k],
-                    tenSanPham: productName[k],
-                    maSanPham: productCode[k]  
+                    key: value,
+                    code:  productCode[value], 
+                    name: productName[value],
                 };
             });
+            await this.props.createMultiProduct(products);
             this.setState({
-                products
+                products: products
             });
             this.handleReset();
             console.log('Received values of form: ', products);
+            console.log('Received values of props: ', this.props.products);
+
         });
     };
 
@@ -194,4 +210,15 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
 const CreateProductForm = Form.create({ name: 'create_product_form' })(CreateProduct);
 
-export default CreateProductForm;
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    products: state.products,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    createMultiProduct: (products) => dispatch(createMultiProduct(products)),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateProductForm);

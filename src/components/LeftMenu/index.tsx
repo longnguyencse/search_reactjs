@@ -133,10 +133,10 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             </span>
                     }>
                         <Menu.Item key="7">
-                            <Link to="/product/create">Nhập SP</Link>
+                            <Link to="/products/create">Nhập SP</Link>
                         </Menu.Item>
                         <Menu.Item key="8">
-                            <Link to="/product">Duyệt SP</Link>
+                            <Link to="/products">Duyệt SP</Link>
                         </Menu.Item>
                         <Menu.Item key="9">
                             <Link to="/supplier_products/create">Xem SP</Link>

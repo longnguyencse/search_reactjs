@@ -3,10 +3,12 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import {authReducer} from './auth/reducers';
+import {productReducer} from './product/reducers';
 
 
 const rootReducers = combineReducers({
     auth: authReducer,
+    products: productReducer
 });
 
 export type AppState = ReturnType<typeof rootReducers>;

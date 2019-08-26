@@ -21,8 +21,8 @@ export default class Product extends React.Component <IProductProps, IProductSta
     render(){
         return (
             <div id="product">
-                <Route exact path="/product" component={List}/>
-                <Route exact path="/product/create" component={CreateProductForm}/>
+                <Route exact path="/products" component={List}/>
+                <Route exact path="/products/create" component={CreateProductForm}/>
             </div>
         );
     }
