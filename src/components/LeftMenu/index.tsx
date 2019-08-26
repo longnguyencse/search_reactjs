@@ -138,7 +138,9 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                         <Menu.Item key="8">
                             <Link to="/product">Duyệt SP</Link>
                         </Menu.Item>
-                        {/* <Menu.Item key="9">Xem SP</Menu.Item> */}
+                        <Menu.Item key="9">
+                            <Link to="/supplier_products/create">Xem SP</Link>
+                        </Menu.Item>
                     </SubMenu>
 
                     <SubMenu key="sub4" title={
@@ -154,7 +156,7 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                         </Menu.Item>
                     </SubMenu>
 
-                    <Menu.Item key="9">
+                    <Menu.Item key="12">
                         <Button type="danger" onClick={this.handleLogout}>Logout</Button>
                     </Menu.Item>
                 </Menu>
