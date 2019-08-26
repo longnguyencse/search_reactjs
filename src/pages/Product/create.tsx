@@ -136,7 +136,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             });
             await this.props.createMultiProduct(products);
             this.setState({
-                products: products
+                products: this.props.products
             });
             this.handleReset();
             console.log('Received values of form: ', products);

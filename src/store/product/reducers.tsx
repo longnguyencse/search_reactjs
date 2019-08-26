@@ -7,10 +7,7 @@ export function productReducer(state = initialState, action: ProductActionType):
     switch (action.type) {
         case CREATE_MULTI:
             console.log("CREATE_MULTI");
-            return {
-                ...state,
-                ...action.payload
-            }
+            return state.concat(action.payload)
 
         // case LOGOUT: {
         //     console.log("LOGOUT");
