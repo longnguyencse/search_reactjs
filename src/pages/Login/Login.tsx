@@ -66,15 +66,11 @@ class Login extends Component<ILoginProps, ILoginState> {
 
     handleSubmit = (e: any) => {
         e.preventDefault();
-        this.props.form.validateFields((err: any, values: any) => {
+        this.props.form.validateFields(async (err: any, values: any) => {
             if (!err) {
                 const {userName, password, rememberMe} = values;
 
-                const loginInfo = {
-                    userName, password, rememberMe
-                };
-
-                this.props.loginSystem(userName, password);
+                await this.props.loginSystem(userName, password);
 
                 this.handleCheckAuthenticate();
             }
