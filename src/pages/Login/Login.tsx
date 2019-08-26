@@ -74,8 +74,6 @@ class Login extends Component<ILoginProps, ILoginState> {
                     userName, password, rememberMe
                 };
 
-                // this.props._loginSystem(loginInfo);
-
                 this.props.loginSystem(userName, password);
 
                 this.handleCheckAuthenticate();
@@ -83,33 +81,20 @@ class Login extends Component<ILoginProps, ILoginState> {
         });
     };
 
-    onLogout = () => {
-    //     const authInfo = {
-    //         token: "1234",
-    //     };
-    //     this.props.logoutSystem(authInfo);
-    }
-
     async handleCheckAuthenticate(){
-        console.log("Auth.Token - 1")
-
         await this.props.checkAuthenticate(this.props.auth);
 
         const {auth} = this.props;
-
-        console.log("Auth.Token - 2", auth)
-
         if(auth.token){
             this.setState({
-                isRedirect: true,
                 loading: false,
-            })
+                isRedirect: true,
+            });
         }
         else {
             this.setState({
-                isRedirect: false,
                 loading: false,
-            })
+            });
         }
     }
 
@@ -164,9 +149,6 @@ class Login extends Component<ILoginProps, ILoginState> {
                                 <Button type="primary" htmlType="submit" className="login-form-button">
                                     Log in
                                 </Button>
-                                <Button type="danger" htmlType="button" className="logout-form-button" onClick = {this.onLogout}>
-                                    Logout
-                                </Button>
                             </Form.Item>
                         </Form>
                     </div>
@@ -185,18 +167,16 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
     auth: state.auth,
 });
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {
-    return {
-        loginSystem: (userName, password) => dispatch(loginSystem(userName, password)),
-        checkAuthenticate: (auth) => dispatch(checkAuthenticate(auth))
-    }
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    loginSystem: (userName, password) => dispatch(loginSystem(userName, password)),
+    checkAuthenticate: (auth) => dispatch(checkAuthenticate(auth))
     // return {
     //     loginSystem: loginSystem,
     //     logoutSystem: logoutSystem,
     //     checkAuthenticate: (auth) => dispatch(checkAuthenticate(auth)),
     //     _loginSystem: _loginSystem,
     // }
-};
+});
 
 export default connect(
     mapStateToProps,

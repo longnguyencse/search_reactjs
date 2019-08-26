@@ -1,6 +1,6 @@
 import React from 'react';
 import {Layout, Menu} from 'antd';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {Router, Route, Switch} from 'react-router-dom';
 import LeftMenu from '../../components/LeftMenu';
 import MainContent from '../../components/MainContent';
 import Login from "../Login/Login";
@@ -8,16 +8,30 @@ import './App.css';
 
 
 import {AuthState} from '../../store/auth/types';
-import {loginSystem, logoutSystem, checkAuthenticate, _loginSystem} from '../../store/auth/actions';
+import {checkAuthenticate} from '../../store/auth/actions';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 
-interface IAppProps {
+import { ThunkDispatch } from 'redux-thunk';
+import history from '../../history';
+
+
+interface OwnProps {
 
 }
 
+interface StateProps {
+    auth: AuthState,
+}
+
+interface DispatchProps {
+    checkAuthenticate: typeof checkAuthenticate,
+}
+
+type IAppProps = OwnProps & StateProps & DispatchProps;
+
 interface IAppState {
-    collapsed: boolean
+    authenicate: boolean,
 }
 
 const {Header, Content, Footer, Sider} = Layout;
@@ -46,6 +60,7 @@ class App extends React.Component<IAppProps, IAppState> {
     
 
     componentDidMount(): void {
+        this.handleCheckAuthenticate();
         // axios.get('http://localhost:5200/redmine').then(res => {
         //     console.log(res);
         // });
@@ -57,26 +72,13 @@ class App extends React.Component<IAppProps, IAppState> {
         // console.log(response);
     }
     
-    // async handleCheckAuthenticate(){
-    //     console.log("Auth.Token - For Logout - 1")
-
-    //     await this.props.checkAuthenticate(this.props.auth);
-
-    //     const {auth} = this.props;
-
-    //     console.log("AAuth.Token - For Logout -  2", auth)
-
-    //     if(!auth.token){
-    //         this.setState({
-    //             isRedirect: true,
-    //         })
-    //     }
-    //     else {
-    //         this.setState({
-    //             isRedirect: false,
-    //         })
-    //     }
-    // }
+    async handleCheckAuthenticate(){
+        await this.props.checkAuthenticate(this.props.auth);
+        const {auth} = this.props;
+        if(!auth.token){
+            history.push("/login");
+        }
+    }
 
 
     render() {
@@ -95,7 +97,7 @@ class App extends React.Component<IAppProps, IAppState> {
         //     </Layout>
         // </Layout>;
         return (
-            <Router>
+            <Router history={history}>
                 <Switch>
                     <Route exact path="/login" component={Login}/>
                     <Layout style={{minHeight: '100vh'}}>
@@ -112,5 +114,17 @@ class App extends React.Component<IAppProps, IAppState> {
     }
 }
 
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    auth: state.auth,
+});
 
-export default App;
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    checkAuthenticate: (auth) => dispatch(checkAuthenticate(auth))
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
+
+// export default App;

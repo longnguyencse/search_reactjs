@@ -67,22 +67,11 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
     }
 
     async handleCheckAuthenticate(){
-        console.log("Auth.Token - For Logout - 1")
-
         await this.props.checkAuthenticate(this.props.auth);
-
         const {auth} = this.props;
-
-        console.log("AAuth.Token - For Logout -  2", auth)
-
         if(!auth.token){
             this.setState({
                 isRedirect: true,
-            })
-        }
-        else {
-            this.setState({
-                isRedirect: false,
             })
         }
     }
