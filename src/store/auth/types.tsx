@@ -19,7 +19,7 @@ interface LoginAction {
 
 interface LogoutAction {
     type: typeof LOGOUT,
-    payload: AuthState,
+    payload: AuthState
 }
 
 interface CheckAuthenticateAction {
@@ -37,4 +37,4 @@ interface CheckAuthenticateAction {
 //     type: typeof IS
 // }
 
-export type LoginActionType = LoginAction | LogoutAction | CheckAuthenticateAction;
+export type AuthenActionType = LoginAction | LogoutAction | CheckAuthenticateAction;

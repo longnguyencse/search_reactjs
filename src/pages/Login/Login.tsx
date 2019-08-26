@@ -4,13 +4,15 @@ import { Button, Checkbox, Form, Icon, Input, Layout } from 'antd';
 import './login.scss';
 
 import {AuthState} from '../../store/auth/types';
-import {loginSystem, logoutSystem, checkAuthenticate} from '../../store/auth/actions';
+import {loginSystem, logoutSystem, checkAuthenticate, _loginSystem} from '../../store/auth/actions';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 
 import {Redirect} from 'react-router-dom';
 
-const { Header, Footer, Content } = Layout;
+import { ThunkDispatch } from 'redux-thunk';
+
+const { Content } = Layout;
 
 
 export interface ILoginState {
@@ -18,13 +20,23 @@ export interface ILoginState {
     loading: boolean,
 }
 
-export interface ILoginProps {
+export interface OwnProps {
     form?: any,
-    loginSystem: typeof loginSystem,
-    logoutSystem: typeof logoutSystem,
-    checkAuthenticate: typeof checkAuthenticate,
+
+}
+
+export interface StateProps {
     auth: AuthState,
 }
+
+export interface DispatchProps {
+    loginSystem: typeof loginSystem,
+    // logoutSystem: typeof logoutSystem,
+    checkAuthenticate: typeof checkAuthenticate,
+    // _loginSystem: typeof _loginSystem,
+}
+
+export type ILoginProps = OwnProps & StateProps & DispatchProps;
 
 class Login extends Component<ILoginProps, ILoginState> {
     constructor(props: ILoginProps) {
@@ -61,7 +73,10 @@ class Login extends Component<ILoginProps, ILoginState> {
                 const loginInfo = {
                     userName, password, rememberMe
                 };
-                this.props.loginSystem(loginInfo);
+
+                // this.props._loginSystem(loginInfo);
+
+                this.props.loginSystem(userName, password);
 
                 this.handleCheckAuthenticate();
             }
@@ -69,10 +84,10 @@ class Login extends Component<ILoginProps, ILoginState> {
     };
 
     onLogout = () => {
-        const authInfo = {
-            token: "1234",
-        };
-        this.props.logoutSystem(authInfo);
+    //     const authInfo = {
+    //         token: "1234",
+    //     };
+    //     this.props.logoutSystem(authInfo);
     }
 
     async handleCheckAuthenticate(){
@@ -93,7 +108,7 @@ class Login extends Component<ILoginProps, ILoginState> {
         else {
             this.setState({
                 isRedirect: false,
-                loading: true,
+                loading: false,
             })
         }
     }
@@ -109,6 +124,8 @@ class Login extends Component<ILoginProps, ILoginState> {
         if(isRedirect){
             return <Redirect to="/" />
         }
+
+        console.log("Render", {loading, isRedirect});
 
         return (
             <div>
@@ -164,16 +181,25 @@ class Login extends Component<ILoginProps, ILoginState> {
 const LoginForm = Form.create({})(Login);
 
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
     auth: state.auth,
 });
 
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {
+    return {
+        loginSystem: (userName, password) => dispatch(loginSystem(userName, password)),
+        checkAuthenticate: (auth) => dispatch(checkAuthenticate(auth))
+    }
+    // return {
+    //     loginSystem: loginSystem,
+    //     logoutSystem: logoutSystem,
+    //     checkAuthenticate: (auth) => dispatch(checkAuthenticate(auth)),
+    //     _loginSystem: _loginSystem,
+    // }
+};
+
 export default connect(
     mapStateToProps,
-    {
-        loginSystem,
-        logoutSystem,
-        checkAuthenticate
-    }
+    mapDispatchToProps
 )(LoginForm);
 

@@ -6,6 +6,12 @@ import MainContent from '../../components/MainContent';
 import Login from "../Login/Login";
 import './App.css';
 
+
+import {AuthState} from '../../store/auth/types';
+import {loginSystem, logoutSystem, checkAuthenticate, _loginSystem} from '../../store/auth/actions';
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
+
 interface IAppProps {
 
 }
@@ -50,6 +56,27 @@ class App extends React.Component<IAppProps, IAppState> {
         // );
         // console.log(response);
     }
+    
+    // async handleCheckAuthenticate(){
+    //     console.log("Auth.Token - For Logout - 1")
+
+    //     await this.props.checkAuthenticate(this.props.auth);
+
+    //     const {auth} = this.props;
+
+    //     console.log("AAuth.Token - For Logout -  2", auth)
+
+    //     if(!auth.token){
+    //         this.setState({
+    //             isRedirect: true,
+    //         })
+    //     }
+    //     else {
+    //         this.setState({
+    //             isRedirect: false,
+    //         })
+    //     }
+    // }
 
 
     render() {

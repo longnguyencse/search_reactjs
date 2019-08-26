@@ -1,7 +1,7 @@
 import React from "react";
 import {Icon, Layout, Menu, Button} from 'antd';
 
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 import './styles.scss';
 
@@ -52,12 +52,45 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
     };
 
     handleLogout = () => {
+        this.props.logoutSystem();
+        this.handleCheckAuthenticate();
+        console.log(this.props.auth);
+        // if(!this.props.auth.token){
+        //     this.setState({
+        //         isRedirect: true,
+        //     });
+        // }
+        
+        // this.props.checkAuthenticate(this.props.auth);
         // this.props.logoutSystem({});
-        this.props.logoutSystem({});
-        console.log(this.props);
+        // console.log(this.props);
+    }
+
+    async handleCheckAuthenticate(){
+        console.log("Auth.Token - For Logout - 1")
+
+        await this.props.checkAuthenticate(this.props.auth);
+
+        const {auth} = this.props;
+
+        console.log("AAuth.Token - For Logout -  2", auth)
+
+        if(!auth.token){
+            this.setState({
+                isRedirect: true,
+            })
+        }
+        else {
+            this.setState({
+                isRedirect: false,
+            })
+        }
     }
 
     render(){
+        if(this.state.isRedirect){
+            return <Redirect to="/login" />
+        }
         return (
             <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
                 <div className="logo"/>
@@ -180,8 +213,8 @@ const mapStateToProps = (states: AppState, ownProps: OwnProps) => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    logoutSystem: logoutSystem,
-    checkAuthenticate: checkAuthenticate,
+    logoutSystem: () => dispatch(logoutSystem()),
+    checkAuthenticate: (auth) => dispatch(checkAuthenticate(auth))
 });
 
 export default connect(

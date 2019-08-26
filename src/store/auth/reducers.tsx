@@ -1,4 +1,4 @@
-import { AuthState, LOGIN, LOGOUT, CHECK_AUTHENICATE, LoginActionType } from './types';
+import { AuthState, LOGIN, LOGOUT, CHECK_AUTHENICATE, AuthenActionType } from './types';
 
 const initialState: AuthState = {
     userName: "",
@@ -7,7 +7,7 @@ const initialState: AuthState = {
     token: "",
 }
 
-export function authReducer(state = initialState, action: LoginActionType): AuthState {
+export function authReducer(state = initialState, action: AuthenActionType): AuthState {
     switch (action.type) {
         case LOGIN:
             console.log("LOGIN");

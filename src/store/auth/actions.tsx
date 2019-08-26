@@ -1,46 +1,57 @@
-import {Action} from 'redux';
-import {AuthState, CHECK_AUTHENICATE, LOGIN, LOGOUT} from './types';
+import {Action, AnyAction} from 'redux';
+import {AuthState, CHECK_AUTHENICATE, LOGIN, LOGOUT, AuthenActionType} from './types';
 import LocalStorage from '../../services/LocalStorage';
-import {ThunkAction} from 'redux-thunk';
+import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
-
-export const loginSystem = (newLogin: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
-    const newAuth = await excuteLogin(newLogin);
-    dispatch({
+export const _loginSystem = (auth: AuthState): AuthenActionType => {
+    console.log("_loginSystem");
+    return {
         type: LOGIN,
-        payload: newAuth,
-    });
+        payload: auth
+    }
 }
 
-export const logoutSystem = (auth: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
-    const newAuth = await excuteLogout(auth);
-    dispatch({
+export const _logoutSystem = (auth: AuthState): AuthenActionType => {
+    console.log("_logoutSystem");
+    return {
         type: LOGOUT,
-        payload: newAuth,
-    });
+        payload: auth
+    }   
 }
-// export async function logoutSystem(auth: AuthState){
-    // const newAuth = await excuteLogout(auth);
-    // return {
-    //     type: LOGOUT,
-    //     payload: newAuth,
-    // }
-// }
 
-export const checkAuthenticate = (auth: AuthState): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
-    const newAuth = await executeCheckAuth(auth);
-
-    console.log("newAuth", newAuth);
-
-    dispatch({
+export const _checkAuthenticate = (auth: AuthState): AuthenActionType => {
+    console.log("_checkAuthenticate");
+    return {
         type: CHECK_AUTHENICATE,
-        payload: newAuth,
-    });
+        payload: auth
+    };
+}
+
+export const loginSystem = (userName: string, password: string): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
+    console.log("loginSystem");
+    const newAuth = await excuteLogin(userName, password);
+    dispatch(
+        _loginSystem(newAuth)
+    );
+}
+
+export const logoutSystem = (): ThunkAction<void, AuthState, null, Action<string>> => async dispatch => {
+    console.log("logoutSystem");
+    const newAuth = await excuteLogout();
+    dispatch(
+        _logoutSystem(newAuth)
+    )
+}
+
+export const checkAuthenticate = (auth: AuthState): ThunkAction<void, {}, {}, AnyAction> => async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
+    console.log("checkAuthenticate");
+    const newAuth = await executeCheckAuth(auth);
+    dispatch(
+        _checkAuthenticate(newAuth)
+    );
 };
 
-async function excuteLogin(newLogin: AuthState){
-    const {userName, password} = newLogin;
-
+async function excuteLogin(userName: string, password: string){
     const localS = new LocalStorage();
     let token = "";
     if(userName === "nhan" && password === "vo"){
@@ -52,25 +63,26 @@ async function excuteLogin(newLogin: AuthState){
     }
 
     return {
-        ...newLogin,
+        userName,
+        password,
         token
     };
 }
 
-async function excuteLogout(auth: AuthState){
+async function excuteLogout(){
     const localS = new LocalStorage();
-    let token = await localS.getValue('token');
+    // let tokenObject = await localS.getValue('token');
 
-    if(token) {
-        token = "";
-    }
+    // let token = "";
+    // if(tokenObject) {
+        
+    // }
 
+    let token = "";
     await localS.setValue("token", token);
     console.log("++++++++++token", token);
 
-
     return {
-        ...auth,
         token
     };
 }
@@ -78,11 +90,14 @@ async function excuteLogout(auth: AuthState){
 async function executeCheckAuth(auth: AuthState){
     const localS = new LocalStorage();
 
-    console.log("xxxxx")
+    let tokenObject:any = await localS.getValue('token');
 
-    let token:any = await localS.getValue('token');
+    let token = "";
+
+    if(tokenObject){
+        token = tokenObject.value;
+    }
     
-    token = token.value;
 
     return {
         ...auth,
