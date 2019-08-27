@@ -1,9 +1,10 @@
 import React from 'react';
 
-import CreateProductForm from './create';
-
 import {Route} from 'react-router-dom';
-import List from "../ProductOrder/list";
+
+import CreateProductForm from './create';
+import List from "./list";
+
 
 interface IProductProps {
 

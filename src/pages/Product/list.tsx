@@ -2,11 +2,14 @@ import React from "react";
 
 import {Button, Pagination, Radio, Table} from 'antd';
 
+import {Product} from '../../store/product/types';
+import {listProduct} from '../../store/product/actions';
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
+
+import { ThunkDispatch } from 'redux-thunk';
+
 const columns = [
-    {
-        title: "Nha cung cap",
-        dataIndex: "nhaCungCap",
-    },
     {
         title: "Ten san pham",
         dataIndex: "tenSanPham",
@@ -24,10 +27,29 @@ const columns = [
         dataIndex: "action",
         render: () => <a href="#">Delete</a>,
     },
-
 ];
 
-export default class List extends React.Component<IListProps, IListState> {
+interface OwnProps {
+
+}
+
+interface StateProps {
+    products: Product[]
+}
+
+interface DispatchProps {
+    listProduct: typeof listProduct,
+}
+
+type IListProps = OwnProps & StateProps & DispatchProps;
+
+interface IListState {
+    selectedRowKeys: any,
+    mode: string
+}
+
+
+class List extends React.Component<IListProps, IListState> {
     private dataChoDuyet: any[] = new Array();
     private dataDaDuyet: any[] = new Array();
     private dataHuy: any[] = new Array();
@@ -41,7 +63,6 @@ export default class List extends React.Component<IListProps, IListState> {
             this.dataChoDuyet.push(
                 {
                     key: i,
-                    nhaCungCap: `nhaCungCap-${i}`,
                     tenSanPham: `tenSanPham-${i}`,
                     maSanPham:  `maSanPham-${i}`,
                     trangThai: "Cho Duyet"
@@ -51,7 +72,6 @@ export default class List extends React.Component<IListProps, IListState> {
             this.dataDaDuyet.push(
                 {
                     key: i,
-                    nhaCungCap: `nhaCungCap-${i}`,
                     tenSanPham: `tenSanPham-${i}`,
                     maSanPham:  `maSanPham-${i}`,
                     trangThai: "Da Duyet"
@@ -61,7 +81,6 @@ export default class List extends React.Component<IListProps, IListState> {
             this.dataHuy.push(
                 {
                     key: i,
-                    nhaCungCap: `nhaCungCap-${i}`,
                     tenSanPham: `tenSanPham-${i}`,
                     maSanPham:  `maSanPham-${i}`,
                     trangThai: "Huy"
@@ -75,9 +94,14 @@ export default class List extends React.Component<IListProps, IListState> {
         };
     }
 
+    componentDidUpdate(){
+        // console.log(123);
+        this.props.listProduct();
+    }
+
     onSelectChange = (selectedRowKeys: Array<Object>) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
-        this.setState({ selectedRowKeys });
+        // this.setState({ selectedRowKeys });
     };
 
     selectPOStatus = (e: any) => {
@@ -124,7 +148,7 @@ export default class List extends React.Component<IListProps, IListState> {
                 <div className="table-operations">
                     <div className="page-list-footer">
                         <Button className="btn-approve" type="primary">Duyet</Button>
-                        <Pagination className="pagination" defaultCurrent={6} total={500} />
+                        <Pagination className="pagination" defaultCurrent={1} total={500} />
                     </div>
                     
                 </div>
@@ -133,10 +157,15 @@ export default class List extends React.Component<IListProps, IListState> {
     }
 };
 
-interface IListProps {
-}
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    products: state.products,
+});
 
-interface IListState {
-    selectedRowKeys: any,
-    mode: string
-}
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    listProduct: () => dispatch(listProduct())
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(List);

@@ -55,6 +55,13 @@ export const createMultiProduct = (products: {
     );
 }
 
+export const listProduct = (): ThunkAction<void, Product[], null, Action<string>> => async dispatch => {
+    const newProducts = await executeListProduct();
+    dispatch(
+        _listProduct(newProducts)
+    );
+}
+
 async function executeCreateMultiProduct(products: {
     code: string,
     name: string
@@ -68,6 +75,21 @@ async function executeCreateMultiProduct(products: {
     })
     console.log("executeCreateMultiProduct-getValue", newProducts)
     return newProducts;
+}
+
+async function executeListProduct(){
+    let products = [];
+    const i = 0;
+    // for (let i = 0; i < 5; i++) {
+        products.push({
+            key: i,
+            id: i,
+            productName: `tenSanPham-${i}`,
+            productCode:  `maSanPham-${i}`,
+            status: "Huy"
+        })
+    // }
+    return products;
 }
 
 // export const _loginSystem = (auth: AuthState): AuthenActionType => {
