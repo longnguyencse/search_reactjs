@@ -20,7 +20,7 @@ interface OwnProps {
 }
 
 interface StateProps {
-    products: Product[]
+    products: {}
 }
 
 interface DispatchProps {
@@ -211,7 +211,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 const CreateProductForm = Form.create({ name: 'create_product_form' })(CreateProduct);
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    products: state.products,
+    products: state.products.createMultiProduct,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
