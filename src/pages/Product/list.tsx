@@ -34,7 +34,7 @@ interface OwnProps {
 }
 
 interface StateProps {
-    products: Product[]
+    products: {}
 }
 
 interface DispatchProps {
@@ -94,9 +94,9 @@ class List extends React.Component<IListProps, IListState> {
         };
     }
 
-    componentDidUpdate(){
+    async componentDidMount(){
         // console.log(123);
-        this.props.listProduct();
+        await this.props.listProduct();
     }
 
     onSelectChange = (selectedRowKeys: Array<Object>) => {
@@ -158,7 +158,7 @@ class List extends React.Component<IListProps, IListState> {
 };
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    products: state.products,
+    products: state.products.listProduct,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
