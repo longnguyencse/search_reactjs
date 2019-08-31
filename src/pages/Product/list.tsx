@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 
 import { ThunkDispatch } from 'redux-thunk';
 
+import {Link} from 'react-router-dom';
+
 const columns = [
     {
         title: "Ten san pham",
@@ -137,6 +139,9 @@ class List extends React.Component<IListProps, IListState> {
         return (
             <div id="product-list" className="page-list">
                 <div className="page-list-header">
+                    <Button type="primary" className="btn-add-new">
+                        <Link to="/products/create">Add Product</Link>
+                    </Button>
                     <h3 className="page-list-title">Danh sach Product</h3>
                     <Radio.Group className="btn-change-status" onChange={this.selectPOStatus} value={mode}>
                         <Radio.Button value="choDuyet">Cho Duyet</Radio.Button>

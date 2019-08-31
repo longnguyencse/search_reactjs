@@ -129,17 +129,20 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                     <SubMenu key="sub3" title={
                         <span>
                                 <Icon type="gift"/>
-                                <span>Sản Phẩm</span>
+                                <span>Tồn kho</span>
                             </span>
                     }>
                         <Menu.Item key="7">
-                            <Link to="/products/create">Nhập SP</Link>
+                            <Link to="/products">Sản phẩm</Link>
                         </Menu.Item>
                         <Menu.Item key="8">
-                            <Link to="/products">Duyệt SP</Link>
+                            <Link to="/categories">Category (ML1)</Link>
                         </Menu.Item>
                         <Menu.Item key="9">
-                            <Link to="/supplier_products/create">Xem SP</Link>
+                            <Link to="/groups">Group (ML2)</Link>
+                        </Menu.Item>
+                        <Menu.Item key="10">
+                            <Link to="/classes">Class (ML3)</Link>
                         </Menu.Item>
                     </SubMenu>
 
@@ -149,14 +152,14 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                                 <span>Người Dùng</span>
                             </span>
                     }>
-                        <Menu.Item key="10">
-                            <Link to="/user/profile">Thông Tin</Link></Menu.Item>
                         <Menu.Item key="11">
+                            <Link to="/user/profile">Thông Tin</Link></Menu.Item>
+                        <Menu.Item key="12">
                             <Link to="/logout">Thoát</Link>
                         </Menu.Item>
                     </SubMenu>
 
-                    <Menu.Item key="12">
+                    <Menu.Item key="13">
                         <Button type="danger" onClick={this.handleLogout}>Logout</Button>
                     </Menu.Item>
                 </Menu>
