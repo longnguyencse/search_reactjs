@@ -7,6 +7,7 @@ import Product from '../../pages/Product';
 import Supplier from '../../pages/Supplier';
 import Discount from '../../pages/Discount';
 import SupplierProduct from '../../pages/SupplierProduct';
+import Category from '../../pages/Category';
 
 import "./styles.scss";
 
@@ -48,6 +49,7 @@ class MainContent extends React.Component<IMainContentProps, IMainContentState> 
                     <Discount/>
                     <User/>
                     <SupplierProduct />
+                    <Category />
                 </div>
             </Content>
         );
