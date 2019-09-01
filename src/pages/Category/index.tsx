@@ -5,6 +5,8 @@ import {Route} from 'react-router-dom';
 import CreateCategoryForm from './create';
 import List from "./list";
 
+import "./styles.scss";
+
 
 interface IProductProps {
 

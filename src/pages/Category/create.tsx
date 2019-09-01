@@ -6,51 +6,57 @@ import CategoryCodeInput from './components/CategoryCodeInput';
 import CategoryNameInput from './components/CategoryNameInput';
 import CategoryNoteTextArea from './components/CategoryNoteTextArea';
 
-// import {Product} from '../../store/product/types';
-// import { AppState } from '../../store';
-// import { connect } from 'react-redux';
+import {Category} from '../../store/category/types';
+import {createMultiCategory} from '../../store/category/actions';
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
 
-// import { ThunkDispatch } from 'redux-thunk';
+import { ThunkDispatch } from 'redux-thunk';
 
 interface OwnProps {
     form?: any
 }
 
 interface StateProps {
-    // products: {}
+    categories: {}
 }
 
 interface DispatchProps {
-    // createMultiProduct: typeof createMultiProduct,
+    createMultiCategory: typeof createMultiCategory,
 }
 
 type ICreateCategoryProps = OwnProps & StateProps & DispatchProps;
 
 interface ICreateCategoryState {
     categoryNumber: number,
-    // products: any,
+    categories: any,
+    categoryKey: number,
 }
 
 let categoryNumber:number = 1;
 
-// const columns = [
-//     {
-//         title: "Ten san pham",
-//         dataIndex: "name",
-//     },
-//     {
-//         title: "Ma san pham",
-//         dataIndex: "code",
-//     },
-//     {
-//         title: "Action",
-//         dataIndex: "action",
-//         render: (text:any, row:any, index:any) => {
-//             return <a href={row.id}>Update</a>;
-//         },
-//     },
+const columns = [
+    {
+        title: "Category Name",
+        dataIndex: "name",
+    },
+    {
+        title: "Category Code",
+        dataIndex: "code",
+    },
+    {
+        title: "Category Note",
+        dataIndex: "note",
+    },
+    {
+        title: "Action",
+        dataIndex: "action",
+        render: (text:any, row:any, index:any) => {
+            return <a href={row.key}>Update</a>;
+        },
+    },
 
-// ];
+];
 
 class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCategoryState> {
     constructor(props: ICreateCategoryProps) {
@@ -58,23 +64,12 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
         this.state = {
             categoryNumber: 1,
+            categories: null,
+            categoryKey: 0,
         };
-
-        // this.handleReset = this.handleReset.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-        // this.handleAddMore = this.handleAddMore.bind(this);
-        // this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
-    }
-
-    componentWillMount(){
-        // const {products} = this.state;
-        // if(!products){
-        //     return;
-        // }
     }
 
     getFields(keys:any) {
-        // const count = this.state.categoryNumber;
         const { form } = this.props;
         let buttonRemove:any = null;
 
@@ -113,26 +108,29 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
     handleSubmit = (e: any) => {
         e.preventDefault();
+        let {categoryKey} = this.state;
         this.props.form.validateFields(async (err: any, values: any) => {
             if(err){
                 return;
             }
-            // const {keys, supplier, productName, productCode}= values;
-            // const products = keys.map((value:any, index:any) => {
-            //     return {
-            //         key: value,
-            //         code:  productCode[value], 
-            //         name: productName[value],
-            //     };
-            // });
-            // await this.props.createMultiProduct(products);
-            // this.setState({
-            //     products: this.props.products
-            // });
-            this.handleReset();
-            // console.log('Received values of form: ', products);
-            // console.log('Received values of props: ', this.props.products);
+            const {keys, categoryName, categoryCode, categoryNote}= values;
+            const categories = keys.map((value:any, index:any) => {
+                categoryKey++;
+                return {
+                    key: categoryKey,
+                    code:  categoryCode[value], 
+                    name: categoryName[value],
+                    note: categoryNote[value],
+                };
+            });
 
+            await this.props.createMultiCategory(categories);
+            this.setState({
+                categories: this.props.categories
+            });
+            this.handleReset();
+
+            this.setState({categoryKey});
         });
     };
 
@@ -169,9 +167,9 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         const { getFieldDecorator, getFieldValue } = this.props.form;
         getFieldDecorator('keys', { initialValue: [0] });
         const keys = getFieldValue('keys');
-        // const {products} = this.state;
+        const {categories} = this.state;
         return (
-            <div id="create-product">
+            <div id="create-category">
                 <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
@@ -188,12 +186,12 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                         </Col>
                     </Row>
                 </Form>
-                {/* <div className="search-result-list">
-                    { products ?
-                        <Table pagination={false} columns={columns} dataSource={products} rowKey="key"/>
+                <div className="search-result-categories">
+                    { categories ?
+                        <Table pagination={false} columns={columns} dataSource={categories} rowKey="key"/>
                         : null
                     }
-                </div> */}
+                </div>
             </div>
         );
     }
@@ -201,17 +199,15 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
 const CreateCategoryForm = Form.create({ name: 'create_category_form' })(CreateCategory);
 
-export default CreateCategoryForm;
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    categories: state.categories.createMultiCategory,
+});
 
-// const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-//     products: state.products.createMultiProduct,
-// });
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    createMultiCategory: (categories) => dispatch(createMultiCategory(categories)),
+});
 
-// const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-//     createMultiProduct: (products) => dispatch(createMultiProduct(products)),
-// });
-
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps
-// )(CreateCategoryForm);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateCategoryForm);
