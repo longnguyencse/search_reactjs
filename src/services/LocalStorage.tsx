@@ -8,7 +8,17 @@ export default class LocalStorage {
     setValue(key: string, data: any){
         let object;
         const expiryObj = { expiry: moment().add(7, "days") };
-        object = data instanceof Object ? {...data, ...expiryObj} : {value: data, ...expiryObj};
+        if(Array.isArray(data)){
+            object = {value: data, ...expiryObj};
+        }
+        else if(data instanceof Object){
+            object = {...data, ...expiryObj};
+        }
+        else {
+            object = {value: data, ...expiryObj};
+        }
+        
+        // object = data instanceof Object ? {...data, ...expiryObj} : {value: data, ...expiryObj};
 
         const dataString = JSON.stringify(object);
         localStorage.setItem(key, dataString);
