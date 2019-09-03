@@ -30,6 +30,7 @@ type ICreateCategoryProps = OwnProps & StateProps & DispatchProps;
 
 interface ICreateCategoryState {
     categories: any,
+    categoryKey: any,
     hideUpdateForm: boolean,
 }
 
@@ -39,6 +40,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
         this.state = {
             categories: null,
+            categoryKey: null,
             hideUpdateForm: true
         };
     }
@@ -54,13 +56,32 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
         const categories = getValue.value;
 
-        console.log(categories);
-
         this.setState({
             categories
         });
     }
 
+    handleClickUpdate = (categoryKey: any) => {
+        if(categoryKey){
+            console.log(categoryKey);
+            this.setState({
+                categoryKey,
+                hideUpdateForm: false,
+            });
+        }
+    }
+
+    handleSaveCategory = (categories: any, hideUpdateForm: boolean) => {
+        if(!categories){
+            this.setState({hideUpdateForm});
+        }
+        else {
+            this.setState({
+                categories,
+                hideUpdateForm
+            });
+        }
+    } 
 
     render() {
         const columns = [
@@ -80,7 +101,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                 title: "Action",
                 dataIndex: "action",
                 render: (text:any, row:any, index:any) => {
-                    return <Button onClick={() => this.setState({hideUpdateForm: false})}>Update - {row.key}</Button>;
+                    return <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>;
                 },
             },
         ];
@@ -99,11 +120,15 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                     />
 
                     <FormUpdateCategory 
+                        saveCategory = {(categories: number, hideUpdateForm: boolean) => this.handleSaveCategory(categories, hideUpdateForm)}
+
                         setHideUpdateForm = {(hideUpdateForm: boolean) => {
                             this.setState({hideUpdateForm})
                         }} 
 
-                        hideUpdateForm={this.state.hideUpdateForm}/>
+                        categoryKey = {this.state.categoryKey}
+
+                        hideUpdateForm = {this.state.hideUpdateForm}/>
 
                     { categories ?
                         <Table pagination={false} columns={columns} dataSource={categories} rowKey="key"/>

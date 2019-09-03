@@ -6,7 +6,9 @@ const { Option } = Select;
 
 interface OwnProps {
     form?: any,
-    k?: number
+    k?: any,
+    loadValue?: any,
+
 }
 
 interface DispatchProps {
@@ -30,12 +32,23 @@ export default class CategoryCodeTextArea extends React.Component<ICategoryCodeT
     }
 
     render(){
-        const { form, k } = this.props;
+        const { form } = this.props;
         const { getFieldDecorator } = form;
         
+        let elementName = "categoryNote";
+        if(this.props.k !== null){
+            elementName = elementName + `[${this.props.k}]`;
+        }
+
+        let loadValue = "";
+        if(this.props.loadValue){
+            loadValue = this.props.loadValue;
+        }
+
         return (
             <Form.Item label={`Category Note`}>
-                {getFieldDecorator(`categoryNote[${k}]`, {
+                {getFieldDecorator(elementName, {
+                    initialValue: loadValue,
                     rules: [
                         {
                             required: true,

@@ -165,7 +165,6 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         getFieldDecorator('keys', { initialValue: [0] });
         const keys = getFieldValue('keys');
         const {categories} = this.state;
-        console.log('render', categories);
         return (
             <div id="create-category">
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} style={{display: this.props.hideCreateForm ? "none": "block"}}>

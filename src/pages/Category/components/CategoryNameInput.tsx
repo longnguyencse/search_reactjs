@@ -6,7 +6,8 @@ const { Option } = Select;
 
 interface OwnProps {
     form?: any,
-    k?: number
+    k?: any
+    loadValue?: any,
 }
 
 interface DispatchProps {
@@ -30,12 +31,23 @@ export default class CategoryNameInput extends React.Component<ICategoryNameInpu
     }
 
     render(){
-        const { form, k } = this.props;
+        const { form } = this.props;
         const { getFieldDecorator } = form;
         
+        let elementName = "categoryName";
+        if(this.props.k !== null){
+            elementName = elementName + `[${this.props.k}]`;
+        }
+
+        let loadValue = "";
+        if(this.props.loadValue){
+            loadValue = this.props.loadValue;
+        }
+
         return (
             <Form.Item label={`Category Name`}>
-                {getFieldDecorator(`categoryName[${k}]`, {
+                {getFieldDecorator(elementName, {
+                    initialValue: loadValue,
                     rules: [
                         {
                             required: true,
