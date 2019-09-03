@@ -6,7 +6,7 @@ const { Option } = Select;
 
 interface OwnProps {
     form?: any,
-    k: number
+    k?: number
 }
 
 interface DispatchProps {

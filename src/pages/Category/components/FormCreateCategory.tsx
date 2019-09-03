@@ -1,17 +1,17 @@
 import React from 'react';
 
-import {Button, Col, Form, Row, Table} from 'antd';
+import {Button, Col, Form, Row} from 'antd';
 
 import CategoryCodeInput from './CategoryCodeInput';
 import CategoryNameInput from './CategoryNameInput';
 import CategoryNoteTextArea from './CategoryNoteTextArea';
 
 import LocalStorage from '../../../services/LocalStorage';
+import { FormComponentProps } from 'antd/es/form';
 
-interface OwnProps {
-    form?: any,
-    setCategories?: (categories:any) => void
-    xxx: number,
+interface OwnProps extends FormComponentProps{
+    setCategories: (categories:  any) => void,
+    hideCreateForm?: boolean
 }
 
 interface StateProps {
@@ -77,9 +77,18 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         this.props.form.resetFields();
     }
 
-    handleSubmit = (e: any) => {
+    handleSubmit = async (e: any) => {
         e.preventDefault();
-        const {categories} = this.state;
+        const localS = new LocalStorage();
+
+        const getValue: any = await localS.getValue('categories');
+
+        let categories: any = null;
+        if(!getValue){
+            return;
+        }
+        categories = getValue.value;
+
         let maxKey = 0;
         if(categories){
             maxKey = Math.max.apply(Math, categories.map((category: any, index: any) =>  { 
@@ -110,15 +119,13 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                 mergeCategories = newCategories.concat(categories);
             }
 
-            const localS = new LocalStorage();
-
             await localS.setValue('categories', mergeCategories);
 
             this.setState({
                 categories: mergeCategories,
             });
 
-            // this.props.setCategories(categories);
+            this.props.setCategories(mergeCategories);
 
             this.handleReset();
         });
@@ -161,7 +168,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         console.log('render', categories);
         return (
             <div id="create-category">
-                <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit}>
+                <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} style={{display: this.props.hideCreateForm ? "none": "block"}}>
                     <h1>Create Form</h1>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
@@ -183,6 +190,6 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
     }
 }
 
-const CreateCategoryForm = Form.create({ name: 'create_category_form' })(CreateCategory);
+const CreateCategoryForm = Form.create<ICreateCategoryProps>({ name: 'create_category_form' })(CreateCategory);
 
 export default CreateCategoryForm;
