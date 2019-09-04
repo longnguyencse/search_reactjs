@@ -63,7 +63,6 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
     handleClickUpdate = (categoryKey: any) => {
         if(categoryKey){
-            console.log(categoryKey);
             this.setState({
                 categoryKey,
                 hideUpdateForm: false,
@@ -124,7 +123,9 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
                         setHideUpdateForm = {(hideUpdateForm: boolean) => {
                             this.setState({hideUpdateForm})
-                        }} 
+                        }}
+
+                        categories = {this.state.categories}
 
                         categoryKey = {this.state.categoryKey}
 

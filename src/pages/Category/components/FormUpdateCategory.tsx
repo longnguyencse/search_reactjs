@@ -12,6 +12,7 @@ import { FormComponentProps } from 'antd/es/form';
 interface OwnProps extends FormComponentProps{
     saveCategory: (categories: any, hideUpdateForm: boolean) => void,
     setHideUpdateForm: (hideUpdateForm: boolean) => void,
+    categories?: any,
     categoryKey?: any,
     hideUpdateForm?: boolean
 }
@@ -41,21 +42,15 @@ class UpdateCategory extends React.Component<IUpdateCategoryProps, IUpdateCatego
         console.log(props)
     }
 
-    async componentWillReceiveProps(){
-        const localS = new LocalStorage();
+    componentWillReceiveProps(newProps: any){
+        const categories = newProps.categories ? newProps.categories : null;
 
-        const getValue:any = await localS.getValue('categories');
-
-        const categories = getValue.value;
-
-        console.log(this.props.categoryKey);
-
-        if(!this.props.categoryKey){
+        if(!newProps.categoryKey){
             return;
         }
 
         const findCategory = categories.find((category: any) => {
-            return category.key === this.props.categoryKey;
+            return category.key === newProps.categoryKey;
         })
 
         this.setState({
@@ -64,28 +59,43 @@ class UpdateCategory extends React.Component<IUpdateCategoryProps, IUpdateCatego
         });
     }
 
-    getFields() {
+    getFields(findCategory: any) {
         const { form } = this.props;
         // const key = this.props.categoryKey;
         const key = null;
 
+        let code = null;
+        let name = null;
+        let note = null;
+        if(findCategory){
+            code = findCategory.code;
+            name = findCategory.name;
+            note = findCategory.note;
+        }
+
         return (
             <div>
                 <Col span={7}>
-                    <CategoryCodeInput form={form} k={key} loadValue={this.state.findCategory ? this.state.findCategory.code : null} />
+                    <CategoryCodeInput form={form} k={key} loadValue={code} />
                 </Col>
                 <Col span={7}>
-                    <CategoryNameInput form={form} k={key} loadValue={this.state.findCategory ? this.state.findCategory.name : null}/>
+                    <CategoryNameInput form={form} k={key} loadValue={name}/>
                 </Col>
                 <Col span={8}>
-                    <CategoryNoteTextArea form={form} k={key} loadValue={this.state.findCategory ? this.state.findCategory.note : null}/>
+                    <CategoryNoteTextArea form={form} k={key} loadValue={note}/>
                 </Col>
             </div>
         )
     }
 
+    handleReset = () => {
+        this.props.form.resetFields();
+    }
+
     handleCancel = () => {
         this.props.setHideUpdateForm(true);
+
+        this.handleReset();
     }
 
     handleSubmit = async (e: any) => {
@@ -115,9 +125,8 @@ class UpdateCategory extends React.Component<IUpdateCategoryProps, IUpdateCatego
 
             this.props.saveCategory(categories, true);
 
-            // this.props.setHideUpdateForm(true);
+            this.handleReset();
 
-            // this.handleReset();
         });
     };
 
@@ -126,12 +135,11 @@ class UpdateCategory extends React.Component<IUpdateCategoryProps, IUpdateCatego
         // getFieldDecorator('keys', { initialValue: [0] });
         // const keys = getFieldValue('keys');
         const {findCategory} = this.state;
-        console.log('render-123', findCategory);
         return (
             <div id="update-category">
                 <Form className="ant-advanced-update-form" onSubmit={this.handleSubmit} style={{display: this.props.hideUpdateForm ? "none" : "block"}}>
                     <h1>Update Form</h1>
-                    <Row gutter={24}>{this.getFields()}</Row>
+                    <Row gutter={24}>{this.getFields(findCategory)}</Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
                             <Button type="primary" htmlType="submit">

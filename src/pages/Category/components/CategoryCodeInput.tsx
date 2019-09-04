@@ -21,13 +21,27 @@ interface StateProps {
 type ICategoryCodeInputProps = OwnProps & DispatchProps & StateProps;
 
 interface ICategoryCodeInputState {
-    
+    loadValue: any
 }
 
 export default class CategoryCodeInput extends React.Component<ICategoryCodeInputProps, ICategoryCodeInputState> {
 
     constructor(props: ICategoryCodeInputProps){
         super(props);
+
+        this.state = {
+            loadValue: ""
+        }
+    }
+
+    componentWillReceiveProps(newProps: any){
+        const loadValue = newProps.loadValue ? newProps.loadValue : null;
+
+        console.log("componentWillReceiveProps-inputCode", newProps, loadValue);
+
+        this.setState({
+            loadValue
+        });
     }
 
     render(){
@@ -39,16 +53,18 @@ export default class CategoryCodeInput extends React.Component<ICategoryCodeInpu
             elementName = elementName + `[${this.props.k}]`;
         }
 
+        console.log("render-bcm", this.state.loadValue)
 
-        let loadValue = "";
-        if(this.props.loadValue){
-            loadValue = this.props.loadValue;
-        }
+
+        // let loadValue = "";
+        // if(this.props.loadValue){
+        //     loadValue = this.props.loadValue;
+        // }
         
         return (
             <Form.Item label={`Category Code`}>
                 {getFieldDecorator(elementName, {
-                    initialValue: loadValue,
+                    initialValue: this.state.loadValue,
                     rules: [
                         {
                             required: true,
