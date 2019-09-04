@@ -31,14 +31,16 @@ export const _createMultiCategory = (categories: Category[]): CategoryActionType
 export const _updateCategory = (category: Category): CategoryActionType => {
     return {
         type: UPDATE,
-        payload: category
+        payload: category,
+        key: 1,
     }
 }
 
 export const _deleteCategory = (category: Category): CategoryActionType => {
     return {
         type: DELETE,
-        payload: category
+        payload: category,
+        key: 1,
     }
 }
 

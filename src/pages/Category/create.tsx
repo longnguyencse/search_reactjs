@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Button, Table} from 'antd';
+import {Button, Table, Modal} from 'antd';
 
 import FormCreateCategory from './components/FormCreateCategory';
 import FormUpdateCategory from './components/FormUpdateCategory';
@@ -41,7 +41,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         this.state = {
             categories: null,
             categoryKey: null,
-            hideUpdateForm: true
+            hideUpdateForm: true,
         };
     }
 
@@ -83,27 +83,28 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
     } 
 
     handleClickDelete = async (categoryKey: any) => {
-        const localS = new LocalStorage();
+        this.showModal();
+        // const localS = new LocalStorage();
 
-        const {categories} = this.state;
-        console.log(categories);
-        let newCategories = categories.filter((category: any) => {
-            return category.key !== categoryKey;
-        });
+        // const {categories} = this.state;
+        // console.log(categories);
+        // let newCategories = categories.filter((category: any) => {
+        //     return category.key !== categoryKey;
+        // });
 
-        console.log(newCategories);
+        // console.log(newCategories);
 
-        if(!newCategories.length){
-            newCategories = null;
-        }
+        // if(!newCategories.length){
+        //     newCategories = null;
+        // }
 
-        await localS.setValue('categories', newCategories);
+        // await localS.setValue('categories', newCategories);
 
-        this.setState({
-            categories: newCategories,
-            categoryKey: null,
-            hideUpdateForm: true,
-        });
+        // this.setState({
+        //     categories: newCategories,
+        //     categoryKey: null,
+        //     hideUpdateForm: true,
+        // });
     }
 
     render() {
@@ -137,6 +138,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
         const {categories} = this.state;
         
+        
         return (
             <div id="create-category">
                 <div className="search-result-categories">
@@ -159,8 +161,10 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
                         categoryKey = {this.state.categoryKey}
 
-                        hideUpdateForm = {this.state.hideUpdateForm}/>
+                        hideUpdateForm = {this.state.hideUpdateForm}
+                    />
 
+                   
                     { categories ?
                         <Table pagination={false} columns={columns} dataSource={categories} rowKey="key"/>
                         : null
