@@ -82,6 +82,30 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         }
     } 
 
+    handleClickDelete = async (categoryKey: any) => {
+        const localS = new LocalStorage();
+
+        const {categories} = this.state;
+        console.log(categories);
+        let newCategories = categories.filter((category: any) => {
+            return category.key !== categoryKey;
+        });
+
+        console.log(newCategories);
+
+        if(!newCategories.length){
+            newCategories = null;
+        }
+
+        await localS.setValue('categories', newCategories);
+
+        this.setState({
+            categories: newCategories,
+            categoryKey: null,
+            hideUpdateForm: true,
+        });
+    }
+
     render() {
         const columns = [
             {
@@ -100,7 +124,13 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                 title: "Action",
                 dataIndex: "action",
                 render: (text:any, row:any, index:any) => {
-                    return <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>;
+                    return (
+                        <div>
+                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            -
+                            <Button onClick={() => this.handleClickDelete(row.key)}>Delete - {row.key}</Button>
+                        </div>
+                    );
                 },
             },
         ];
