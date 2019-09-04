@@ -4,52 +4,50 @@ import {LIST, GET, CREATE_MULTI, UPDATE, DELETE} from '../constants';
 import { Category, CategoryActionType } from './types';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
-import API from '../../services/API';
+import LocalStorage from '../../services/LocalStorage';
 
-import axios from 'axios';
-
-export const _listCategory = (products: Category[]): CategoryActionType => {
+export const _listCategory = (categories: Category[]): CategoryActionType => {
     return {
         type: LIST,
-        payload: products
+        payload: categories
     }
 }
 
-export const _getCategory = (product: Category): CategoryActionType => {
+export const _getCategory = (category: Category): CategoryActionType => {
     return {
         type: GET,
-        payload: product
+        payload: category
     }
 }
 
-export const _createMultiCategory = (products: Category[]): CategoryActionType => {
+export const _createMultiCategory = (categories: Category[]): CategoryActionType => {
     console.log("_createMultiCategory");
     return {
         type: CREATE_MULTI,
-        payload: products
+        payload: categories
     }
 }
 
-export const _updateCategory = (product: Category): CategoryActionType => {
+export const _updateCategory = (category: Category): CategoryActionType => {
     return {
         type: UPDATE,
-        payload: product
+        payload: category
     }
 }
 
-export const _deleteCategory = (product: Category): CategoryActionType => {
+export const _deleteCategory = (category: Category): CategoryActionType => {
     return {
         type: DELETE,
-        payload: product
+        payload: category
     }
 }
 
-export const createMultiCategory = (products: {
+export const createMultiCategory = (categories: {
     code: string,
     name: string
 }[]): ThunkAction<void, Category[], null, Action<string>> => async dispatch => {
     console.log("createMultiCategory");
-    const newCategorys = await executeCreateMultiCategory(products);
+    const newCategorys = await executeCreateMultiCategory(categories);
     dispatch(
         _createMultiCategory(newCategorys)
     );
@@ -62,12 +60,12 @@ export const listCategory = (): ThunkAction<void, Category[], null, Action<strin
     );
 }
 
-async function executeCreateMultiCategory(products: {
+async function executeCreateMultiCategory(categories: {
     code: string,
     name: string
 }[]){
     console.log("executeCreateMultiCategory");
-    const newCategorys = products.map((value, index) => {
+    const newCategorys = categories.map((value, index) => {
         return {
             ...value,
             id: index + 2
@@ -78,16 +76,15 @@ async function executeCreateMultiCategory(products: {
 }
 
 async function executeListCategory(){
-    let products = [];
-    const i = 0;
-    // for (let i = 0; i < 5; i++) {
-        products.push({
-            key: i,
-            id: i,
-            productName: `tenSanPham-${i}`,
-            productCode:  `maSanPham-${i}`,
-            status: "Huy"
-        })
-    // }
-    return products;
+    const localS = new LocalStorage();
+
+    const getValue: any  = await localS.getValue('categories');
+
+    let categories = [];
+
+    if(getValue){
+        categories = getValue.value;
+    }
+
+    return categories;
 }

@@ -1,20 +1,21 @@
-import {LIST, CREATE_MULTI} from '../constants';
+import {LIST, CREATE_MULTI, UPDATE, DELETE} from '../constants';
 import { Category, CategoryActionType } from './types';
 
-const initialState :{
-    listCategory: Category[],
-    createMultiCategory: Category[]
+const initialState: {
+    staticState: Category[],
+    dynamicState: Category[]
 } = {
-    listCategory: [],
-    createMultiCategory: []
+    staticState: [],
+    dynamicState: []
 };
+
 export function categoryReducer(state = initialState, action: CategoryActionType) {
     switch (action.type) {
         case LIST:
             console.log("LIST", JSON.stringify(action.payload));
             return {
                 ...state,
-                listCategory: action.payload
+                staticState: action.payload
             }
             break;
         
@@ -22,9 +23,32 @@ export function categoryReducer(state = initialState, action: CategoryActionType
             console.log("CREATE_MULTI");
             return {
                 ...state,
-                createMultiCategory: state.createMultiCategory.concat(action.payload)
+                staticState: state.staticState.concat(action.payload)
             }
             break;
+        }
+
+        case UPDATE: {
+            console.log("UPDATE");
+            const staticState = state.staticState;
+            const foundIndex = staticState.findIndex((category: any) => category.key === action.key);
+            staticState[foundIndex] = action.payload;
+            return {
+                ...state,
+                staticState: staticState
+            }
+            break;
+        }
+
+        case DELETE: {
+            console.log("DELETE");
+            return {
+                ...state,
+                staticState: state.staticState.filter((category: any) => {
+                    return category.key !== action.key;
+                })
+            }
+            break; 
         }
 
         default:

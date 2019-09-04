@@ -2,6 +2,7 @@ import {LIST, GET, CREATE_MULTI, UPDATE, DELETE} from "../constants";
 
 export interface Category {
     id?: number | string,
+    key?: number | string,
     code?: string,
     name?: string,
     note?: string
@@ -24,12 +25,14 @@ export interface CreateMultiAction {
 
 export interface UpdateAction {
     type: typeof UPDATE,
-    payload: Category
+    payload: Category,
+    key: number,
 }
 
 export interface DeleteAction {
     type: typeof DELETE,
-    payload: Category
+    payload: Category,
+    key: number,
 }
 
 export type CategoryActionType = ListAction | GetAction | CreateMultiAction | UpdateAction | DeleteAction;
