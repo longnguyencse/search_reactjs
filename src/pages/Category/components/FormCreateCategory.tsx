@@ -6,21 +6,31 @@ import CategoryCodeInput from './CategoryCodeInput';
 import CategoryNameInput from './CategoryNameInput';
 import CategoryNoteTextArea from './CategoryNoteTextArea';
 
+import {Category} from '../../../store/category/types';
+import {Category as StaticCategory} from '../../../store/category/static/types';
+import {createMulti} from '../../../store/category/static/actions';
+import { AppState } from '../../../store';
+import { connect } from 'react-redux';
+
+import { ThunkDispatch } from 'redux-thunk';
+
 import LocalStorage from '../../../services/LocalStorage';
 import { FormComponentProps } from 'antd/es/form';
 
-interface OwnProps extends FormComponentProps{
-    setCategories: (categories:  any) => void,
-    hideCreateForm?: boolean
+interface OwnProps {
+    // setCategories: (categories:  any) => void,
+    // hideCreateForm?: boolean
 }
 
 interface StateProps {
+    categories: Category[]
 }
 
 interface DispatchProps {
+    createMulti: typeof createMulti
 }
 
-type ICreateCategoryProps = OwnProps & StateProps & DispatchProps;
+type ICreateCategoryProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 interface ICreateCategoryState {
     categories: any,
@@ -33,10 +43,14 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         super(props);
 
         this.state = {
-            categories: null,
+            categories: [],
         };
+    }
 
-        console.log(props)
+    componentWillReceiveProps(newProps: any){
+        this.setState({
+            categories: newProps.categories,
+        });
     }
 
     getFields(keys:any) {
@@ -77,20 +91,67 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         this.props.form.resetFields();
     }
 
+    // handleSubmit = async (e: any) => {
+    //     e.preventDefault();
+    //     const localS = new LocalStorage();
+
+    //     const getValue: any = await localS.getValue('categories');
+
+    //     let categories: any = null;
+    //     if(!getValue){
+    //         return;
+    //     }
+    //     categories = getValue.value;
+
+    //     let maxKey = 0;
+    //     if(categories){
+    //         maxKey = Math.max.apply(Math, categories.map((category: any, index: any) =>  { 
+    //             return category.key;  
+    //         }));
+    //     }
+        
+    //     this.props.form.validateFields(async (err: any, values: any) => {
+    //         if(err){
+    //             return;
+    //         }
+    //         const {keys, categoryName, categoryCode, categoryNote}= values;
+    //         const newCategories = keys.map((value:any, index:any) => {
+    //             maxKey++;
+    //             return {
+    //                 key:  maxKey,
+    //                 code: categoryCode[value], 
+    //                 name: categoryName[value],
+    //                 note: categoryNote[value],
+    //             };
+    //         });
+
+    //         let mergeCategories;
+    //         if(!categories){
+    //             mergeCategories = newCategories;
+    //         }
+    //         else {
+    //             mergeCategories = newCategories.concat(categories);
+    //         }
+
+    //         await localS.setValue('categories', mergeCategories);
+
+    //         this.setState({
+    //             categories: mergeCategories,
+    //         });
+
+    //         this.props.setCategories(mergeCategories);
+
+    //         this.handleReset();
+    //     });
+    // };
+
     handleSubmit = async (e: any) => {
         e.preventDefault();
-        const localS = new LocalStorage();
 
-        const getValue: any = await localS.getValue('categories');
-
-        let categories: any = null;
-        if(!getValue){
-            return;
-        }
-        categories = getValue.value;
+        const { categories } = this.state;
 
         let maxKey = 0;
-        if(categories){
+        if(categories.length){
             maxKey = Math.max.apply(Math, categories.map((category: any, index: any) =>  { 
                 return category.key;  
             }));
@@ -111,21 +172,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                 };
             });
 
-            let mergeCategories;
-            if(!categories){
-                mergeCategories = newCategories;
-            }
-            else {
-                mergeCategories = newCategories.concat(categories);
-            }
-
-            await localS.setValue('categories', mergeCategories);
-
-            this.setState({
-                categories: mergeCategories,
-            });
-
-            this.props.setCategories(mergeCategories);
+            this.props.createMulti(newCategories);
 
             this.handleReset();
         });
@@ -167,7 +214,8 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         const {categories} = this.state;
         return (
             <div id="create-category">
-                <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} style={{display: this.props.hideCreateForm ? "none": "block"}}>
+                {/* <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} style={{display: this.props.hideCreateForm ? "none": "block"}}> */}
+                <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
                     <h1>Create Form</h1>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
@@ -189,6 +237,14 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
     }
 }
 
-const CreateCategoryForm = Form.create<ICreateCategoryProps>({ name: 'create_category_form' })(CreateCategory);
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    categories: state.staticCategories,
+});
 
-export default CreateCategoryForm;
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    createMulti: (categories: StaticCategory[]) => dispatch(createMulti(categories)),
+});
+
+const CreateCategoryForm = Form.create({ name: 'create_category_form' })(CreateCategory);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCategoryForm);

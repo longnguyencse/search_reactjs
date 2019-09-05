@@ -1,5 +1,5 @@
 import {Action, AnyAction} from 'redux';
-import {LIST, GET, CREATE_MULTI, UPDATE, DELETE} from '../../constants';
+import {LIST_STATIC_CATEGORY, GET, CREATE_MULTI_STATIC_CATEGORIES, UPDATE, DELETE} from '../../constants';
 import { Category, ActionType } from './types';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
@@ -9,7 +9,7 @@ import LocalStorage from '../../../services/LocalStorage';
 
 export const _list = (categories: Category[]): ActionType => {
     return {
-        type: LIST,
+        type: LIST_STATIC_CATEGORY,
         payload: categories
     }
 }
@@ -22,9 +22,8 @@ export const _get = (category: Category): ActionType => {
 }
 
 export const _createMulti = (categories: Category[]): ActionType => {
-    console.log("_createMultiCategory");
     return {
-        type: CREATE_MULTI,
+        type: CREATE_MULTI_STATIC_CATEGORIES,
         payload: categories
     }
 }
@@ -46,14 +45,10 @@ export const _delete = (categoryKey: number | string): ActionType => {
 // All function use to dispatch
 
 // All function use Component call
-export const createMulti = (categories: {
-    code: string,
-    name: string,
-    note: string
-}[]): ThunkAction<void, Category[], null, Action<string>> => async dispatch => {
-    const newCategorys = await executeCreateMulti(categories);
+export const createMulti = (categories: Category[]): ThunkAction<void, Category[], null, Action<string>> => async dispatch => {
+    const newCategories = await executeCreateMulti(categories);
     dispatch(
-        _createMulti(newCategorys)
+        _createMulti(newCategories)
     );
 }
 
@@ -66,30 +61,22 @@ export const list = (): ThunkAction<void, Category[], null, Action<string>> => a
 // All function use Component call
 
 // All function to execute logic
-async function executeCreateMulti(categories: {
-    code: string,
-    name: string,
-    note: string
-}[]){
-    const newCategorys = categories.map((value, index) => {
-        return {
-            ...value,
-            key: 1
-        }
-    })
-    return newCategorys;
+async function executeCreateMulti(newCategories: Category[]){
+    const localS = new LocalStorage();
+    
+    const oldCategories = await localS.getArrayValue('categories');
+
+    const mergeCategories = oldCategories.concat(newCategories);
+
+    await localS.setItem('categories', mergeCategories);
+
+    return newCategories;
 }
 
 async function executeList(){
     const localS = new LocalStorage();
 
-    const getValue: any  = await localS.getValue('categories');
-
-    let categories = [];
-
-    if(getValue){
-        categories = getValue.value;
-    }
+    const categories = await localS.getArrayValue('categories');
 
     return categories;
 }

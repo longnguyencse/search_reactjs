@@ -42,11 +42,9 @@ class ModalDeleteCategory extends React.Component<IModalDeleteCategoryProps, IMo
             categories: null
         };
 
-        console.log(props)
     }
 
     componentWillReceiveProps(newProps: any){
-        console.log("componentWillReceiveProps-modal", newProps)
         const categories = newProps.categories ? newProps.categories : [];
         const categoryKey = newProps.categoryKey ? newProps.categoryKey : null;
         const openModal = newProps.openModal;

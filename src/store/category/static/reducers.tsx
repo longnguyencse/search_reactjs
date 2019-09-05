@@ -1,17 +1,17 @@
-import {LIST, CREATE_MULTI, UPDATE, DELETE} from '../../constants';
+import {LIST_STATIC_CATEGORY, CREATE_MULTI_STATIC_CATEGORIES, UPDATE, DELETE} from '../../constants';
 import { Category, ActionType } from './types';
 
 const initialState: Category[] = [];
 
 export function staticCategoryReducer(state = initialState, action: ActionType) {
     switch (action.type) {
-        case LIST:
+        case LIST_STATIC_CATEGORY:
             return [
                 ...state,
                 ...action.payload
             ];
         
-        case CREATE_MULTI: {
+        case CREATE_MULTI_STATIC_CATEGORIES: {
             return state.concat(action.payload);
         }
 

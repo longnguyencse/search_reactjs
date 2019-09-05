@@ -36,9 +36,7 @@ export default class CategoryCodeInput extends React.Component<ICategoryCodeInpu
 
     componentWillReceiveProps(newProps: any){
         const loadValue = newProps.loadValue ? newProps.loadValue : null;
-
-        console.log("componentWillReceiveProps-inputCode", newProps, loadValue);
-
+        
         this.setState({
             loadValue
         });
@@ -52,9 +50,6 @@ export default class CategoryCodeInput extends React.Component<ICategoryCodeInpu
         if(this.props.k !== null){
             elementName = elementName + `[${this.props.k}]`;
         }
-
-        console.log("render-bcm", this.state.loadValue)
-
 
         // let loadValue = "";
         // if(this.props.loadValue){

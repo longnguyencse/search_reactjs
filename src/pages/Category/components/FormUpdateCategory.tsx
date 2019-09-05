@@ -40,8 +40,6 @@ class UpdateCategory extends React.Component<IUpdateCategoryProps, IUpdateCatego
             categoryKey: null,
             findCategory: null
         };
-
-        console.log(props)
     }
 
     componentWillReceiveProps(newProps: any){
