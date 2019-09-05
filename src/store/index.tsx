@@ -5,12 +5,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {authReducer} from './auth/reducers';
 import {productReducer} from './product/reducers';
 import {categoryReducer} from './category/reducers';
+import {staticCategoryReducer} from './category/static/reducers';
 
 
 const rootReducers = combineReducers({
     auth: authReducer,
     products: productReducer,
     categories: categoryReducer,
+    staticCategories: staticCategoryReducer
 });
 
 export type AppState = ReturnType<typeof rootReducers>;

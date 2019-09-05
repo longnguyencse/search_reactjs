@@ -90,27 +90,6 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
             categoryKey: categoryKey,
             openModal: true
         })
-        // const localS = new LocalStorage();
-
-        // const {categories} = this.state;
-        // console.log(categories);
-        // let newCategories = categories.filter((category: any) => {
-        //     return category.key !== categoryKey;
-        // });
-
-        // console.log(newCategories);
-
-        // if(!newCategories.length){
-        //     newCategories = null;
-        // }
-
-        // await localS.setValue('categories', newCategories);
-
-        // this.setState({
-        //     categories: newCategories,
-        //     categoryKey: null,
-        //     hideUpdateForm: true,
-        // });
     }
 
     handleDeleteCategory = (categories: any) => {
