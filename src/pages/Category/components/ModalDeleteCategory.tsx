@@ -6,6 +6,11 @@ import {Modal} from 'antd';
 import LocalStorage from '../../../services/LocalStorage';
 
 interface OwnProps {
+    openModal: boolean,
+    categoryKey: number,
+    categories: any,
+    closeModal: (openModal: boolean) => void,
+    deleteCategory: (categories: any) => void
 }
 
 interface StateProps {
@@ -20,6 +25,8 @@ interface IModalDeleteCategoryState {
     ModalText: string,
     visible: boolean,
     confirmLoading: boolean,
+    categoryKey: number | null,
+    categories: any
 }
 
 
@@ -31,35 +38,91 @@ class ModalDeleteCategory extends React.Component<IModalDeleteCategoryProps, IMo
             ModalText: 'Content of the modal',
             visible: false,
             confirmLoading: false,
+            categoryKey: null,
+            categories: null
         };
 
         console.log(props)
     }
 
-    showModal = () => {
+    componentWillReceiveProps(newProps: any){
+        console.log("componentWillReceiveProps-modal", newProps)
+        const categories = newProps.categories ? newProps.categories : [];
+        const categoryKey = newProps.categoryKey ? newProps.categoryKey : null;
+        const openModal = newProps.openModal;
+
+        if(!newProps.categoryKey){
+            return;
+        }
+
+        const findCategory = categories.find((category: any) => {
+            return category.key === categoryKey;
+        })
+
+        let modalText = "";
+        if(findCategory){
+            modalText = `Bạn có chắc muốn xóa Category: ${findCategory.name}`;
+        }
+
         this.setState({
-          visible: true,
+            ModalText: modalText,
+            visible: openModal,
+            categories,
+            categoryKey
         });
-      };
+
+        
+    }
+
+    // showModal = () => {
+    //     this.setState({
+    //       visible: true,
+    //     });
+    //   };
     
     handleOk = () => {
         this.setState({
             ModalText: 'The modal will be closed after two seconds',
             confirmLoading: true,
         });
-        setTimeout(() => {
-            this.setState({
-            visible: false,
-            confirmLoading: false,
+        setTimeout(async () => {
+            // this.setState({
+            // visible: false,
+            // confirmLoading: false,
+            // });
+
+            const localS = new LocalStorage();
+
+            const {categories, categoryKey} = this.state;
+
+            let newCategories = categories.filter((category: any) => {
+                return category.key !== categoryKey;
             });
-        }, 2000);
+
+            console.log(categoryKey);
+
+            if(!newCategories.length){
+                newCategories = null;
+            }
+
+            await localS.setValue('categories', newCategories);
+
+            this.props.deleteCategory(newCategories);
+
+            this.setState({
+                visible: false,
+                confirmLoading: false,
+            });
+
+        }, 500);
     };
 
     handleCancel = () => {
         console.log('Clicked cancel button');
-        this.setState({
-            visible: false,
-        });
+        this.props.closeModal(true);
+        // this.setState({
+        //     visible: false,
+        // });
     };
 
     render() {
@@ -67,7 +130,7 @@ class ModalDeleteCategory extends React.Component<IModalDeleteCategoryProps, IMo
         
         return (
             <Modal
-                title="Title"
+                title="Xóa Category"
                 visible={visible}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}

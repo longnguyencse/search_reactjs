@@ -27,6 +27,7 @@ type IUpdateCategoryProps = OwnProps & StateProps & DispatchProps;
 
 interface IUpdateCategoryState {
     categories: any,
+    categoryKey: number | null,
     findCategory: any,
 }
 
@@ -36,6 +37,7 @@ class UpdateCategory extends React.Component<IUpdateCategoryProps, IUpdateCatego
 
         this.state = {
             categories: null,
+            categoryKey: null,
             findCategory: null
         };
 
@@ -43,18 +45,20 @@ class UpdateCategory extends React.Component<IUpdateCategoryProps, IUpdateCatego
     }
 
     componentWillReceiveProps(newProps: any){
-        const categories = newProps.categories ? newProps.categories : null;
+        const categories = newProps.categories ? newProps.categories : [];
+        const categoryKey = newProps.categoryKey ? newProps.categoryKey : null;
 
-        if(!newProps.categoryKey){
+        if(!categoryKey){
             return;
         }
 
         const findCategory = categories.find((category: any) => {
             return category.key === newProps.categoryKey;
-        })
+        });
 
         this.setState({
             categories,
+            categoryKey,
             findCategory
         });
     }

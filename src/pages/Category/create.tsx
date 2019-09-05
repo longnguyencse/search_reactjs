@@ -4,6 +4,7 @@ import {Button, Table, Modal} from 'antd';
 
 import FormCreateCategory from './components/FormCreateCategory';
 import FormUpdateCategory from './components/FormUpdateCategory';
+import ModalDeleteCategory from './components/ModalDeleteCategory';
 
 import {Category} from '../../store/category/types';
 import {createMultiCategory} from '../../store/category/actions';
@@ -32,6 +33,7 @@ interface ICreateCategoryState {
     categories: any,
     categoryKey: any,
     hideUpdateForm: boolean,
+    openModal: boolean,
 }
 
 class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCategoryState> {
@@ -42,6 +44,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
             categories: null,
             categoryKey: null,
             hideUpdateForm: true,
+            openModal: false,
         };
     }
 
@@ -83,7 +86,10 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
     } 
 
     handleClickDelete = async (categoryKey: any) => {
-        this.showModal();
+        this.setState({
+            categoryKey: categoryKey,
+            openModal: true
+        })
         // const localS = new LocalStorage();
 
         // const {categories} = this.state;
@@ -105,6 +111,13 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         //     categoryKey: null,
         //     hideUpdateForm: true,
         // });
+    }
+
+    handleDeleteCategory = (categories: any) => {
+        this.setState({
+            openModal: false,
+            categories
+        });
     }
 
     render() {
@@ -164,6 +177,17 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                         hideUpdateForm = {this.state.hideUpdateForm}
                     />
 
+                    <ModalDeleteCategory 
+                        openModal = { this.state.openModal }
+
+                        categoryKey = { this.state.categoryKey }
+
+                        categories = { this.state.categories }
+
+                        closeModal = {(openModal: boolean) => {this.setState({openModal: !openModal})}}
+
+                        deleteCategory = {(categories: any) => {this.handleDeleteCategory(categories)}}
+                    />
                    
                     { categories ?
                         <Table pagination={false} columns={columns} dataSource={categories} rowKey="key"/>
