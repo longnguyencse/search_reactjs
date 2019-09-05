@@ -1,8 +1,8 @@
-import {Action, AnyAction} from 'redux';
+import {Action} from 'redux';
 // import {AuthState, CHECK_AUTHENICATE, LOGIN, LOGOUT, AuthenActionType} from './types';
-import {LIST, GET, CREATE_MULTI, UPDATE, DELETE} from '../constants';
-import { Category, CategoryActionType } from './types';
-import {ThunkAction, ThunkDispatch} from 'redux-thunk';
+import {CREATE_MULTI, DELETE, GET, LIST, UPDATE} from '../constants';
+import {Category, CategoryActionType} from './types';
+import {ThunkAction} from 'redux-thunk';
 
 import LocalStorage from '../../services/LocalStorage';
 
@@ -31,14 +31,16 @@ export const _createMultiCategory = (categories: Category[]): CategoryActionType
 export const _updateCategory = (category: Category): CategoryActionType => {
     return {
         type: UPDATE,
-        payload: category
+        payload: category,
+        key: 1,
     }
 }
 
 export const _deleteCategory = (category: Category): CategoryActionType => {
     return {
         type: DELETE,
-        payload: category
+        payload: category,
+        key: 1
     }
 }
 
