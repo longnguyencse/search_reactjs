@@ -6,10 +6,10 @@ import {Modal} from 'antd';
 import LocalStorage from '../../../services/LocalStorage';
 
 interface OwnProps {
-    openModal: boolean,
+    openDeleteModal: boolean,
     categoryKey: number,
     categories: any,
-    closeModal: (openModal: boolean) => void,
+    closeModal: (openDeleteModal: boolean) => void,
     deleteCategory: (categories: any) => void
 }
 
@@ -47,7 +47,7 @@ class ModalDeleteCategory extends React.Component<IModalDeleteCategoryProps, IMo
     componentWillReceiveProps(newProps: any){
         const categories = newProps.categories ? newProps.categories : [];
         const categoryKey = newProps.categoryKey ? newProps.categoryKey : null;
-        const openModal = newProps.openModal;
+        const openDeleteModal = newProps.openDeleteModal;
 
         if(!newProps.categoryKey){
             return;
@@ -64,7 +64,7 @@ class ModalDeleteCategory extends React.Component<IModalDeleteCategoryProps, IMo
 
         this.setState({
             ModalText: modalText,
-            visible: openModal,
+            visible: openDeleteModal,
             categories,
             categoryKey
         });

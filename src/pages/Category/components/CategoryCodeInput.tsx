@@ -34,13 +34,13 @@ export default class CategoryCodeInput extends React.Component<ICategoryCodeInpu
         }
     }
 
-    componentWillReceiveProps(newProps: any){
-        const loadValue = newProps.loadValue ? newProps.loadValue : null;
+    // componentWillReceiveProps(newProps: any){
+    //     const loadValue = newProps.loadValue ? newProps.loadValue : null;
         
-        this.setState({
-            loadValue
-        });
-    }
+    //     this.setState({
+    //         loadValue
+    //     });
+    // }
 
     render(){
         const { form } = this.props;
@@ -51,15 +51,15 @@ export default class CategoryCodeInput extends React.Component<ICategoryCodeInpu
             elementName = elementName + `[${this.props.k}]`;
         }
 
-        // let loadValue = "";
-        // if(this.props.loadValue){
-        //     loadValue = this.props.loadValue;
-        // }
+        let loadValue = "";
+        if(this.props.loadValue){
+            loadValue = this.props.loadValue;
+        }
         
         return (
             <Form.Item label={`Category Code`}>
                 {getFieldDecorator(elementName, {
-                    initialValue: this.state.loadValue,
+                    initialValue: loadValue,
                     rules: [
                         {
                             required: true,
