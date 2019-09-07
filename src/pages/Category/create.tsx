@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Table } from 'antd';
+import { Button, Table  } from 'antd';
 
 import FormCreateCategory from './components/FormCreateCategory';
 import ModalUpdateCategory from './components/ModalUpdateCategory';
@@ -26,17 +26,17 @@ interface DispatchProps {
     list: typeof list,
 }
 
-type ICreateProps = OwnProps & StateProps & DispatchProps;
+type IProps = OwnProps & StateProps & DispatchProps;
 
-interface ICreateState {
+interface IState {
     categories: any,
     categoryKey: any,
     openRemoveModal: boolean,
     openUpdateModal: boolean,
 }
 
-class Create extends React.Component<ICreateProps, ICreateState> {
-    constructor(props: ICreateProps) {
+class Create extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {

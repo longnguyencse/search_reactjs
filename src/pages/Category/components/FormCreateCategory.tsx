@@ -30,6 +30,8 @@ type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 interface IState {
     categories: any,
+    loading: boolean,
+    disabledButton: boolean,
 }
 
 let categoryNumber: number = 1;
@@ -40,6 +42,8 @@ class CreateCategory extends React.Component<IProps, IState> {
 
         this.state = {
             categories: [],
+            loading: false,
+            disabledButton: false
         };
     }
 
@@ -85,11 +89,14 @@ class CreateCategory extends React.Component<IProps, IState> {
 
     handleReset = () => {
         this.props.form.resetFields();
+        this.setState({
+            loading: false,
+            disabledButton: false
+        });
     }
 
     handleSubmit = async (e: any) => {
         e.preventDefault();
-
         const { categories } = this.state;
 
         let maxKey = 0;
@@ -103,21 +110,31 @@ class CreateCategory extends React.Component<IProps, IState> {
             if (err) {
                 return;
             }
-            const { keys, categoryName, categoryCode, categoryNote } = values;
-            const newCategories = keys.map((value: any, index: any) => {
-                maxKey++;
-                return {
-                    key: maxKey,
-                    code: categoryCode[value],
-                    name: categoryName[value],
-                    note: categoryNote[value],
-                };
+            this.setState({
+                loading: true,
+                disabledButton: true
             });
 
-            this.props.createMulti(newCategories);
+            setTimeout(() => {
+                const { keys, categoryName, categoryCode, categoryNote } = values;
+                const newCategories = keys.map((value: any, index: any) => {
+                    maxKey++;
+                    return {
+                        key: maxKey,
+                        code: categoryCode[value],
+                        name: categoryName[value],
+                        note: categoryNote[value],
+                    };
+                });
+    
+                this.props.createMulti(newCategories);
+    
+                this.handleReset();
 
-            this.handleReset();
+            }, 1000);
         });
+        
+        
     };
 
     handleAddMore = () => {
@@ -153,7 +170,7 @@ class CreateCategory extends React.Component<IProps, IState> {
         const { getFieldDecorator, getFieldValue } = this.props.form;
         getFieldDecorator('keys', { initialValue: [0] });
         const keys = getFieldValue('keys');
-        const { categories } = this.state;
+        const { loading, disabledButton } = this.state;
         return (
             <div id="create-category">
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
@@ -161,13 +178,13 @@ class CreateCategory extends React.Component<IProps, IState> {
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" loading={loading}>
                                 Submit
                             </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
+                            <Button style={{ marginLeft: 8 }} onClick={this.handleReset} disabled={disabledButton}>
                                 Reset
                             </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleAddMore}>
+                            <Button style={{ marginLeft: 8 }} onClick={this.handleAddMore} disabled={disabledButton}>
                                 Add More
                             </Button>
                         </Col>
