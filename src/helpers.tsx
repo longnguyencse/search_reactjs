@@ -13,3 +13,17 @@ export function filterArrayObjectByAttribute(array: any, attribute: any, compare
         return arr[attribute] !== compareValue;
     });
 }
+
+export function returnDefaultString(value: any){
+    if(!value){
+        return "";
+    }
+    return value;
+}
+
+export function returnDefaultArary(value: any){
+    if(value){
+        return [];
+    }
+    return value;
+}

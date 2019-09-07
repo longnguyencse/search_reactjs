@@ -16,8 +16,6 @@ import { ThunkDispatch } from 'redux-thunk';
 import { FormComponentProps } from 'antd/es/form';
 
 interface OwnProps {
-    // setCategories: (categories:  any) => void,
-    // hideCreateForm?: boolean
 }
 
 interface StateProps {

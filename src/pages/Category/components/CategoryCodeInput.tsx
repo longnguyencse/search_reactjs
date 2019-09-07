@@ -11,11 +11,9 @@ interface OwnProps {
 }
 
 interface DispatchProps {
-
 }
 
 interface StateProps {
-
 }
 
 type ICategoryCodeInputProps = OwnProps & DispatchProps & StateProps;
@@ -33,14 +31,6 @@ export default class CategoryCodeInput extends React.Component<ICategoryCodeInpu
             loadValue: ""
         }
     }
-
-    // componentWillReceiveProps(newProps: any){
-    //     const loadValue = newProps.loadValue ? newProps.loadValue : null;
-        
-    //     this.setState({
-    //         loadValue
-    //     });
-    // }
 
     render(){
         const { form } = this.props;
