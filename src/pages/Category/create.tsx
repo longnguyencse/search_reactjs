@@ -6,18 +6,13 @@ import FormCreateCategory from './components/FormCreateCategory';
 import ModalUpdateCategory from './components/ModalUpdateCategory';
 import ModalRemoveCategory from './components/ModalRemoveCategory';
 
-// import {Category} from '../../store/category/types';
-// import {listCategory} from '../../store/category/actions';
-
 import { Category } from '../../store/category/static/types';
-import { list as listCategory } from '../../store/category/static/actions';
+import { list } from '../../store/category/static/actions';
 
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 
 import { ThunkDispatch } from 'redux-thunk';
-
-import LocalStorage from '../../services/LocalStorage';
 
 interface OwnProps {
     form?: any
@@ -28,20 +23,20 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    listCategory: typeof listCategory,
+    list: typeof list,
 }
 
-type ICreateCategoryProps = OwnProps & StateProps & DispatchProps;
+type ICreateProps = OwnProps & StateProps & DispatchProps;
 
-interface ICreateCategoryState {
+interface ICreateState {
     categories: any,
     categoryKey: any,
     openRemoveModal: boolean,
     openUpdateModal: boolean,
 }
 
-class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCategoryState> {
-    constructor(props: ICreateCategoryProps) {
+class Create extends React.Component<ICreateProps, ICreateState> {
+    constructor(props: ICreateProps) {
         super(props);
 
         this.state = {
@@ -67,17 +62,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
     }
 
     async componentDidMount() {
-        // const localS = new LocalStorage();
-
-        // const getValue: any  = await localS.getValue('categories');
-
-        // if(!getValue){
-        //     return;
-        // }
-
-        // const categories = getValue.value;
-
-        await this.props.listCategory();
+        await this.props.list();
 
         const categories = this.props.categories;
 
@@ -168,8 +153,6 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                         onCancel={() => {this.setState({openRemoveModal: false})}}
                     />
 
-                    
-
                     {checkExistCategories ?
                         <Table pagination={false} columns={columns} dataSource={categories} rowKey="key" />
                         : null
@@ -180,18 +163,15 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
     }
 }
 
-// const CreateCategoryForm = Form.create({ name: 'create_category_form' })(CreateCategory);
-
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
     categories: state.staticCategories,
-    // categories: state.categories.staticState,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    listCategory: () => dispatch(listCategory()),
+    list: () => dispatch(list()),
 });
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CreateCategory);
+)(Create);
