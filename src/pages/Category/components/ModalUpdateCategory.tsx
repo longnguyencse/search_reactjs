@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Modal, Form, Input } from 'antd';
+import { Modal, Form } from 'antd';
 
 import CategoryCodeInput from './CategoryCodeInput';
 import CategoryNameInput from './CategoryNameInput';
@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import { FormComponentProps } from 'antd/es/form';
+
+import {LOADING_TIMEOUT} from '../../../constants';
 
 
 interface OwnProps {
@@ -119,7 +121,7 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
                 this.closeModal();
             });
 
-        }, 1000);
+        }, LOADING_TIMEOUT);
 
     }
 

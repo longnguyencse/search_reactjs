@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 
 import { ThunkDispatch } from 'redux-thunk';
 
+import {LOADING_TIMEOUT} from '../../../constants';
+
 interface OwnProps {
     categoryKey: number | string,
     visible: boolean,
@@ -88,7 +90,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
             this.closeModal();
 
-        }, 1000);
+        }, LOADING_TIMEOUT);
     };
 
     handleCancel = () => {

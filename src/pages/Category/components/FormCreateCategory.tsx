@@ -15,6 +15,8 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import { FormComponentProps } from 'antd/es/form';
 
+import {LOADING_TIMEOUT} from '../../../constants';
+
 interface OwnProps {
 }
 
@@ -131,7 +133,7 @@ class CreateCategory extends React.Component<IProps, IState> {
     
                 this.handleReset();
 
-            }, 1000);
+            }, LOADING_TIMEOUT);
         });
         
         
