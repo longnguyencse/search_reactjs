@@ -24,7 +24,7 @@ export default class Product extends React.Component<IProductProps, IProductStat
     render() {
         return (
             <div id="category">
-                {/* <Route exact path="/products" component={List}/> */}
+                <Route exact path="/categories" component={List}/>
                 <Route exact path="/categories/create" component={Create} />
             </div>
         );

@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import React from 'react';
 
 interface OwnProps {
 
@@ -14,7 +14,7 @@ interface StateProps {
 
 type ListCategoryProps = OwnProps & DispatchProps & StateProps;
 
-export default class List extends Component<ListCategoryProps> {
+export default class List extends React.Component<ListCategoryProps> {
     constructor(props: ListCategoryProps){
         super(props);
     }

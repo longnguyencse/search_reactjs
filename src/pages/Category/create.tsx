@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Table  } from 'antd';
+import { Button, Table } from 'antd';
 
 import FormCreateCategory from './components/FormCreateCategory';
 import ModalUpdateCategory from './components/ModalUpdateCategory';
@@ -9,10 +9,15 @@ import ModalRemoveCategory from './components/ModalRemoveCategory';
 import { Category } from '../../store/category/static/types';
 import { list } from '../../store/category/static/actions';
 
+import { createMulti as saveAll } from '../../store/category/dynamic/actions';
+
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 
 import { ThunkDispatch } from 'redux-thunk';
+import { Redirect } from 'react-router';
+
+import { LOADING_TIMEOUT } from '../../constants';
 
 interface OwnProps {
     form?: any
@@ -24,6 +29,7 @@ interface StateProps {
 
 interface DispatchProps {
     list: typeof list,
+    saveAll: typeof saveAll
 }
 
 type IProps = OwnProps & StateProps & DispatchProps;
@@ -33,6 +39,8 @@ interface IState {
     categoryKey: any,
     openRemoveModal: boolean,
     openUpdateModal: boolean,
+    redirectToList: boolean,
+    saveAllLoading: boolean
 }
 
 class Create extends React.Component<IProps, IState> {
@@ -44,6 +52,8 @@ class Create extends React.Component<IProps, IState> {
             categoryKey: null,
             openRemoveModal: false,
             openUpdateModal: false,
+            redirectToList: false,
+            saveAllLoading: false
         };
 
         console.warn = function () {
@@ -56,8 +66,9 @@ class Create extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
+        const { categories } = newProps;
         this.setState({
-            categories: newProps.categories
+            categories,
         });
     }
 
@@ -67,7 +78,8 @@ class Create extends React.Component<IProps, IState> {
         const categories = this.props.categories;
 
         this.setState({
-            categories
+            categories,
+            redirectToList: false
         });
     }
 
@@ -99,6 +111,23 @@ class Create extends React.Component<IProps, IState> {
         });
     }
 
+    handleSaveAll = () => {
+        this.setState({
+            saveAllLoading: true
+        });
+        setTimeout(async () => {
+            await this.props.saveAll(this.state.categories);
+            this.setState({
+                categories: [],
+                redirectToList: true,
+                saveAllLoading: false
+            });
+
+        }, LOADING_TIMEOUT);
+
+        console.log("Save all");
+    }
+
     render() {
         const columns = [
             {
@@ -128,35 +157,50 @@ class Create extends React.Component<IProps, IState> {
             },
         ];
 
-        const { categories } = this.state;
+        const { categories, redirectToList, saveAllLoading } = this.state;
 
         const checkExistCategories = categories.length;
+
+        if (redirectToList) {
+            return <Redirect to="/categories" />
+        }
 
         return (
             <div id="create-category">
                 <div className="search-result-categories">
                     <FormCreateCategory />
-                    
+
                     <ModalUpdateCategory
                         categoryKey={this.state.categoryKey}
 
                         visible={this.state.openUpdateModal}
 
-                        onCancel={() => {this.setState({openUpdateModal: false})}}
+                        onCancel={() => { this.setState({ openUpdateModal: false }) }}
                     />
 
-                    <ModalRemoveCategory 
+                    <ModalRemoveCategory
                         categoryKey={this.state.categoryKey}
 
                         visible={this.state.openRemoveModal}
 
-                        onCancel={() => {this.setState({openRemoveModal: false})}}
+                        onCancel={() => { this.setState({ openRemoveModal: false }) }}
                     />
 
                     {checkExistCategories ?
                         <Table pagination={false} columns={columns} dataSource={categories} rowKey="key" />
                         : null
                     }
+
+                    <Button
+                        style={
+                            {
+                                display: !checkExistCategories ? "none" : "block"
+                            }
+                        }
+                        className="confirm-create-all"
+                        type="primary"
+                        loading={saveAllLoading}
+                        onClick={this.handleSaveAll}> Confirm create all categories </Button>
                 </div>
             </div>
         );
@@ -169,6 +213,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     list: () => dispatch(list()),
+    saveAll: (categories: any) => dispatch(saveAll(categories))
 });
 
 export default connect(
