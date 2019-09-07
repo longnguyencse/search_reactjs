@@ -4,9 +4,9 @@ import { Category, ActionType } from './types';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
 import LocalStorage from '../../../services/LocalStorage';
+import { mergeTwoArrayObject, updateArrayObjectByAttribute, filterArrayObjectByAttribute } from '../../../helpers';
 
 // All function use to dispatch
-
 export const _list = (categories: Category[]): ActionType => {
     return {
         type: LIST_STATIC_CATEGORY,
@@ -88,7 +88,7 @@ async function executeCreateMulti(newCategories: Category[]){
     
     const oldCategories = await localS.getArrayValue('categories');
 
-    const mergeCategories = oldCategories.concat(newCategories);
+    const mergeCategories = mergeTwoArrayObject(oldCategories, newCategories);
 
     await localS.setItem('categories', mergeCategories);
 
@@ -100,10 +100,9 @@ async function executeUpdate(categoryKey: number | string, updatedCategory: Cate
 
     const categories = await localS.getArrayValue('categories');
 
-    const foundIndex = categories.findIndex((category: any) => category.key === categoryKey);
-    categories[foundIndex] = updatedCategory;
+    const newCategories = updateArrayObjectByAttribute(categories, "key", categoryKey, updatedCategory);
             
-    await localS.setItem('categories', categories);
+    await localS.setItem('categories', newCategories);
 
     return updatedCategory;
 }
@@ -113,9 +112,7 @@ async function executeRemove(categoryKey: number | string){
 
     const categories = await localS.getArrayValue('categories');
 
-    let newCategories = categories.filter((category: any) => {
-        return category.key !== categoryKey;
-    });
+    let newCategories = filterArrayObjectByAttribute(categories, "key", categoryKey);
 
     if(!newCategories.length){
         newCategories = null;
