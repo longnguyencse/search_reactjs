@@ -6,9 +6,8 @@ import CategoryCodeInput from './CategoryCodeInput';
 import CategoryNameInput from './CategoryNameInput';
 import CategoryNoteTextArea from './CategoryNoteTextArea';
 
-import { Category } from '../../../store/category/types';
-import { Category as StaticCategory } from '../../../store/category/static/types';
-import { createMulti } from '../../../store/category/static/actions';
+import { Category } from '../../../store/category/static/types';
+import { update } from '../../../store/category/static/actions';
 import { AppState } from '../../../store';
 import { connect } from 'react-redux';
 
@@ -21,7 +20,6 @@ interface OwnProps {
     categoryKey: number | string,
     visible: boolean,
     onCancel: () => void,
-    // onCreate?: () => void
 }
 
 interface StateProps {
@@ -29,13 +27,14 @@ interface StateProps {
 }
 
 interface DispatchProps {
-
+    update: typeof update,
 }
 
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 interface IState {
-    findCategory: any
+    findCategory: any,
+    confirmLoading: boolean
 }
 
 class ModalUpdateCategory extends React.Component<IProps, IState> {
@@ -43,12 +42,12 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            findCategory: null
+            findCategory: null,
+            confirmLoading: false
         }
     }
 
     componentWillReceiveProps(newProps: any) {
-        console.log("newProps", newProps);
         const { categories } = this.props;
         const { categoryKey } = newProps;
 
@@ -68,6 +67,9 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
     closeModal = () => {
         this.props.form.resetFields();
         this.props.onCancel();
+        this.setState({
+            confirmLoading: false,
+        });
     }
 
     getFields = () => {
@@ -87,28 +89,43 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <CategoryCodeInput form={form} k={key} loadValue={code}/>
-                <CategoryNameInput form={form} k={key} loadValue={name}/>
-                <CategoryNoteTextArea form={form} k={key} loadValue={note}/>
+                <CategoryCodeInput form={form} k={key} loadValue={code} />
+                <CategoryNameInput form={form} k={key} loadValue={name} />
+                <CategoryNoteTextArea form={form} k={key} loadValue={note} />
             </div>
         );
     }
 
     handleSubmit = () => {
-        const { form } = this.props;
-        form.validateFields((err, values) => {
-            if (err) {
-                return;
-            }
-
-            console.log('Received values of form: ', values);
-            // this.setState({ visible: false });
+        this.setState({
+            confirmLoading: true,
         });
+        setTimeout(() => {
+            const { form } = this.props;
+            form.validateFields(async (err, values) => {
+                if (err) {
+                    return;
+                }
+                const { categoryName, categoryCode, categoryNote } = values;
+                const { categoryKey } = this.props;
+                const category = {
+                    key: categoryKey,
+                    name: categoryName,
+                    code: categoryCode,
+                    note: categoryNote
+                };
+
+                await this.props.update(categoryKey, category);
+                this.closeModal();
+            });
+
+        }, 1000);
+
     }
 
     render() {
-        const { form, visible, onCancel } = this.props;
-        const { getFieldDecorator } = form;
+        const { visible } = this.props;
+        const { confirmLoading } = this.state;
         return (
             <Modal
                 visible={visible}
@@ -116,6 +133,7 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
                 okText="Submit"
                 onCancel={() => this.closeModal()}
                 onOk={() => this.handleSubmit()}
+                confirmLoading={confirmLoading}
             >
                 <Form layout="vertical">
                     {this.getFields()}
@@ -129,10 +147,13 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
     categories: state.staticCategories,
 });
 
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    update: (categoryKey: number | string, category: any) => dispatch(update(categoryKey, category)),
+});
+
 const FormInModal = Form.create<IProps>({ name: 'modal-update' })(ModalUpdateCategory);
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(FormInModal);
-
-// export default Form.create<IProps>({ name: 'modal-update' })(ModalUpdateCategory);

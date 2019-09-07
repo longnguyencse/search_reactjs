@@ -3,9 +3,8 @@ import React from 'react';
 import { Button, Table, Modal } from 'antd';
 
 import FormCreateCategory from './components/FormCreateCategory';
-import FormUpdateCategory from './components/FormUpdateCategory';
-import ModalDeleteCategory from './components/ModalDeleteCategory';
 import ModalUpdateCategory from './components/ModalUpdateCategory';
+import ModalRemoveCategory from './components/ModalRemoveCategory';
 
 // import {Category} from '../../store/category/types';
 // import {listCategory} from '../../store/category/actions';
@@ -37,8 +36,7 @@ type ICreateCategoryProps = OwnProps & StateProps & DispatchProps;
 interface ICreateCategoryState {
     categories: any,
     categoryKey: any,
-    hideUpdateForm: boolean,
-    openDeleteModal: boolean,
+    openRemoveModal: boolean,
     openUpdateModal: boolean,
 }
 
@@ -49,8 +47,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         this.state = {
             categories: [],
             categoryKey: null,
-            hideUpdateForm: true,
-            openDeleteModal: false,
+            openRemoveModal: false,
             openUpdateModal: false,
         };
 
@@ -90,39 +87,30 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
     }
 
     handleClickUpdate = (categoryKey: any) => {
-
         if (categoryKey) {
             this.setState({
                 openUpdateModal: true,
                 categoryKey: categoryKey
             })
-            console.log(this.state)
         }
     }
 
-    handleSaveCategory = (categories: any, hideUpdateForm: boolean) => {
-        if (!categories) {
-            this.setState({ hideUpdateForm });
-        }
-        else {
-            this.setState({
-                categories,
-                hideUpdateForm
-            });
-        }
+    handleCloseModalUpdate = () => {
+        this.setState({
+            openUpdateModal: false,
+        });
     }
 
-    handleClickDelete = async (categoryKey: any) => {
+    handleClickRemove = async (categoryKey: any) => {
         this.setState({
             categoryKey: categoryKey,
-            openDeleteModal: true
+            openRemoveModal: true
         })
     }
 
-    handleDeleteCategory = (categories: any) => {
+    handleCloseModalRemove = () => {
         this.setState({
-            openDeleteModal: false,
-            categories
+            openRemoveModal: false,
         });
     }
 
@@ -148,7 +136,7 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
                         <div>
                             <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
                             -
-                            <Button onClick={() => this.handleClickDelete(row.key)}>Delete - {row.key}</Button>
+                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
                         </div>
                     );
                 },
@@ -162,40 +150,8 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
         return (
             <div id="create-category">
                 <div className="search-result-categories">
-                    <FormCreateCategory
-                    // setCategories = { (categories: any) => {
-                    //     this.setState({categories})
-                    // }}
-
-                    // hideCreateForm={!this.state.hideUpdateForm}
-                    />
-
-                    {/* <FormUpdateCategory 
-                        saveCategory = {(categories: number, hideUpdateForm: boolean) => this.handleSaveCategory(categories, hideUpdateForm)}
-
-                        setHideUpdateForm = {(hideUpdateForm: boolean) => {
-                            this.setState({hideUpdateForm})
-                        }}
-
-                        categories = {this.state.categories}
-
-                        categoryKey = {this.state.categoryKey}
-
-                        hideUpdateForm = {this.state.hideUpdateForm}
-                    /> */}
-
-                    {/* <ModalDeleteCategory 
-                        openDeleteModal = { this.state.openDeleteModal }
-
-                        categoryKey = { this.state.categoryKey }
-
-                        categories = { this.state.categories }
-
-                        closeModal = {(openDeleteModal: boolean) => {this.setState({openDeleteModal: !openDeleteModal})}}
-
-                        deleteCategory = {(categories: any) => {this.handleDeleteCategory(categories)}}
-                    /> */}
-
+                    <FormCreateCategory />
+                    
                     <ModalUpdateCategory
                         categoryKey={this.state.categoryKey}
 
@@ -203,6 +159,16 @@ class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCatego
 
                         onCancel={() => {this.setState({openUpdateModal: false})}}
                     />
+
+                    <ModalRemoveCategory 
+                        categoryKey={this.state.categoryKey}
+
+                        visible={this.state.openRemoveModal}
+
+                        onCancel={() => {this.setState({openRemoveModal: false})}}
+                    />
+
+                    
 
                     {checkExistCategories ?
                         <Table pagination={false} columns={columns} dataSource={categories} rowKey="key" />

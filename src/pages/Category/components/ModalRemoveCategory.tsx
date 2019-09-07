@@ -1,0 +1,127 @@
+import React from 'react';
+
+import { Modal } from 'antd';
+
+
+import { Category } from '../../../store/category/static/types';
+import { remove } from '../../../store/category/static/actions';
+import { AppState } from '../../../store';
+import { connect } from 'react-redux';
+
+import { ThunkDispatch } from 'redux-thunk';
+
+interface OwnProps {
+    categoryKey: number | string,
+    visible: boolean,
+    onCancel: () => void,
+}
+
+interface StateProps {
+    categories: Category[]
+}
+
+interface DispatchProps {
+    remove: typeof remove
+}
+
+type IModalRemoveCategoryProps = OwnProps & StateProps & DispatchProps;
+
+interface IModalRemoveCategoryState {
+    modalText: string,
+    confirmLoading: boolean,
+}
+
+
+class ModalRemoveCategory extends React.Component<IModalRemoveCategoryProps, IModalRemoveCategoryState> {
+    constructor(props: IModalRemoveCategoryProps) {
+        super(props);
+
+        this.state = {
+            modalText: 'Content of the modal',
+            confirmLoading: false,
+        };
+
+    }
+
+    componentWillReceiveProps(newProps: any) {
+        const { categories } = this.props;
+        const { categoryKey } = newProps;
+
+        if (!categoryKey) {
+            return;
+        }
+
+        const findCategory = categories.find((category: any) => {
+            return category.key === categoryKey;
+        });
+
+        let modalText = "";
+        if (findCategory) {
+            modalText = `Do you want remove category with name is : ${findCategory.name}`;
+        }
+
+        this.setState({
+            modalText,
+        });
+
+
+    }
+
+    closeModal = () => {
+        this.props.onCancel();
+
+        this.setState({
+            confirmLoading: false,
+        });
+    }
+
+    handleOk = () => {
+        this.setState({
+            modalText: 'The modal will be closed after one second',
+            confirmLoading: true,
+        });
+        setTimeout(async () => {
+
+            const {categoryKey} = this.props;
+
+            await this.props.remove(categoryKey);
+
+            this.closeModal();
+
+        }, 1000);
+    };
+
+    handleCancel = () => {
+        this.closeModal();
+    };
+
+    render() {
+        const { visible, onCancel } = this.props;
+        const { confirmLoading, modalText } = this.state;
+
+        return (
+            <Modal
+                title="Remove Category"
+                visible={visible}
+                onOk={this.handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={this.handleCancel}
+            >
+                <p>{modalText}</p>
+            </Modal>
+        );
+    }
+}
+
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    categories: state.staticCategories,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    remove: (categoryKey: number | string) => dispatch(remove(categoryKey)),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ModalRemoveCategory);
