@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Table, Modal } from 'antd';
+import { Button, Table } from 'antd';
 
 import FormCreateCategory from './components/FormCreateCategory';
 import ModalUpdateCategory from './components/ModalUpdateCategory';

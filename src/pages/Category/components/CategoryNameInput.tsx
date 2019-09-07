@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { Select, Input, Form } from 'antd';
-
-const { Option } = Select;
+import CustomInput from '../../../components/CustomForm/Input';
 
 interface OwnProps {
     form?: any,
@@ -18,44 +16,56 @@ interface StateProps {
 
 }
 
-type ICategoryNameInputProps = OwnProps & DispatchProps & StateProps;
+type IProps = OwnProps & DispatchProps & StateProps;
 
-interface ICategoryNameInputState {
+interface IState {
     
 }
 
-export default class CategoryNameInput extends React.Component<ICategoryNameInputProps, ICategoryNameInputState> {
+export default class CategoryNameInput extends React.Component<IProps, IState> {
 
-    constructor(props: ICategoryNameInputProps){
+    constructor(props: IProps){
         super(props);
     }
 
     render(){
-        const { form } = this.props;
-        const { getFieldDecorator } = form;
-        
-        let elementName = "categoryName";
-        if(this.props.k !== null){
-            elementName = elementName + `[${this.props.k}]`;
+        const { form, k, loadValue } = this.props;
+
+        let elementId = "categoryName";
+        if(k !== null){
+            elementId = elementId + `[${this.props.k}]`;
         }
 
-        let loadValue = "";
-        if(this.props.loadValue){
-            loadValue = this.props.loadValue;
+        const label = "Category Name";
+
+        const placeholder = "Please enter your category name";
+
+        const rules = [
+            {
+                required: true,
+                message: 'Please enter your category name',
+            },
+        ];
+
+        let initialValue = "";
+        if(loadValue){
+            initialValue = this.props.loadValue;
         }
 
         return (
-            <Form.Item label={`Category Name`}>
-                {getFieldDecorator(elementName, {
-                    initialValue: loadValue,
-                    rules: [
-                        {
-                            required: true,
-                            message: 'Input something!',
-                        },
-                    ],
-                })(<Input placeholder="Please enter your category name" />)}
-            </Form.Item>
+            <CustomInput 
+                form={form}
+
+                elementId={elementId}
+
+                label={label}
+
+                placeholder={placeholder}
+
+                rules = {rules}
+
+                initialValue={initialValue}
+            />
         );
     }
 }

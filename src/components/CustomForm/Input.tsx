@@ -40,13 +40,14 @@ export default class CustomInput extends React.Component<IProps, IState> {
         const loadPlaceholder = returnDefaultString(placeholder);
         const loadInitialValue = returnDefaultString(initialValue);
 
+
         return (
             <Form.Item label={loadLabel}>
-                {getFieldDecorator({ loadElementId }, {
-                    initialValue: loadInitialValue,
-                    rules: { loadRules },
-                })(<Input placeholder={loadPlaceholder} />)}
-            </Form.Item>
+            {getFieldDecorator(loadElementId, {
+                initialValue: loadInitialValue,
+                rules: rules,
+            })(<Input placeholder="Please enter your category name" />)}
+        </Form.Item>
         );
     }
 }

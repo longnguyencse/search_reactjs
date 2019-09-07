@@ -22,7 +22,7 @@ export function returnDefaultString(value: any){
 }
 
 export function returnDefaultArary(value: any){
-    if(value){
+    if(!value){
         return [];
     }
     return value;

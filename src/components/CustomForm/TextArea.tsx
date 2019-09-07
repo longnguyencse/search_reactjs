@@ -12,7 +12,8 @@ interface OwnProps {
     label?: string,
     placeholder?: string,
     rules?: any,
-    initialValue?: string
+    initialValue?: string,
+    rows?: number
 }
 
 interface DispatchProps {
@@ -33,7 +34,7 @@ export default class CustomTextArea extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { form, label, elementId, placeholder, rules, initialValue } = this.props;
+        const { form, label, elementId, placeholder, rules, initialValue, rows } = this.props;
         const { getFieldDecorator } = form;
 
         const loadLabel = returnDefaultString(label);
@@ -41,13 +42,14 @@ export default class CustomTextArea extends React.Component<IProps, IState> {
         const loadRules = returnDefaultArary(rules);
         const loadPlaceholder = returnDefaultString(placeholder);
         const loadInitialValue = returnDefaultString(initialValue);
+        const loadRows = rows ? rows : 1;
 
         return (
             <Form.Item label={loadLabel}>
-                {getFieldDecorator({ loadElementId }, {
+                {getFieldDecorator(loadElementId, {
                     initialValue: loadInitialValue,
-                    rules: { loadRules },
-                })(<TextArea placeholder={loadPlaceholder} />)}
+                    rules: loadRules,
+                })(<TextArea placeholder={loadPlaceholder} rows={loadRows} />)}
             </Form.Item>
         );
     }

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { Select, Input, Form } from 'antd';
+import CustomTextArea from '../../../components/CustomForm/TextArea';
 
-const { Option } = Select;
 
 interface OwnProps {
     form?: any,
@@ -19,44 +18,56 @@ interface StateProps {
 
 }
 
-type ICategoryCodeTextAreaProps = OwnProps & DispatchProps & StateProps;
+type IProps = OwnProps & DispatchProps & StateProps;
 
-interface ICategoryCodeTextAreaState {
+interface IState {
     
 }
 
-export default class CategoryCodeTextArea extends React.Component<ICategoryCodeTextAreaProps, ICategoryCodeTextAreaState> {
+export default class CategoryCodeTextArea extends React.Component<IProps, IState> {
 
-    constructor(props: ICategoryCodeTextAreaProps){
+    constructor(props: IProps){
         super(props);
     }
 
     render(){
-        const { form } = this.props;
-        const { getFieldDecorator } = form;
-        
-        let elementName = "categoryNote";
-        if(this.props.k !== null){
-            elementName = elementName + `[${this.props.k}]`;
+        const { form, k, loadValue } = this.props;
+
+        let elementId = "categoryNote";
+        if(k !== null){
+            elementId = elementId + `[${this.props.k}]`;
         }
 
-        let loadValue = "";
-        if(this.props.loadValue){
-            loadValue = this.props.loadValue;
+        const label = "Category Note";
+
+        const placeholder = "Please enter your category note";
+
+        const rules = [
+            {
+                required: true,
+                message: 'Please enter your category note',
+            },
+        ];
+
+        let initialValue = "";
+        if(loadValue){
+            initialValue = this.props.loadValue;
         }
 
         return (
-            <Form.Item label={`Category Note`}>
-                {getFieldDecorator(elementName, {
-                    initialValue: loadValue,
-                    rules: [
-                        {
-                            required: true,
-                            message: 'Input something!',
-                        },
-                    ],
-                })(<Input.TextArea placeholder="Please enter your category note" />)}
-            </Form.Item>
+            <CustomTextArea 
+                form={form}
+
+                elementId={elementId}
+
+                label={label}
+
+                placeholder={placeholder}
+
+                rules = {rules}
+
+                initialValue={initialValue}
+            />
         );
     }
 }

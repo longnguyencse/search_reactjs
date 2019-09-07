@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { Select, Input, Form } from 'antd';
-
-const { Option } = Select;
+import CustomInput from '../../../components/CustomForm/Input';
 
 interface OwnProps {
     form?: any,
@@ -16,48 +14,55 @@ interface DispatchProps {
 interface StateProps {
 }
 
-type ICategoryCodeInputProps = OwnProps & DispatchProps & StateProps;
+type IProps = OwnProps & DispatchProps & StateProps;
 
-interface ICategoryCodeInputState {
-    loadValue: any
+interface IState {
 }
 
-export default class CategoryCodeInput extends React.Component<ICategoryCodeInputProps, ICategoryCodeInputState> {
+export default class CategoryCodeInput extends React.Component<IProps, IState> {
 
-    constructor(props: ICategoryCodeInputProps){
+    constructor(props: IProps){
         super(props);
-
-        this.state = {
-            loadValue: ""
-        }
     }
 
     render(){
-        const { form } = this.props;
-        const { getFieldDecorator } = form;
+        const { form, k, loadValue } = this.props;
 
-        let elementName = "categoryCode";
-        if(this.props.k !== null){
-            elementName = elementName + `[${this.props.k}]`;
+        let elementId = "categoryCode";
+        if(k !== null){
+            elementId = elementId + `[${this.props.k}]`;
         }
 
-        let loadValue = "";
-        if(this.props.loadValue){
-            loadValue = this.props.loadValue;
+        const label = "Category Code";
+
+        const placeholder = "Please enter your category code";
+
+        const rules = [
+            {
+                required: true,
+                message: 'Please enter your category code',
+            },
+        ];
+
+        let initialValue = "";
+        if(loadValue){
+            initialValue = this.props.loadValue;
         }
-        
+
         return (
-            <Form.Item label={`Category Code`}>
-                {getFieldDecorator(elementName, {
-                    initialValue: loadValue,
-                    rules: [
-                        {
-                            required: true,
-                            message: 'Input something!',
-                        },
-                    ],
-                })(<Input placeholder="Please enter your category code" />)}
-            </Form.Item>
+            <CustomInput 
+                form={form}
+
+                elementId={elementId}
+
+                label={label}
+
+                placeholder={placeholder}
+
+                rules = {rules}
+
+                initialValue={initialValue}
+            />
         );
     }
 }

@@ -26,16 +26,16 @@ interface DispatchProps {
     createMulti: typeof createMulti
 }
 
-type ICreateCategoryProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
+type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
-interface ICreateCategoryState {
+interface IState {
     categories: any,
 }
 
 let categoryNumber: number = 1;
 
-class CreateCategory extends React.Component<ICreateCategoryProps, ICreateCategoryState> {
-    constructor(props: ICreateCategoryProps) {
+class CreateCategory extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {

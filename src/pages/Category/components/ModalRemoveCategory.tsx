@@ -24,16 +24,16 @@ interface DispatchProps {
     remove: typeof remove
 }
 
-type IModalRemoveCategoryProps = OwnProps & StateProps & DispatchProps;
+type IProps = OwnProps & StateProps & DispatchProps;
 
-interface IModalRemoveCategoryState {
+interface IState {
     modalText: string,
     confirmLoading: boolean,
 }
 
 
-class ModalRemoveCategory extends React.Component<IModalRemoveCategoryProps, IModalRemoveCategoryState> {
-    constructor(props: IModalRemoveCategoryProps) {
+class ModalRemoveCategory extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {
