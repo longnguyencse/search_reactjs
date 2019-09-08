@@ -66,6 +66,7 @@ class Create extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
+        console.log(newProps);
         const { categories } = newProps;
         this.setState({
             categories,
@@ -77,10 +78,27 @@ class Create extends React.Component<IProps, IState> {
 
         const categories = this.props.categories;
 
+        console.log("didMount", categories);
+
         this.setState({
             categories,
             redirectToList: false
         });
+    }
+
+    async componentDidUpdate(prevProps: any, prevState: any){
+        if(!prevProps.categogies){
+            return;
+        }
+        if(prevProps.categogies.length !== this.props.categories.length){
+            await this.props.list();
+            const categories = this.props.categories;
+
+            this.setState({
+                categories,
+                redirectToList: false
+            });
+        }
     }
 
     handleClickUpdate = (categoryKey: any) => {

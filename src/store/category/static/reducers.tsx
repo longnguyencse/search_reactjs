@@ -7,10 +7,7 @@ const initialState: Category[] = [];
 export function staticCategoryReducer(state = initialState, action: ActionType) {
     switch (action.type) {
         case LIST_STATIC_CATEGORY:
-            return [
-                ...state,
-                ...action.payload
-            ];
+            return action.payload;
         
         case CREATE_MULTI_STATIC_CATEGORIES: {
             return mergeTwoArrayObject(state, action.payload);
