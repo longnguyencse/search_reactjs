@@ -7,6 +7,7 @@ import {productReducer} from './product/reducers';
 import {categoryReducer} from './category/reducers';
 import {staticCategoryReducer} from './category/static/reducers';
 import {staticGroupReducer} from './group/static/reducers';
+import {staticClassReducer} from './Class/static/reducers';
 
 
 const rootReducers = combineReducers({
@@ -15,6 +16,7 @@ const rootReducers = combineReducers({
     categories: categoryReducer,
     staticCategories: staticCategoryReducer,
     staticGroupReducer: staticGroupReducer,
+    staticClassReducer: staticClassReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducers>;
