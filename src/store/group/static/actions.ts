@@ -45,11 +45,11 @@ export const createMulti = (groups: ProductGroup[]): ThunkAction<void, ProductGr
 async function executeCreateMulti(data: ProductGroup[]) {
     const localS = new LocalStorage();
 
-    const oldCategories = await localS.getArrayValue('groups');
+    const oldData = await localS.getArrayValue('groups');
 
-    const mergeCategories = mergeTwoArrayObject(oldCategories, data);
+    const mergeData = mergeTwoArrayObject(oldData, data);
 
-    await localS.setItem('groups', mergeCategories);
+    await localS.setItem('groups', mergeData);
 
     return data;
 }

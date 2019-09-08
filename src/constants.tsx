@@ -1,1 +1,1 @@
-export const LOADING_TIMEOUT = 1000; // 1s
+export const LOADING_TIMEOUT = 100; // 1s

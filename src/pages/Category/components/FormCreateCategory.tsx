@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { Button, Col, Form, Row } from 'antd';
+import {Button, Col, Form, Row} from 'antd';
 
 import CategoryCodeInput from './CategoryCodeInput';
 import CategoryNameInput from './CategoryNameInput';
 import CategoryNoteTextArea from './CategoryNoteTextArea';
 
-import { Category } from '../../../store/category/static/types';
-import { createMulti } from '../../../store/category/static/actions';
-import { AppState } from '../../../store';
-import { connect } from 'react-redux';
+import {Category} from '../../../store/category/static/types';
+import {createMulti} from '../../../store/category/static/actions';
+import {AppState} from '../../../store';
+import {connect} from 'react-redux';
 
-import { ThunkDispatch } from 'redux-thunk';
+import {ThunkDispatch} from 'redux-thunk';
 
-import { FormComponentProps } from 'antd/es/form';
+import {FormComponentProps} from 'antd/es/form';
 
 import {LOADING_TIMEOUT} from '../../../constants';
 
@@ -50,6 +50,7 @@ class CreateCategory extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
+        console.log('new props', newProps);
         this.setState({
             categories: newProps.categories,
         });

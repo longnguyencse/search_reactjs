@@ -6,7 +6,7 @@ import InputCode from './InputCode';
 import InputName from './InputName';
 import InputNote from './InputNote';
 
-import {_createMulti} from '../../../store/group/static/actions';
+import {createMulti} from '../../../store/group/static/actions';
 import {AppState} from '../../../store';
 import {connect} from 'react-redux';
 
@@ -25,7 +25,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    createMulti: typeof _createMulti
+    createMulti: typeof createMulti
 }
 
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
@@ -50,6 +50,7 @@ class CreateCategory extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
+        console.log('new props', newProps);
         this.setState({
             groups: newProps.groups,
         });
@@ -95,16 +96,16 @@ class CreateCategory extends React.Component<IProps, IState> {
             loading: false,
             disabledButton: false
         });
-    }
+    };
 
     handleSubmit = async (e: any) => {
         e.preventDefault();
         const {groups} = this.state;
-
+        console.log('group : ', groups);
         let maxKey = 0;
         if (groups.length) {
-            maxKey = Math.max.apply(Math, groups.map((category: any, index: any) => {
-                return category.key;
+            maxKey = Math.max.apply(Math, groups.map((group: any, index: any) => {
+                return group.key;
             }));
         }
 
@@ -198,11 +199,11 @@ class CreateCategory extends React.Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    groups: state.staticCategories,
+    groups: state.staticGroupReducer,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    createMulti: (groups: ProductGroup[]) => dispatch(_createMulti(groups)),
+    createMulti: (groups: ProductGroup[]) => dispatch(createMulti(groups)),
 });
 
 const CreateCategoryForm = Form.create({name: 'create_category_form'})(CreateCategory);
