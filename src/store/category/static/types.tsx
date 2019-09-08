@@ -1,4 +1,9 @@
-import {LIST_STATIC_CATEGORY, GET, CREATE_MULTI_STATIC_CATEGORIES, UPDATE_STATIC_CATEGORY, REMOVE_STATIC_CATEGORY} from "../../constants";
+import {
+    LIST_STATIC_CATEGORY, 
+    CREATE_MULTI_STATIC_CATEGORIES, 
+    UPDATE_STATIC_CATEGORY, 
+    REMOVE_STATIC_CATEGORY
+} from "../../../constants/category";
 
 export interface Category {
     key?: number | string,
@@ -10,11 +15,6 @@ export interface Category {
 export interface ListAction {
     type: typeof LIST_STATIC_CATEGORY,
     payload: Category[]
-}
-
-export interface GetAction {
-    type: typeof GET,
-    payload: Category
 }
 
 export interface CreateMultiAction {
@@ -33,4 +33,4 @@ export interface DeleteAction {
     key: number | string,
 }
 
-export type ActionType = ListAction | GetAction | CreateMultiAction | UpdateAction | DeleteAction;
+export type ActionType = ListAction | CreateMultiAction | UpdateAction | DeleteAction;

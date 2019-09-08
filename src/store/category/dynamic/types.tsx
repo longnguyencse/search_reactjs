@@ -3,7 +3,7 @@ import {
     CREATE_MULTI_DYNAMIC_CATEGORIES,
     UPDATE_DYNAMIC_CATEGORY,
     REMOVE_DYNAMIC_CATEGORY
-} from "../../constants";
+} from "../../../constants/category";
 
 export interface Category {
     id?: number | string,

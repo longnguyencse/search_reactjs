@@ -1,4 +1,8 @@
-import {LIST_DYNAMIC_CATEGORY, CREATE_MULTI_DYNAMIC_CATEGORIES, UPDATE_DYNAMIC_CATEGORY, REMOVE_DYNAMIC_CATEGORY} from '../../constants';
+import {
+    LIST_DYNAMIC_CATEGORY,
+    CREATE_MULTI_DYNAMIC_CATEGORIES, 
+    UPDATE_DYNAMIC_CATEGORY, 
+    REMOVE_DYNAMIC_CATEGORY} from '../../../constants/category';
 import { Category, ActionType } from './types';
 import { mergeTwoArrayObject, updateArrayObjectByAttribute, filterArrayObjectByAttribute } from '../../../helpers';
 

@@ -86,21 +86,6 @@ class Create extends React.Component<IProps, IState> {
         });
     }
 
-    async componentDidUpdate(prevProps: any, prevState: any){
-        if(!prevProps.categogies){
-            return;
-        }
-        if(prevProps.categogies.length !== this.props.categories.length){
-            await this.props.list();
-            const categories = this.props.categories;
-
-            this.setState({
-                categories,
-                redirectToList: false
-            });
-        }
-    }
-
     handleClickUpdate = (categoryKey: any) => {
         if (categoryKey) {
             this.setState({

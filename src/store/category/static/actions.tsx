@@ -1,5 +1,9 @@
 import {Action, AnyAction} from 'redux';
-import {LIST_STATIC_CATEGORY, GET, CREATE_MULTI_STATIC_CATEGORIES, UPDATE_STATIC_CATEGORY, REMOVE_STATIC_CATEGORY} from '../../constants';
+import {
+    LIST_STATIC_CATEGORY, 
+    CREATE_MULTI_STATIC_CATEGORIES, 
+    UPDATE_STATIC_CATEGORY, 
+    REMOVE_STATIC_CATEGORY} from '../../../constants/category';
 import { Category, ActionType } from './types';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
@@ -11,13 +15,6 @@ export const _list = (categories: Category[]): ActionType => {
     return {
         type: LIST_STATIC_CATEGORY,
         payload: categories
-    }
-}
-
-export const _get = (category: Category): ActionType => {
-    return {
-        type: GET,
-        payload: category
     }
 }
 
