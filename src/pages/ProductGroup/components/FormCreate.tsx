@@ -2,12 +2,11 @@ import React from 'react';
 
 import {Button, Col, Form, Row} from 'antd';
 
-import CategoryCodeInput from './CategoryCodeInput';
-import CategoryNameInput from './CategoryNameInput';
-import CategoryNoteTextArea from './CategoryNoteTextArea';
+import InputCode from './InputCode';
+import InputName from './InputName';
+import InputNote from './InputNote';
 
-import {Category} from '../../../store/category/static/types';
-import {createMulti} from '../../../store/category/static/actions';
+import {createMulti} from '../../../store/group/static/actions';
 import {AppState} from '../../../store';
 import {connect} from 'react-redux';
 
@@ -16,12 +15,13 @@ import {ThunkDispatch} from 'redux-thunk';
 import {FormComponentProps} from 'antd/es/form';
 
 import {LOADING_TIMEOUT} from '../../../constants';
+import {ProductGroup} from "../../../store/group/static/types";
 
 interface OwnProps {
 }
 
 interface StateProps {
-    categories: Category[]
+    groups: ProductGroup[]
 }
 
 interface DispatchProps {
@@ -31,7 +31,7 @@ interface DispatchProps {
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 interface IState {
-    categories: any,
+    groups: any,
     loading: boolean,
     disabledButton: boolean,
 }
@@ -43,7 +43,7 @@ class CreateCategory extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            categories: [],
+            groups: [],
             loading: false,
             disabledButton: false
         };
@@ -52,12 +52,12 @@ class CreateCategory extends React.Component<IProps, IState> {
     componentWillReceiveProps(newProps: any) {
         console.log('new props', newProps);
         this.setState({
-            categories: newProps.categories,
+            groups: newProps.groups,
         });
     }
 
     getFields(keys: any) {
-        const { form } = this.props;
+        const {form} = this.props;
         let buttonRemove: any = null;
 
         const childrens = keys.map((k: any, value: any) => {
@@ -74,13 +74,13 @@ class CreateCategory extends React.Component<IProps, IState> {
             return (
                 <div key={k}>
                     <Col span={7}>
-                        <CategoryCodeInput form={form} k={k} />
+                        <InputCode form={form} k={k}/>
                     </Col>
                     <Col span={7}>
-                        <CategoryNameInput form={form} k={k} />
+                        <InputName form={form} k={k}/>
                     </Col>
                     <Col span={8}>
-                        <CategoryNoteTextArea form={form} k={k} />
+                        <InputNote form={form} k={k}/>
                     </Col>
                     {buttonRemove}
                 </div>
@@ -96,16 +96,16 @@ class CreateCategory extends React.Component<IProps, IState> {
             loading: false,
             disabledButton: false
         });
-    }
+    };
 
     handleSubmit = async (e: any) => {
         e.preventDefault();
-        const { categories } = this.state;
-
+        const {groups} = this.state;
+        console.log('group : ', groups);
         let maxKey = 0;
-        if (categories.length) {
-            maxKey = Math.max.apply(Math, categories.map((category: any, index: any) => {
-                return category.key;
+        if (groups.length) {
+            maxKey = Math.max.apply(Math, groups.map((group: any, index: any) => {
+                return group.key;
             }));
         }
 
@@ -119,29 +119,29 @@ class CreateCategory extends React.Component<IProps, IState> {
             });
 
             setTimeout(() => {
-                const { keys, categoryName, categoryCode, categoryNote } = values;
-                const newCategories = keys.map((value: any, index: any) => {
+                const {keys, groupName, groupCode, groupNote} = values;
+                const data = keys.map((value: any, index: any) => {
                     maxKey++;
                     return {
                         key: maxKey,
-                        code: categoryCode[value],
-                        name: categoryName[value],
-                        note: categoryNote[value],
+                        code: groupCode[value],
+                        name: groupName[value],
+                        note: groupNote[value],
                     };
                 });
-    
-                this.props.createMulti(newCategories);
-    
+
+                this.props.createMulti(data);
+
                 this.handleReset();
 
             }, LOADING_TIMEOUT);
         });
-        
-        
+
+
     };
 
     handleAddMore = () => {
-        const { form } = this.props;
+        const {form} = this.props;
 
         const keys = form.getFieldValue('keys');
         const nextKeys = keys.concat(categoryNumber++);
@@ -149,10 +149,10 @@ class CreateCategory extends React.Component<IProps, IState> {
         form.setFieldsValue({
             keys: nextKeys,
         });
-    }
+    };
 
     handleRemoveProduct = (i: any) => {
-        const { form } = this.props;
+        const {form} = this.props;
 
         const keys = form.getFieldValue('keys');
 
@@ -167,27 +167,27 @@ class CreateCategory extends React.Component<IProps, IState> {
         });
 
 
-    }
+    };
 
     render() {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
-        getFieldDecorator('keys', { initialValue: [0] });
+        const {getFieldDecorator, getFieldValue} = this.props.form;
+        getFieldDecorator('keys', {initialValue: [0]});
         const keys = getFieldValue('keys');
-        const { loading, disabledButton } = this.state;
+        const {loading, disabledButton} = this.state;
         return (
             <div id="create-category">
-                <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
+                <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit}>
                     <h1>Create Form</h1>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
-                        <Col span={24} style={{ textAlign: 'right' }}>
+                        <Col span={24} style={{textAlign: 'right'}}>
                             <Button type="primary" htmlType="submit" loading={loading}>
                                 Submit
                             </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleReset} disabled={disabledButton}>
+                            <Button style={{marginLeft: 8}} onClick={this.handleReset} disabled={disabledButton}>
                                 Reset
                             </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleAddMore} disabled={disabledButton}>
+                            <Button style={{marginLeft: 8}} onClick={this.handleAddMore} disabled={disabledButton}>
                                 Add More
                             </Button>
                         </Col>
@@ -199,13 +199,13 @@ class CreateCategory extends React.Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    categories: state.staticCategories,
+    groups: state.staticGroupReducer,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    createMulti: (categories: Category[]) => dispatch(createMulti(categories)),
+    createMulti: (groups: ProductGroup[]) => dispatch(createMulti(groups)),
 });
 
-const CreateCategoryForm = Form.create({ name: 'create_category_form' })(CreateCategory);
+const CreateCategoryForm = Form.create({name: 'create_category_form'})(CreateCategory);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCategoryForm);
