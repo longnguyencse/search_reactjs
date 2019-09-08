@@ -15,6 +15,8 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import {DEFAULT_PAGE, DEFAULT_SIZE} from '../../constants';
 
+import ModalUpdateCategory from './components/ModalUpdateCategory';
+
 interface OwnProps {
 
 }
@@ -38,6 +40,8 @@ interface IState {
     currentPage: number,
     categories: Category[],
     selectedRowKeys: any,
+    categoryId: any,
+    openUpdateModal: boolean,
 }
 
 class List extends React.Component<IProps, IState> {
@@ -50,6 +54,8 @@ class List extends React.Component<IProps, IState> {
             currentPage: 0,
             categories: [],
             selectedRowKeys: [],
+            categoryId: null,
+            openUpdateModal: false
         };
     }
 
@@ -76,12 +82,22 @@ class List extends React.Component<IProps, IState> {
 
     onSelectChange = (selectedRowKeys: any) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
-        // this.setState({ selectedRowKeys });
+        this.setState({ selectedRowKeys });
     };
 
     onChangePage = async (page: number) => {
         const newPage = page - 1;
         await this.props.list(newPage);
+    }
+
+    handleClickUpdate = (categoryId: any) => {
+        console.log(categoryId)
+        if (categoryId) {
+            this.setState({
+                openUpdateModal: true,
+                categoryId
+            })
+        }
     }
 
     render() {        
@@ -95,9 +111,21 @@ class List extends React.Component<IProps, IState> {
                 dataIndex: "name",
             },
             {
+                title: "Category Note",
+                dataIndex: "note",
+            },
+            {
                 title: "Action",
                 dataIndex: "action",
-                render: () => <a href="#">Delete</a>,
+                render: (text: any, row: any, index: any) => {
+                    return (
+                        <div>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Update - {row.id}</Button>
+                            -
+                            <Button type="danger" >Delete - {row.id}</Button>
+                        </div>
+                    );
+                },
             },
         ];
 
@@ -125,6 +153,16 @@ class List extends React.Component<IProps, IState> {
                     </div>
 
                 </div>
+
+                <ModalUpdateCategory
+                        categoryKey={this.state.categoryId}
+
+                        visible={this.state.openUpdateModal}
+
+                        onCancel={() => { this.setState({ openUpdateModal: false }) }}
+
+                        isDynamic={true}
+                    />
             </div>
         );
     }

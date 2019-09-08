@@ -8,6 +8,9 @@ import CategoryNoteTextArea from './CategoryNoteTextArea';
 
 import { Category } from '../../../store/category/static/types';
 import { update } from '../../../store/category/static/actions';
+
+import { executeGet, update as updateDynamic } from '../../../store/category/dynamic/actions';
+
 import { AppState } from '../../../store';
 import { connect } from 'react-redux';
 
@@ -17,11 +20,14 @@ import { FormComponentProps } from 'antd/es/form';
 
 import {LOADING_TIMEOUT} from '../../../constants';
 
+import axios from 'axios';
+
 
 interface OwnProps {
     categoryKey: number | string,
     visible: boolean,
     onCancel: () => void,
+    isDynamic?: boolean
 }
 
 interface StateProps {
@@ -30,6 +36,7 @@ interface StateProps {
 
 interface DispatchProps {
     update: typeof update,
+    updateDynamic: typeof updateDynamic,
 }
 
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
@@ -49,17 +56,23 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
         }
     }
 
-    componentWillReceiveProps(newProps: any) {
+    async componentWillReceiveProps(newProps: any) {
         const { categories } = this.props;
-        const { categoryKey } = newProps;
+        const { categoryKey, isDynamic } = newProps;
 
         if (!categoryKey) {
             return;
         }
 
-        const findCategory = categories.find((category: any) => {
-            return category.key === categoryKey;
-        });
+        let findCategory;
+        if(!isDynamic){
+            findCategory = categories.find((category: any) => {
+                return category.key === categoryKey;
+            });
+        }
+        else {
+            findCategory = await executeGet(categoryKey);
+        }
 
         this.setState({
             findCategory
@@ -103,7 +116,7 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
             confirmLoading: true,
         });
         setTimeout(() => {
-            const { form } = this.props;
+            const { form, isDynamic } = this.props;
             form.validateFields(async (err, values) => {
                 if (err) {
                     return;
@@ -117,7 +130,12 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
                     note: categoryNote
                 };
 
-                await this.props.update(categoryKey, category);
+                if(!isDynamic){
+                    await this.props.update(categoryKey, category);
+                }
+                else {
+                    await this.props.updateDynamic(categoryKey, category);
+                }
                 this.closeModal();
             });
 
@@ -151,6 +169,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     update: (categoryKey: number | string, category: any) => dispatch(update(categoryKey, category)),
+    updateDynamic: (categoryKey: number | string, category: any) => dispatch(updateDynamic(categoryKey, category)),
 });
 
 const FormInModal = Form.create<IProps>({ name: 'modal-update' })(ModalUpdateCategory);

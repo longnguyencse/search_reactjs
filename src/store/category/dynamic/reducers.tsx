@@ -36,12 +36,13 @@ export function dynamicCategoryReducer(state = initialState, action: ActionType)
         //     }
         // }
 
-        // case UPDATE_DYNAMIC_CATEGORY: {
-        //     return {
-        //         ...state,
-        //         categories: updateArrayObjectByAttribute(state.categories, 'id', action.id, action.payload)
-        //     }
-        // }
+        case UPDATE_DYNAMIC_CATEGORY: {
+            console.log(action.payload);
+            return {
+                ...state,
+                categories: updateArrayObjectByAttribute(state.categories, 'id', action.id, action.payload)
+            }
+        }
 
         // case REMOVE_DYNAMIC_CATEGORY: {
         //     return {

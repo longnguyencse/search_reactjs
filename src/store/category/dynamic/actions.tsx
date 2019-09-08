@@ -72,6 +72,20 @@ export const createMulti = (categories: Category[]): ThunkAction<void, Category[
     );
 }
 
+export const update = (categoryId: number | string, updatedCategory: Category): ThunkAction<void, Category[], null, Action<string>> => async dispatch => {
+    const newCategory = await executeUpdate(categoryId, updatedCategory);
+    dispatch(
+        _update(categoryId, newCategory)
+    );
+}
+
+export const remove = (categoryId: number | string): ThunkAction<void, Category[], null, Action<string>> => async dispatch => {
+    const newCategoryKey = await executeRemove(categoryId);
+    dispatch(
+        _remove(categoryId)
+    );
+}
+
 // All function to execute logic
 async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE){
     try{
@@ -93,7 +107,6 @@ async function executeList(page: number | null = DEFAULT_PAGE, size: number | nu
 }
 
 async function executeCreateMulti(newCategories: Category[]){
-
     try{
         const localS = new LocalStorage();
 
@@ -110,6 +123,68 @@ async function executeCreateMulti(newCategories: Category[]){
     }
     catch(ex){
         console.error(ex);
+    }
+}
+
+async function executeUpdate(categoryId: number | string, updatedCategory: Category){
+    try{
+        const urlUpdate = API.apiCategory;
+
+        updatedCategory.id = categoryId;
+        
+        const updateData = [
+            updatedCategory
+        ];
+
+        const response: any = await axios.put(urlUpdate, updateData);
+
+        const responseData = response.data.data;
+        
+        return responseData[0];
+    }
+    catch(ex){
+        console.error(ex);
+    }
+}
+
+export async function executeRemove(categoryId: number | string){
+    try{
+        const urlDelete = API.apiCategory;
+
+        const deleteData = [
+            {
+                id: categoryId
+            }
+        ];
+
+        const response: any = await axios.delete(urlDelete, {
+            params: deleteData
+        });
+
+        const responseData = response.data.data;
+
+        if(responseData){
+            return categoryId;
+        }
+        return false;
+    }
+    catch(ex){
+        console.error(ex);
+    }
+}
+
+export async function executeGet(categoryId: number | string){
+    try{
+        const urlGet = API.apiCategory + `/${categoryId}`;
+
+        const response: any = await axios.get(urlGet);
+
+        const responseData: any = response.data.data;
+
+        return responseData;
+    }
+    catch(ex){
+        console.log(ex);
     }
 }
 // All function to execute logic
