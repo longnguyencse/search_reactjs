@@ -1,15 +1,15 @@
 import React from "react";
-import {Icon, Layout, Menu, Button} from 'antd';
+import {Button, Icon, Layout, Menu} from 'antd';
 
 import {Link, Redirect} from 'react-router-dom';
 
 import './styles.scss';
 
 import {AuthState} from '../../store/auth/types';
-import {loginSystem, logoutSystem, checkAuthenticate} from '../../store/auth/actions';
-import { AppState } from '../../store';
-import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk'
+import {checkAuthenticate, logoutSystem} from '../../store/auth/actions';
+import {AppState} from '../../store';
+import {connect} from 'react-redux';
+import {ThunkDispatch} from 'redux-thunk'
 
 const {Sider} = Layout;
 const {SubMenu} = Menu;
@@ -155,13 +155,14 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                         <Menu.Item key="11">
                             <Link to="/user/profile">Thông Tin</Link></Menu.Item>
                         <Menu.Item key="12">
-                            <Link to="/logout">Thoát</Link>
+                            {/*<Link to="/logout">Thoát</Link>*/}
+                            <Button type="danger" onClick={this.handleLogout}>Logout</Button>
                         </Menu.Item>
                     </SubMenu>
 
-                    <Menu.Item key="13">
-                        <Button type="danger" onClick={this.handleLogout}>Logout</Button>
-                    </Menu.Item>
+                    {/*<Menu.Item key="13">*/}
+                    {/*    <Button type="danger" onClick={this.handleLogout}>Logout</Button>*/}
+                    {/*</Menu.Item>*/}
                 </Menu>
                 
 
