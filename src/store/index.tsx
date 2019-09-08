@@ -1,12 +1,13 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import {composeWithDevTools} from "redux-devtools-extension";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import {authReducer} from './auth/reducers';
-import {productReducer} from './product/reducers';
-import {categoryReducer} from './category/reducers';
-import {staticCategoryReducer} from './category/static/reducers';
-import {staticGroupReducer} from './group/static/reducers';
+import { authReducer } from './auth/reducers';
+import { productReducer } from './product/reducers';
+import { categoryReducer } from './category/reducers';
+import { staticCategoryReducer } from './category/static/reducers';
+import { dynamicCategoryReducer } from './category/dynamic/reducers';
+import { staticGroupReducer } from './group/static/reducers';
 import {staticClassReducer} from './Class/static/reducers';
 
 
@@ -15,13 +16,14 @@ const rootReducers = combineReducers({
     products: productReducer,
     categories: categoryReducer,
     staticCategories: staticCategoryReducer,
+    dynamicCategories: dynamicCategoryReducer,
     staticGroupReducer: staticGroupReducer,
     staticClassReducer: staticClassReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducers>;
 
-export default function configureStore(){
+export default function configureStore() {
     const middlewares = [thunkMiddleware];
     const middleWareEnhancer = applyMiddleware(...middlewares);
 

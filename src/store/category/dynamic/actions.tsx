@@ -3,7 +3,11 @@ import {
     LIST_DYNAMIC_CATEGORY, 
     CREATE_MULTI_DYNAMIC_CATEGORIES, 
     UPDATE_DYNAMIC_CATEGORY,
-    REMOVE_DYNAMIC_CATEGORY} from '../../../constants/category';
+    REMOVE_DYNAMIC_CATEGORY,
+} from '../../../constants/category';
+
+import { DEFAULT_PAGE,DEFAULT_SIZE } from '../../../constants';
+
 import { Category, ActionType } from './types';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
@@ -12,11 +16,15 @@ import { mergeTwoArrayObject, updateArrayObjectByAttribute, filterArrayObjectByA
 
 import API from '../../../services/API';
 import axios from 'axios';
+import { number } from 'prop-types';
 
 // All function use to dispatch
-export const _list = (categories: Category[]): ActionType => {
+export const _list = (total: number, totalPage: number, currentPage: number, categories: Category[]): ActionType => {
     return {
         type: LIST_DYNAMIC_CATEGORY,
+        total,
+        totalPage,
+        currentPage,
         payload: categories
     }
 }
@@ -45,6 +53,18 @@ export const _remove = (categoryId: number | string): ActionType => {
 // All function use to dispatch
 
 // All function use Component call
+export const list = (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE): ThunkAction<void, Category[], null, Action<string>> => async dispatch => {
+    const newCategories = await executeList(page, size);
+
+    if(newCategories){
+        const {total, totalPage, currentPage, categories} = newCategories;
+
+        dispatch(
+            _list(total, totalPage, currentPage, categories)
+        );
+    }
+}
+
 export const createMulti = (categories: Category[]): ThunkAction<void, Category[], null, Action<string>> => async dispatch => {
     const newCategories = await executeCreateMulti(categories);
     dispatch(
@@ -53,11 +73,32 @@ export const createMulti = (categories: Category[]): ThunkAction<void, Category[
 }
 
 // All function to execute logic
+async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE){
+    try{
+        const urlGetList = API.apiCategory + `?page=${page}&size=${size}`
+        const response: any = await axios.get(urlGetList);
+
+        const responseData: any = response.data.data;
+
+        return {
+            total: responseData.total,
+            totalPage: responseData.totalPage,
+            currentPage: responseData.page,
+            categories: responseData.data
+        };
+    }
+    catch(ex){
+        console.error(ex);
+    }
+}
+
 async function executeCreateMulti(newCategories: Category[]){
 
     try{
         const localS = new LocalStorage();
-        const response: any = await axios.post(API.apiCategory, newCategories);
+
+        const urlSaveAll = API.apiCategory;
+        const response: any = await axios.post(urlSaveAll, newCategories);
 
         if(response){
             await localS.setItem('categories', null);
