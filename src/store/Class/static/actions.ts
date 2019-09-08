@@ -74,18 +74,18 @@ async function executeUpdate(key: number | string, data: Class) {
 
     const arr = await localS.getArrayValue('classes');
 
-    const buffer = updateArrayObjectByAttribute(arr, "key", key, data);
+    const buffer = updateArrayObjectByAttribute(arr, 'key', key, data);
 
     await localS.setItem('classes', buffer);
 
     return data;
 }
 
-export const _update = (groupKey: number | string, group: Class): ActionType => {
+export const _update = (key: number | string, data: Class): ActionType => {
     return {
         type: UPDATE_STATIC_CLASS,
-        key: groupKey,
-        payload: group,
+        key: key,
+        payload: data,
     }
 };
 
@@ -102,7 +102,7 @@ async function executeRemove(key: number | string) {
 
     const buffer = await localS.getArrayValue('classes');
 
-    let data = filterArrayObjectByAttribute(buffer, "class", key);
+    let data = filterArrayObjectByAttribute(buffer, 'key', key);
 
     if (!data.length) {
         data = null;

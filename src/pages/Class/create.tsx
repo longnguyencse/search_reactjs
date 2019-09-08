@@ -33,7 +33,7 @@ type IProps = OwnProps & StateProps & DispatchProps;
 
 interface IState {
     data: any,
-    key: any,
+    classKey: any,
     openRemoveModal: boolean,
     openUpdateModal: boolean,
     redirectToList: boolean,
@@ -46,7 +46,7 @@ class Create extends React.Component<IProps, IState> {
 
         this.state = {
             data: [],
-            key: null,
+            classKey: null,
             openRemoveModal: false,
             openUpdateModal: false,
             redirectToList: false,
@@ -81,17 +81,18 @@ class Create extends React.Component<IProps, IState> {
     }
 
     handleClickUpdate = (key: any) => {
+        console.log('key ', key);
         if (key) {
             this.setState({
+                classKey: key,
                 openUpdateModal: true,
-                key: key
             })
         }
     };
 
     handleClickRemove = async (key: any) => {
         this.setState({
-            key: key,
+            classKey: key,
             openRemoveModal: true
         })
     };
@@ -135,7 +136,7 @@ class Create extends React.Component<IProps, IState> {
                         <div>
                             <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
                             -
-                            {/*<Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>*/}
+                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
                         </div>
                     );
                 },
@@ -147,16 +148,16 @@ class Create extends React.Component<IProps, IState> {
         const checkExistCategories = data.length;
 
         if (redirectToList) {
-            return <Redirect to="/categories"/>
+            return <Redirect to="/classes"/>
         }
 
         return (
-            <div id="create-category">
+            <div id="create-classes">
                 <div className="search-result-categories">
                     <FormCreate/>
 
                     <ModalUpdate
-                        key={this.state.key}
+                        classKey={this.state.classKey}
 
                         visible={this.state.openUpdateModal}
 
@@ -166,7 +167,7 @@ class Create extends React.Component<IProps, IState> {
                     />
 
                     <ModalRemove
-                        groupKey={this.state.key}
+                        groupKey={this.state.classKey}
 
                         visible={this.state.openRemoveModal}
 
@@ -189,7 +190,7 @@ class Create extends React.Component<IProps, IState> {
                         className="confirm-create-all"
                         type="primary"
                         loading={saveAllLoading}
-                        onClick={this.handleSaveAll}> Confirm create all product group </Button>
+                        onClick={this.handleSaveAll}> Commit </Button>
                 </div>
             </div>
         );

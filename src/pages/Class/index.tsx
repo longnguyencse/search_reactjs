@@ -21,7 +21,7 @@ export default class ProductClass extends React.Component<IProductProps, IProduc
     render() {
         return (
             <div id="product-class">
-                <Route exact path="/class/create" component={Create}/>
+                <Route exact path="/classes/create" component={Create}/>
             </div>
         );
     }

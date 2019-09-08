@@ -19,7 +19,7 @@ import {LOADING_TIMEOUT} from '../../../constants';
 
 
 interface OwnProps {
-    key: number | string,
+    classKey: number | string,
     visible: boolean,
     onCancel: () => void,
 }
@@ -53,13 +53,13 @@ class ModalUpdate extends React.Component<IProps, IState> {
         console.log('data ', newProps);
 
         const {data} = this.props;
-        const {key} = newProps;
-        if (!key) {
+        const {classKey} = newProps;
+        if (!classKey) {
             return;
         }
 
         const find = data.find((rs: any) => {
-            return rs.key === key;
+            return rs.key === classKey;
         });
 
         this.setState({
@@ -110,15 +110,15 @@ class ModalUpdate extends React.Component<IProps, IState> {
                     return;
                 }
                 const {groupName, groupCode, groupNote} = values;
-                const {key} = this.props;
+                const {classKey} = this.props;
                 const data = {
-                    key: key,
+                    key: classKey,
                     name: groupName,
                     code: groupCode,
                     note: groupNote
                 };
 
-                await this.props.update(key, data);
+                await this.props.update(classKey, data);
                 this.closeModal();
             });
 

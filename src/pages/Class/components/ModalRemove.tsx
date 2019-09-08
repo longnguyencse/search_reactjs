@@ -48,7 +48,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
     componentWillReceiveProps(newProps: any) {
         const {data} = this.props;
         const {groupKey: key} = newProps;
-        console.log('groupKey ', key);
+        console.log('groupKey ', key, newProps);
         if (!key) {
             return;
         }
