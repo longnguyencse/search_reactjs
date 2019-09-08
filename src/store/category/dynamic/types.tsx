@@ -14,6 +14,9 @@ export interface Category {
 
 export interface ListAction {
     type: typeof LIST_DYNAMIC_CATEGORY,
+    total: number,
+    totalPage: number,
+    currentPage: number,
     payload: Category[]
 }
 

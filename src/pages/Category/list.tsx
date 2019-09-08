@@ -1,34 +1,77 @@
 import React from 'react';
 
-import { Button, Pagination, Radio, Table } from 'antd';
+import { Button, Pagination, Table } from 'antd';
 
 import {Link} from 'react-router-dom';
+
+
+import {list} from '../../store/category/dynamic/actions';
+import { Category } from '../../store/category/dynamic/types';
+
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
+
+import { ThunkDispatch } from 'redux-thunk';
+
+import {DEFAULT_PAGE, DEFAULT_SIZE} from '../../constants';
 
 interface OwnProps {
 
 }
 
 interface DispatchProps {
-
+    list: typeof list,
 }
 
 interface StateProps {
-
+    total: number,
+    totalPage: number,
+    currentPage: number,
+    categories: Category[],
 }
 
 type IProps = OwnProps & DispatchProps & StateProps;
 
 interface IState {
+    total: number,
+    totalPage: number,
+    currentPage: number,
+    categories: Category[],
     selectedRowKeys: any,
 }
 
-export default class List extends React.Component<IProps, IState> {
+class List extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {
+            total: 0,
+            totalPage: 0,
+            currentPage: 0,
+            categories: [],
             selectedRowKeys: [],
         };
+    }
+
+    componentWillReceiveProps(newProps: any){
+        this.loadList(newProps)
+    }
+
+    async componentDidMount(){
+        await this.props.list();
+        this.loadList(this.props);
+    }
+
+    loadList = async (props: any) => {
+        const {total, totalPage, currentPage, categories} = props;
+
+        console.log(props);
+        this.setState({
+            total,
+            totalPage,
+            currentPage,
+            categories
+        });
     }
 
     onSelectChange = (selectedRowKeys: any) => {
@@ -36,19 +79,20 @@ export default class List extends React.Component<IProps, IState> {
         // this.setState({ selectedRowKeys });
     };
 
-    render() {
+    onChangePage = async (page: number) => {
+        const newPage = page - 1;
+        await this.props.list(newPage);
+    }
+
+    render() {        
         const columns = [
             {
-                title: "Ten san pham",
-                dataIndex: "tenSanPham",
+                title: "Category Code",
+                dataIndex: "code",
             },
             {
-                title: "Ma san pham",
-                dataIndex: "maSanPham",
-            },
-            {
-                title: "Trang Thai",
-                dataIndex: "trangThai",
+                title: "Category Name",
+                dataIndex: "name",
             },
             {
                 title: "Action",
@@ -57,19 +101,7 @@ export default class List extends React.Component<IProps, IState> {
             },
         ];
 
-        let dataRender = [];
-        for (let i = 0; i < 5; i++) {
-            dataRender.push(
-                {
-                    key: i,
-                    tenSanPham: `tenSanPham-${i}`,
-                    maSanPham:  `maSanPham-${i}`,
-                    trangThai: "Cho Duyet"
-                }
-            );
-        }
-
-        const { selectedRowKeys } = this.state;
+        const { selectedRowKeys, categories, total, totalPage, currentPage } = this.state;
 
         const rowSelection = {
             selectedRowKeys,
@@ -86,10 +118,10 @@ export default class List extends React.Component<IProps, IState> {
                         </Button>
                     </div>
                 </div>
-                <Table pagination={false} rowSelection={rowSelection} columns={columns} dataSource={dataRender} rowKey={(record:any) => record.key} />
+                <Table pagination={false} rowSelection={rowSelection} columns={columns} dataSource={categories} rowKey={(record:any) => record.id} />
                 <div className="table-operations">
                     <div className="page-list-footer">
-                        <Pagination className="pagination" defaultCurrent={1} total={500} />
+                        <Pagination className="pagination" onChange={this.onChangePage} defaultCurrent={1} total={total} />
                     </div>
 
                 </div>
@@ -97,3 +129,19 @@ export default class List extends React.Component<IProps, IState> {
         );
     }
 }
+
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    totalPage: state.dynamicCategories.totalPage,
+    currentPage: state.dynamicCategories.currentPage,
+    total: state.dynamicCategories.total,
+    categories: state.dynamicCategories.categories,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    list: (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE) => dispatch(list(page, size)),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(List);
