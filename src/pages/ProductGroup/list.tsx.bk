@@ -3,20 +3,17 @@ import React from 'react';
 import {Route} from 'react-router-dom';
 import Create from './create';
 
-import "./styles.scss";
-import List from "./list";
 
-
-interface IProductProps {
+interface IProps {
 
 }
 
-interface IProductState {
+interface IState {
 
 }
 
-export default class ProductGroup extends React.Component<IProductProps, IProductState> {
-    constructor(props: IProductProps) {
+class List extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
     }
 
@@ -24,8 +21,9 @@ export default class ProductGroup extends React.Component<IProductProps, IProduc
         return (
             <div id="product-group">
                 <Route exact path="/groups/create" component={Create}/>
-                <Route exact path="/groups" component={List}/>
             </div>
         );
     }
 }
+
+export default List;

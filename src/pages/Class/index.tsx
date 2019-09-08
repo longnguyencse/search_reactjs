@@ -3,6 +3,7 @@ import {Route} from 'react-router-dom';
 import Create from './create';
 
 import "./styles.scss";
+import List from "./list";
 
 
 interface IProductProps {
@@ -22,6 +23,7 @@ export default class ProductClass extends React.Component<IProductProps, IProduc
         return (
             <div id="product-class">
                 <Route exact path="/classes/create" component={Create}/>
+                <Route exact path="/classes" component={List}/>
             </div>
         );
     }
