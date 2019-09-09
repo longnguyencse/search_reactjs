@@ -6,7 +6,7 @@ import InputCode from './InputCode';
 import InputName from './InputName';
 import InputNote from './InputNote';
 
-import {createMulti} from '../../../store/Class/static/actions';
+import {createMulti} from '../../../store/class/static/actions';
 import {AppState} from '../../../store';
 import {connect} from 'react-redux';
 
@@ -15,7 +15,7 @@ import {ThunkDispatch} from 'redux-thunk';
 import {FormComponentProps} from 'antd/es/form';
 
 import {LOADING_TIMEOUT} from '../../../constants';
-import {Class} from "../../../store/Class/static/types";
+import {Class} from "../../../store/class/static/types";
 
 interface OwnProps {
 }

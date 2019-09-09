@@ -1,20 +1,12 @@
 import React from 'react';
-
-import { Button, Pagination, Table } from 'antd';
-
+import {Button, Pagination, Table} from 'antd';
 import {Link} from 'react-router-dom';
-
-
 import {list} from '../../store/category/dynamic/actions';
-import { Category } from '../../store/category/dynamic/types';
-
-import { AppState } from '../../store';
-import { connect } from 'react-redux';
-
-import { ThunkDispatch } from 'redux-thunk';
-
+import {Category} from '../../store/category/dynamic/types';
+import {AppState} from '../../store';
+import {connect} from 'react-redux';
+import {ThunkDispatch} from 'redux-thunk';
 import {DEFAULT_PAGE, DEFAULT_SIZE} from '../../constants';
-
 import ModalUpdateCategory from './components/ModalUpdateCategory';
 import ModalRemoveCategory from './components/ModalRemoveCategory';
 

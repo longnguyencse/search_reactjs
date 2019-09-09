@@ -1,14 +1,14 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { composeWithDevTools } from "redux-devtools-extension";
+import {composeWithDevTools} from "redux-devtools-extension";
 
-import { authReducer } from './auth/reducers';
-import { productReducer } from './product/reducers';
-import { staticCategoryReducer } from './category/static/reducers';
-import { dynamicCategoryReducer } from './category/dynamic/reducers';
-import { staticGroupReducer } from './group/static/reducers';
-import {staticClassReducer} from './Class/static/reducers';
-
+import {authReducer} from './auth/reducers';
+import {productReducer} from './product/reducers';
+import {staticCategoryReducer} from './category/static/reducers';
+import {dynamicCategoryReducer} from './category/dynamic/reducers';
+import {staticGroupReducer} from './group/static/reducers';
+import {staticClassReducer} from './class/static/reducers';
+import {dynamicClassReducer} from './class/dynamic/reducers';
 
 const rootReducers = combineReducers({
     auth: authReducer,
@@ -17,6 +17,7 @@ const rootReducers = combineReducers({
     dynamicCategories: dynamicCategoryReducer,
     staticGroupReducer: staticGroupReducer,
     staticClassReducer: staticClassReducer,
+    dynamicClassReducer: dynamicClassReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducers>;

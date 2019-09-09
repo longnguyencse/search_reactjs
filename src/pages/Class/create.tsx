@@ -6,15 +6,17 @@ import FormCreate from './components/FormCreate';
 import ModalUpdate from './components/ModalUpdate';
 import ModalRemove from './components/ModalRemove';
 
-import {Class} from '../../store/Class/static/types';
+import {Class} from '../../store/class/static/types';
 
-import {list} from '../../store/Class/static/actions';
+import {list} from '../../store/class/static/actions';
+import {createMulti as saveAll} from '../../store/class/dynamic/actions';
 
 import {AppState} from '../../store';
 import {connect} from 'react-redux';
 
 import {ThunkDispatch} from 'redux-thunk';
 import {Redirect} from 'react-router';
+import {LOADING_TIMEOUT} from "../../constants";
 
 interface OwnProps {
     form?: any
@@ -26,7 +28,7 @@ interface StateProps {
 
 interface DispatchProps {
     list: typeof list,
-    // saveAll: typeof saveAll
+    saveAll: typeof saveAll
 }
 
 type IProps = OwnProps & StateProps & DispatchProps;
@@ -98,18 +100,18 @@ class Create extends React.Component<IProps, IState> {
     };
 
     handleSaveAll = () => {
-        // this.setState({
-        //     saveAllLoading: true
-        // });
-        // setTimeout(async () => {
-        //     await this.props.saveAll(this.state.groups);
-        //     this.setState({
-        //         groups: [],
-        //         redirectToList: true,
-        //         saveAllLoading: false
-        //     });
-        //
-        // }, LOADING_TIMEOUT);
+        this.setState({
+            saveAllLoading: true
+        });
+        setTimeout(async () => {
+            await this.props.saveAll(this.state.data);
+            this.setState({
+                data: [],
+                redirectToList: true,
+                saveAllLoading: false
+            });
+
+        }, LOADING_TIMEOUT);
 
         console.log("Save all");
     };
@@ -202,8 +204,8 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    list: () => dispatch(list())
-    // saveAll: (groups: any) => dispatch(saveAll(groups))
+    list: () => dispatch(list()),
+    saveAll: (data: any) => dispatch(saveAll(data))
 });
 
 export default connect(

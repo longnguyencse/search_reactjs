@@ -1,23 +1,23 @@
 import React from 'react';
 
-import { Button, Table } from 'antd';
+import {Button, Table} from 'antd';
 
 import FormCreateCategory from './components/FormCreateCategory';
 import ModalUpdateCategory from './components/ModalUpdateCategory';
 import ModalRemoveCategory from './components/ModalRemoveCategory';
 
-import { Category } from '../../store/category/static/types';
-import { list } from '../../store/category/static/actions';
+import {Category} from '../../store/category/static/types';
+import {list} from '../../store/category/static/actions';
 
-import { createMulti as saveAll } from '../../store/category/dynamic/actions';
+import {createMulti as saveAll} from '../../store/category/dynamic/actions';
 
-import { AppState } from '../../store';
-import { connect } from 'react-redux';
+import {AppState} from '../../store';
+import {connect} from 'react-redux';
 
-import { ThunkDispatch } from 'redux-thunk';
-import { Redirect } from 'react-router';
+import {ThunkDispatch} from 'redux-thunk';
+import {Redirect} from 'react-router';
 
-import { LOADING_TIMEOUT } from '../../constants';
+import {LOADING_TIMEOUT} from '../../constants';
 
 interface OwnProps {
     form?: any
@@ -58,7 +58,7 @@ class Create extends React.Component<IProps, IState> {
 
         console.warn = function () {
             return;
-        }
+        };
 
         console.error = function () {
             return;
