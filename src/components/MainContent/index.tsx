@@ -17,6 +17,7 @@ import {connect} from 'react-redux';
 import {Dispatch} from "redux";
 import User from "../../pages/User";
 import ProductGroup from "../../pages/ProductGroup";
+import ProductClass from "../../pages/Class";
 
 const {Content} = Layout;
 
@@ -52,6 +53,7 @@ class MainContent extends React.Component<IMainContentProps, IMainContentState> 
                     <SupplierProduct />
                     <ProductGroup/>
                     <Category />
+                    <ProductClass/>
                 </div>
             </Content>
         );

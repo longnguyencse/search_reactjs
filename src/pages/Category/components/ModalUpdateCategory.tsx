@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Modal, Form } from 'antd';
+import {Form, Modal} from 'antd';
 
 import CategoryCodeInput from './CategoryCodeInput';
 import CategoryNameInput from './CategoryNameInput';
@@ -14,9 +14,9 @@ import { executeGet, update as updateDynamic } from '../../../store/category/dyn
 import { AppState } from '../../../store';
 import { connect } from 'react-redux';
 
-import { ThunkDispatch } from 'redux-thunk';
+import {ThunkDispatch} from 'redux-thunk';
 
-import { FormComponentProps } from 'antd/es/form';
+import {FormComponentProps} from 'antd/es/form';
 
 import {LOADING_TIMEOUT} from '../../../constants';
 
