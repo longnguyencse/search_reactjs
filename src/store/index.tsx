@@ -4,7 +4,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import { authReducer } from './auth/reducers';
 import { productReducer } from './product/reducers';
-import { categoryReducer } from './category/reducers';
 import { staticCategoryReducer } from './category/static/reducers';
 import { dynamicCategoryReducer } from './category/dynamic/reducers';
 import { staticGroupReducer } from './group/static/reducers';
@@ -14,7 +13,6 @@ import {staticClassReducer} from './Class/static/reducers';
 const rootReducers = combineReducers({
     auth: authReducer,
     products: productReducer,
-    categories: categoryReducer,
     staticCategories: staticCategoryReducer,
     dynamicCategories: dynamicCategoryReducer,
     staticGroupReducer: staticGroupReducer,

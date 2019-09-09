@@ -14,6 +14,12 @@ export function filterArrayObjectByAttribute(array: any, attribute: any, compare
     });
 }
 
+export function findElementInArrayObjectByAttribute(array: any, attribute: any, compareValue: any){
+    return array.find((arr: any) => {
+        return arr[attribute] === compareValue;
+    });
+}
+
 export function returnDefaultString(value: any){
     if(!value){
         return "";

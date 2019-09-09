@@ -15,6 +15,8 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import {LOADING_TIMEOUT, DEFAULT_PAGE, DEFAULT_SIZE} from '../../../constants';
 
+import { findElementInArrayObjectByAttribute } from '../../../helpers';
+
 interface OwnProps {
     categoryKey: number | string,
     visible: boolean,
@@ -61,9 +63,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
         let findCategory;
         if(!isDynamic){
-            findCategory = categories.find((category: any) => {
-                return category.key === categoryKey;
-            });
+            findCategory = findElementInArrayObjectByAttribute(categories, 'key', categoryKey);
         }
         else {
             findCategory = await executeGet(categoryKey);
