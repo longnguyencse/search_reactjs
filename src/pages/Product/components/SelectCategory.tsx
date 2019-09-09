@@ -1,49 +1,45 @@
 import React from 'react';
 
-import CustomInput from '../../../components/CustomForm/Input';
+import CustomSelect from '../../../components/CustomForm/Select';
 
 interface OwnProps {
-    form?: any,
+    form: any,
     k?: any
-    loadValue?: any,
+    loadValue?: any
 }
 
 interface DispatchProps {
-
 }
 
 interface StateProps {
-
 }
 
 type IProps = OwnProps & DispatchProps & StateProps;
 
 interface IState {
-    
 }
 
-export default class InputName extends React.Component<IProps, IState> {
-
-    constructor(props: IProps){
+export default class SelectCategory extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
     }
 
     render(){
         const { form, k, loadValue } = this.props;
 
-        let elementId = "productName";
+        let elementId = "productCategory";
         if(k !== null){
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Product Name";
+        const label = "Product Category";
 
-        const placeholder = "Please enter your product name";
+        const placeholder = "Please select your product category";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your product name',
+                message: 'Please select your product category',
             },
         ];
 
@@ -53,7 +49,7 @@ export default class InputName extends React.Component<IProps, IState> {
         }
 
         return (
-            <CustomInput 
+            <CustomSelect 
                 form={form}
 
                 elementId={elementId}
