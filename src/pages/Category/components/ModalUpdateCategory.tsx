@@ -20,8 +20,7 @@ import { FormComponentProps } from 'antd/es/form';
 
 import {LOADING_TIMEOUT} from '../../../constants';
 
-import axios from 'axios';
-
+import { findElementInArrayObjectByAttribute } from '../../../helpers';
 
 interface OwnProps {
     categoryKey: number | string,
@@ -66,9 +65,7 @@ class ModalUpdateCategory extends React.Component<IProps, IState> {
 
         let findCategory;
         if(!isDynamic){
-            findCategory = categories.find((category: any) => {
-                return category.key === categoryKey;
-            });
+            findCategory = findElementInArrayObjectByAttribute(categories, 'key', categoryKey);
         }
         else {
             findCategory = await executeGet(categoryKey);
