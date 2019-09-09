@@ -8,6 +8,8 @@ import { staticCategoryReducer } from './category/static/reducers';
 import { dynamicCategoryReducer } from './category/dynamic/reducers';
 import { staticGroupReducer } from './group/static/reducers';
 import { staticProductReducer } from './product/static/reducers';
+import { staticClassReducer } from './Class/static/reducers';
+
 
 const rootReducers = combineReducers({
     auth: authReducer,
@@ -16,6 +18,7 @@ const rootReducers = combineReducers({
     dynamicCategories: dynamicCategoryReducer,
     staticGroupReducer: staticGroupReducer,
     staticProducts: staticProductReducer,
+    staticClassReducer: staticClassReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducers>;
