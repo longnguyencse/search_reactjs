@@ -5,17 +5,22 @@ import { Modal } from 'antd';
 
 import { Category } from '../../../store/category/static/types';
 import { remove } from '../../../store/category/static/actions';
+
+import {executeGet, executeRemove, list} from '../../../store/category/dynamic/actions';
+
 import { AppState } from '../../../store';
 import { connect } from 'react-redux';
 
 import { ThunkDispatch } from 'redux-thunk';
 
-import {LOADING_TIMEOUT} from '../../../constants';
+import {LOADING_TIMEOUT, DEFAULT_PAGE, DEFAULT_SIZE} from '../../../constants';
 
 interface OwnProps {
     categoryKey: number | string,
     visible: boolean,
     onCancel: () => void,
+    isDynamic?: boolean,
+    currentPage?: number
 }
 
 interface StateProps {
@@ -24,6 +29,7 @@ interface StateProps {
 
 interface DispatchProps {
     remove: typeof remove
+    list: typeof list,
 }
 
 type IProps = OwnProps & StateProps & DispatchProps;
@@ -45,17 +51,23 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
     }
 
-    componentWillReceiveProps(newProps: any) {
+    async componentWillReceiveProps(newProps: any) {
         const { categories } = this.props;
-        const { categoryKey } = newProps;
+        const { categoryKey, isDynamic } = newProps;
 
         if (!categoryKey) {
             return;
         }
 
-        const findCategory = categories.find((category: any) => {
-            return category.key === categoryKey;
-        });
+        let findCategory;
+        if(!isDynamic){
+            findCategory = categories.find((category: any) => {
+                return category.key === categoryKey;
+            });
+        }
+        else {
+            findCategory = await executeGet(categoryKey);
+        }
 
         let modalText = "";
         if (findCategory) {
@@ -84,9 +96,20 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
         });
         setTimeout(async () => {
 
-            const {categoryKey} = this.props;
+            const {categoryKey, isDynamic, currentPage} = this.props;
 
-            await this.props.remove(categoryKey);
+            if(!isDynamic && !currentPage){
+                await this.props.remove(categoryKey);
+            }
+            else {
+                const checkRemove = await executeRemove(categoryKey);
+                if(checkRemove){
+                    await this.props.list(currentPage);
+                }
+                else {
+                    console.error("Loi me gi roi");
+                }
+            }
 
             this.closeModal();
 
@@ -121,6 +144,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     remove: (categoryKey: number | string) => dispatch(remove(categoryKey)),
+    list: (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE) => dispatch(list(page, size)),
 });
 
 export default connect(

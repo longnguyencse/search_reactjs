@@ -158,7 +158,7 @@ export async function executeRemove(categoryId: number | string){
         ];
 
         const response: any = await axios.delete(urlDelete, {
-            params: deleteData
+            data: deleteData
         });
 
         const responseData = response.data.data;
