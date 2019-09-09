@@ -43,20 +43,20 @@ interface DispatchProps {
     listProduct: typeof listProduct,
 }
 
-type IListProps = OwnProps & StateProps & DispatchProps;
+type IProps = OwnProps & StateProps & DispatchProps;
 
-interface IListState {
+interface IState {
     selectedRowKeys: any,
     mode: string
 }
 
 
-class List extends React.Component<IListProps, IListState> {
+class List extends React.Component<IProps, IState> {
     private dataChoDuyet: any[] = new Array();
     private dataDaDuyet: any[] = new Array();
     private dataHuy: any[] = new Array();
     private link: string = "";
-    constructor(props: IListProps) {
+    constructor(props: IProps) {
         super(props);
 
         for (let i = 0; i < 5; i++) {
@@ -139,15 +139,17 @@ class List extends React.Component<IListProps, IListState> {
         return (
             <div id="product-list" className="page-list">
                 <div className="page-list-header">
-                    <Button type="primary" className="btn-add-new">
-                        <Link to="/products/create">Add Product</Link>
-                    </Button>
-                    <h3 className="page-list-title">Danh sach Product</h3>
-                    <Radio.Group className="btn-change-status" onChange={this.selectPOStatus} value={mode}>
-                        <Radio.Button value="choDuyet">Cho Duyet</Radio.Button>
-                        <Radio.Button value="daDuyet">Da Duyet</Radio.Button>
-                        <Radio.Button value="huy">Huy</Radio.Button>
-                    </Radio.Group>
+                    <h1 className="page-list-title">Danh sach Product</h1>
+                    <div className="button-group">
+                        <Button type="primary" className="btn-add-new">
+                            <Link to="/products/create">Add Product</Link>
+                        </Button>
+                        <Radio.Group className="btn-change-status" onChange={this.selectPOStatus} value={mode}>
+                            <Radio.Button value="choDuyet">Cho Duyet</Radio.Button>
+                            <Radio.Button value="daDuyet">Da Duyet</Radio.Button>
+                            <Radio.Button value="huy">Huy</Radio.Button>
+                        </Radio.Group>
+                    </div>
                 </div>
                 <Table pagination={false} rowSelection={rowSelection} columns={columns} dataSource={dataRender} rowKey={record => record.key} />
                 <div className="table-operations">

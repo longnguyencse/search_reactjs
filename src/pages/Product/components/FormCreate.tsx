@@ -2,9 +2,9 @@ import React from 'react';
 
 import {Button, Col, Form, Row} from 'antd';
 
-import CategoryCodeInput from './CategoryCodeInput';
-import CategoryNameInput from './CategoryNameInput';
-import CategoryNoteTextArea from './CategoryNoteTextArea';
+import InputCode from './InputCode';
+import InputName from './InputName';
+import TextAreaNote from './TextAreaNote';
 
 import {Category} from '../../../store/category/static/types';
 import {createMulti} from '../../../store/category/static/actions';
@@ -74,13 +74,13 @@ class CreateCategory extends React.Component<IProps, IState> {
             return (
                 <div key={k}>
                     <Col span={7}>
-                        <CategoryCodeInput form={form} k={k} />
+                        <InputCode form={form} k={k} />
                     </Col>
                     <Col span={7}>
-                        <CategoryNameInput form={form} k={k} />
+                        <InputName form={form} k={k} />
                     </Col>
                     <Col span={8}>
-                        <CategoryNoteTextArea form={form} k={k} />
+                        <TextAreaNote form={form} k={k} />
                     </Col>
                     {buttonRemove}
                 </div>
