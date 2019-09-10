@@ -1,27 +1,28 @@
 import React from 'react';
 
-import {Button, Col, Form, Row} from 'antd';
+import { Button, Col, Form, Row } from 'antd';
 
-import CategoryCodeInput from './CategoryCodeInput';
-import CategoryNameInput from './CategoryNameInput';
-import CategoryNoteTextArea from './CategoryNoteTextArea';
+import InputCode from './InputCode';
+import InputName from './InputName';
+import TextAreaNote from './TextAreaNote';
+import SelectCategory from './SelectCategory';
 
-import {Category} from '../../../store/category/static/types';
-import {createMulti} from '../../../store/category/static/actions';
-import {AppState} from '../../../store';
-import {connect} from 'react-redux';
+import { Product } from '../../../store/product/static/types';
+import { createMulti } from '../../../store/product/static/actions';
+import { AppState } from '../../../store';
+import { connect } from 'react-redux';
 
-import {ThunkDispatch} from 'redux-thunk';
+import { ThunkDispatch } from 'redux-thunk';
 
-import {FormComponentProps} from 'antd/es/form';
+import { FormComponentProps } from 'antd/es/form';
 
-import {LOADING_TIMEOUT} from '../../../constants';
+import { LOADING_TIMEOUT } from '../../../constants';
 
 interface OwnProps {
 }
 
 interface StateProps {
-    categories: Category[]
+    products: Product[]
 }
 
 interface DispatchProps {
@@ -31,19 +32,19 @@ interface DispatchProps {
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 interface IState {
-    categories: any,
+    products: any,
     loading: boolean,
     disabledButton: boolean,
 }
 
-let categoryNumber: number = 1;
+let productNumber: number = 1;
 
-class CreateCategory extends React.Component<IProps, IState> {
+class CreateProduct extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {
-            categories: [],
+            products: [],
             loading: false,
             disabledButton: false
         };
@@ -52,7 +53,7 @@ class CreateCategory extends React.Component<IProps, IState> {
     componentWillReceiveProps(newProps: any) {
         console.log('new props', newProps);
         this.setState({
-            categories: newProps.categories,
+            products: newProps.products,
         });
     }
 
@@ -74,13 +75,16 @@ class CreateCategory extends React.Component<IProps, IState> {
             return (
                 <div key={k}>
                     <Col span={7}>
-                        <CategoryCodeInput form={form} k={k} />
+                        <InputCode form={form} k={k} />
                     </Col>
                     <Col span={7}>
-                        <CategoryNameInput form={form} k={k} />
+                        <InputName form={form} k={k} />
                     </Col>
                     <Col span={8}>
-                        <CategoryNoteTextArea form={form} k={k} />
+                        <TextAreaNote form={form} k={k} />
+                    </Col>
+                    <Col span={7}>
+                        <SelectCategory form={form} k={k}/>
                     </Col>
                     {buttonRemove}
                 </div>
@@ -100,12 +104,12 @@ class CreateCategory extends React.Component<IProps, IState> {
 
     handleSubmit = async (e: any) => {
         e.preventDefault();
-        const { categories } = this.state;
+        const { products } = this.state;
 
         let maxKey = 0;
-        if (categories.length) {
-            maxKey = Math.max.apply(Math, categories.map((category: any, index: any) => {
-                return category.key;
+        if (products.length) {
+            maxKey = Math.max.apply(Math, products.map((product: any, index: any) => {
+                return product.key;
             }));
         }
 
@@ -119,32 +123,32 @@ class CreateCategory extends React.Component<IProps, IState> {
             });
 
             setTimeout(() => {
-                const { keys, categoryName, categoryCode, categoryNote } = values;
+                const { keys, productName, productCode, productNote } = values;
                 const newCategories = keys.map((value: any, index: any) => {
                     maxKey++;
                     return {
                         key: maxKey,
-                        code: categoryCode[value],
-                        name: categoryName[value],
-                        note: categoryNote[value],
+                        code: productCode[value],
+                        name: productName[value],
+                        note: productNote[value],
                     };
                 });
-    
+
                 this.props.createMulti(newCategories);
-    
+
                 this.handleReset();
 
             }, LOADING_TIMEOUT);
         });
-        
-        
+
+
     };
 
     handleAddMore = () => {
         const { form } = this.props;
 
         const keys = form.getFieldValue('keys');
-        const nextKeys = keys.concat(categoryNumber++);
+        const nextKeys = keys.concat(productNumber++);
 
         form.setFieldsValue({
             keys: nextKeys,
@@ -175,7 +179,7 @@ class CreateCategory extends React.Component<IProps, IState> {
         const keys = getFieldValue('keys');
         const { loading, disabledButton } = this.state;
         return (
-            <div id="create-category">
+            <div id="create-product">
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
                     <h1>Create Form</h1>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
@@ -199,13 +203,13 @@ class CreateCategory extends React.Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    categories: state.staticCategories,
+    products: state.staticProducts,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    createMulti: (categories: Category[]) => dispatch(createMulti(categories)),
+    createMulti: (products: Product[]) => dispatch(createMulti(products)),
 });
 
-const CreateCategoryForm = Form.create({ name: 'create_category_form' })(CreateCategory);
+const CreateProductForm = Form.create({ name: 'create_product_form' })(CreateProduct);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCategoryForm);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProductForm);

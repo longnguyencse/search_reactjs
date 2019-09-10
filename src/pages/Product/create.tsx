@@ -1,22 +1,20 @@
 import React from 'react';
 
-import {Button, Col, Form, Row, Table} from 'antd';
+import { Button, Col, Form, Row, Table } from 'antd';
 
-import SupplierSelect from './components/SupplierSelect';
-import ProductNameInput from './components/ProductNameInput';
-import ProductCodeInput from './components/ProductCodeInput';
+import FormCreate from './components/FormCreate';
+import ModalUpdate from './components/ModalUpdate';
+import ModalRemove from './components/ModalRemove';
 
-import {Product} from '../../store/product/types';
-import {createMultiProduct} from '../../store/product/actions';
+import { Product } from '../../store/product/static/types';
+import { list } from '../../store/product/static/actions';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 
-import {Redirect} from 'react-router-dom';
 
 import { ThunkDispatch } from 'redux-thunk';
 
 interface OwnProps {
-    form?: any
 }
 
 interface StateProps {
@@ -24,182 +22,121 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    createMultiProduct: typeof createMultiProduct,
+    list: typeof list,
 }
 
 type ICreateProductProps = OwnProps & StateProps & DispatchProps;
 
 interface ICreateProductState {
-    expand: boolean,
-    productNumber: number,
     products: any,
+    productKey: any,
+    openUpdateModal: boolean,
+    openRemoveModal: boolean
 }
-
-let productNumber:number = 1;
-
-const columns = [
-    {
-        title: "Ten san pham",
-        dataIndex: "name",
-    },
-    {
-        title: "Ma san pham",
-        dataIndex: "code",
-    },
-    {
-        title: "Action",
-        dataIndex: "action",
-        render: (text:any, row:any, index:any) => {
-            return <a href={row.id}>Update</a>;
-        },
-    },
-
-];
 
 class CreateProduct extends React.Component<ICreateProductProps, ICreateProductState> {
     constructor(props: ICreateProductProps) {
         super(props);
 
         this.state = {
-            expand: false,
-            productNumber: 1,
-            products: null
+            products: [],
+            productKey: null,
+            openUpdateModal: false,
+            openRemoveModal: false,
         };
-
-        this.handleReset = this.handleReset.bind(this);
-        this.toggle = this.toggle.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleAddMore = this.handleAddMore.bind(this);
-        this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
     }
 
-    componentWillMount(){
-        const {products} = this.state;
-        if(!products){
-            return;
-        }
-    }
-
-    getFields(keys:any) {
-        // const count = this.state.productNumber;
-        const { form } = this.props;
-        let buttonRemove:any = null;
-
-        const childrens = keys.map((k: any, value: any) => {
-            if(k > 0){
-                buttonRemove = (
-                    <Col span={4}>
-                        <Form.Item label={`Remove`}>
-                            <Button type="danger" onClick={() => this.handleRemoveProduct(k)}>X</Button>
-                        </Form.Item>
-                    </Col>
-                );
-            }
-            return (
-                <div key={k}>
-                    <Col span={10}>
-                        <ProductNameInput form={form} k={k} />
-                    </Col>
-                    <Col span={10}>
-                        <ProductCodeInput form={form} k={k} />
-                    </Col>
-                    {buttonRemove}
-                </div>
-            )
+    componentWillReceiveProps(newProps: any) {
+        console.log(newProps);
+        const { products } = newProps;
+        this.setState({
+            products,
         });
-
-        return childrens;
     }
 
-    handleReset() {
-        this.props.form.resetFields();
+    async componentDidMount() {
+        await this.props.list();
+
+        const products = this.props.products;
+
+        this.setState({
+            products,
+        });
     }
 
-    toggle() {
-        const { expand } = this.state;
-        this.setState({ expand: !expand });
-    }
-
-    handleSubmit = (e: any) => {
-        e.preventDefault();
-        this.props.form.validateFields(async (err: any, values: any) => {
-            if(err){
-                return;
-            }
-            const {keys, supplier, productName, productCode}= values;
-            const products = keys.map((value:any, index:any) => {
-                return {
-                    key: value,
-                    code:  productCode[value], 
-                    name: productName[value],
-                };
-            });
-            await this.props.createMultiProduct(products);
+    handleClickUpdate = (productKey: any) => {
+        if (productKey) {
             this.setState({
-                products: this.props.products
-            });
-            this.handleReset();
-            console.log('Received values of form: ', products);
-            console.log('Received values of props: ', this.props.products);
-
-        });
-    };
-
-    handleAddMore(){
-        const {form} = this.props;
-
-        const keys = form.getFieldValue('keys');
-        const nextKeys = keys.concat(productNumber++);
-
-        form.setFieldsValue({
-            keys: nextKeys,
-        });
-    }
-
-    handleRemoveProduct(i:any){
-        const { form } = this.props;
-
-        const keys = form.getFieldValue('keys');
-
-        // We need at least one product
-        if (keys.length === 1) {
-            return;
+                openUpdateModal: true,
+                productKey
+            })
         }
-
-        // can use data-binding to set
-        form.setFieldsValue({
-            keys: keys.filter((key:any) => key !== i),
-        });
-
-
+    }
+    
+    handleClickRemove = async (productKey: any) => {
+        this.setState({
+            productKey,
+            openRemoveModal: true
+        })
     }
 
     render() {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
-        getFieldDecorator('keys', { initialValue: [0] });
-        const keys = getFieldValue('keys');
-        const {products} = this.state;
+        const columns = [
+            {
+                title: "Ma san pham",
+                dataIndex: "code",
+            },
+            {
+                title: "Ten san pham",
+                dataIndex: "name",
+            },
+
+            {
+                title: "Note",
+                dataIndex: "note",
+            },
+            {
+                title: "Action",
+                dataIndex: "action",
+                render: (text: any, row: any, index: any) => {
+                    return (
+                        <div>
+                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            -
+                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
+                        </div>
+                    );
+                },
+            },
+        
+        ];
+
+        const { products } = this.state;
+        const checkExist = products.length;
+
         return (
             <div id="create-product">
-                <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
-                    <Row gutter={24}>{this.getFields(keys)}</Row>
-                    <Row>
-                        <Col span={24} style={{ textAlign: 'right' }}>
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-                                Reset
-                            </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleAddMore}>
-                                Add More
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
                 <div className="search-result-list">
-                    { products ?
-                        <Table pagination={false} columns={columns} dataSource={products} rowKey="key"/>
+                    <FormCreate />
+
+                    <ModalUpdate
+                        productKey={this.state.productKey}
+
+                        visible={this.state.openUpdateModal}
+
+                        onCancel={() => { this.setState({ openUpdateModal: false }) }}
+                    />
+
+                    <ModalRemove
+                        productKey={this.state.productKey}
+
+                        visible={this.state.openRemoveModal}
+
+                        onCancel={() => { this.setState({ openRemoveModal: false }) }}
+                    />
+
+                    {checkExist ?
+                        <Table pagination={false} columns={columns} dataSource={products} rowKey="key" />
                         : null
                     }
                 </div>
@@ -211,11 +148,11 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 const CreateProductForm = Form.create({ name: 'create_product_form' })(CreateProduct);
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    products: state.products.createMultiProduct,
+    products: state.staticProducts,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    createMultiProduct: (products) => dispatch(createMultiProduct(products)),
+    list: () => dispatch(list()),
 });
 
 export default connect(

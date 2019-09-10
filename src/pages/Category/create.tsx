@@ -20,7 +20,6 @@ import {Redirect} from 'react-router';
 import {LOADING_TIMEOUT} from '../../constants';
 
 interface OwnProps {
-    form?: any
 }
 
 interface StateProps {
@@ -106,12 +105,6 @@ class Create extends React.Component<IProps, IState> {
             categoryKey: categoryKey,
             openRemoveModal: true
         })
-    }
-
-    handleCloseModalRemove = () => {
-        this.setState({
-            openRemoveModal: false,
-        });
     }
 
     handleSaveAll = () => {
