@@ -11,6 +11,8 @@ import {staticProductReducer} from './product/static/reducers';
 import {staticClassReducer} from './class/static/reducers';
 import {dynamicClassReducer} from './class/dynamic/reducers';
 import {dynamicGroupReducer} from './group/dynamic/reducers';
+import {staticSupplierReducer} from './supplier/static/reducers';
+import {dynamicSupplierReducer} from './supplier/dymamic/reducers';
 
 
 const rootReducers = combineReducers({
@@ -23,6 +25,8 @@ const rootReducers = combineReducers({
     staticProducts: staticProductReducer,
     staticClassReducer: staticClassReducer,
     dynamicClassReducer: dynamicClassReducer,
+    staticSupplierReducer: staticSupplierReducer,
+    dynamicSupplierReducer: dynamicSupplierReducer
 });
 
 export type AppState = ReturnType<typeof rootReducers>;

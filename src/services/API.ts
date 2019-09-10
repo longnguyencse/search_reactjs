@@ -6,6 +6,7 @@ export default {
     apiCategory: baseUrl + "/product-category",
 
     apiClass: baseUrl + "/product-class",
-    apiGroup: baseUrl + "/product-group"
+    apiGroup: baseUrl + "/product-group",
+    apiSupplier: baseUrl + "/supplier",
 
 }

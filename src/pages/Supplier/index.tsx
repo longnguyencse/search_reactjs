@@ -4,6 +4,7 @@ import CreateSupplierForm from './create';
 
 import {Route} from 'react-router-dom';
 import ListSupplier from "./list";
+import './styless.scss';
 
 interface IProductProps {
 
