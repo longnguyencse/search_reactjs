@@ -10,6 +10,7 @@ import {staticGroupReducer} from './group/static/reducers';
 import {staticProductReducer} from './product/static/reducers';
 import {staticClassReducer} from './class/static/reducers';
 import {dynamicClassReducer} from './class/dynamic/reducers';
+import {dynamicGroupReducer} from './group/dynamic/reducers';
 
 
 const rootReducers = combineReducers({
@@ -18,6 +19,7 @@ const rootReducers = combineReducers({
     staticCategories: staticCategoryReducer,
     dynamicCategories: dynamicCategoryReducer,
     staticGroupReducer: staticGroupReducer,
+    dynamicGroupReducer: dynamicGroupReducer,
     staticProducts: staticProductReducer,
     staticClassReducer: staticClassReducer,
     dynamicClassReducer: dynamicClassReducer,

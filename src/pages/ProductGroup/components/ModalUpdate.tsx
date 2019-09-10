@@ -16,12 +16,15 @@ import {ThunkDispatch} from 'redux-thunk';
 import {FormComponentProps} from 'antd/es/form';
 
 import {LOADING_TIMEOUT} from '../../../constants';
+import {executeGet, update as updateDynamic} from "../../../store/group/dynamic/actions";
+import {findElementInArrayObjectByAttribute} from "../../../helpers";
 
 
 interface OwnProps {
     groupKey: number | string,
     visible: boolean,
     onCancel: () => void,
+    isDynamic?: boolean
 }
 
 interface StateProps {
@@ -30,6 +33,7 @@ interface StateProps {
 
 interface DispatchProps {
     update: typeof update,
+    updateDynamic: typeof updateDynamic,
 }
 
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
@@ -49,17 +53,23 @@ class ModalUpdate extends React.Component<IProps, IState> {
         }
     }
 
-    componentWillReceiveProps(newProps: any) {
+    async componentWillReceiveProps(newProps: any) {
         const {groups} = this.props;
-        const {groupKey} = newProps;
+        const {groupKey, isDynamic} = newProps;
 
         if (!groupKey) {
             return;
         }
 
-        const find = groups.find((groups: any) => {
-            return groups.key === groupKey;
-        });
+        let find;
+        if (!isDynamic) {
+            find = findElementInArrayObjectByAttribute(groups, 'key', groupKey);
+        } else {
+            find = await executeGet(groupKey);
+        }
+        // groups.find((groups: any) => {
+        //     return groups.key === groupKey;
+        // });
 
         this.setState({
             findGroups: find
@@ -103,7 +113,7 @@ class ModalUpdate extends React.Component<IProps, IState> {
             confirmLoading: true,
         });
         setTimeout(() => {
-            const {form} = this.props;
+            const {form, isDynamic} = this.props;
             form.validateFields(async (err, values) => {
                 if (err) {
                     return;
@@ -116,8 +126,12 @@ class ModalUpdate extends React.Component<IProps, IState> {
                     code: groupCode,
                     note: groupNote
                 };
-
-                await this.props.update(groupKey, category);
+                if (!isDynamic) {
+                    await this.props.update(groupKey, category);
+                } else {
+                    await this.props.updateDynamic(groupKey, category);
+                }
+                // await this.props.update(groupKey, category);
                 this.closeModal();
             });
 
@@ -151,6 +165,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     update: (groupKey: number | string, groups: any) => dispatch(update(groupKey, groups)),
+    updateDynamic: (categoryKey: number | string, category: any) => dispatch(updateDynamic(categoryKey, category))
 });
 
 const FormInModal = Form.create<IProps>({name: 'modal-update'})(ModalUpdate);

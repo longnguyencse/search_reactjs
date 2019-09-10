@@ -15,6 +15,8 @@ import {connect} from 'react-redux';
 
 import {ThunkDispatch} from 'redux-thunk';
 import {Redirect} from 'react-router';
+import {createMulti as saveAll} from '../../store/group/dynamic/actions';
+import {LOADING_TIMEOUT} from "../../constants";
 
 interface OwnProps {
     form?: any
@@ -26,7 +28,7 @@ interface StateProps {
 
 interface DispatchProps {
     list: typeof list,
-    // saveAll: typeof saveAll
+    saveAll: typeof saveAll
 }
 
 type IProps = OwnProps & StateProps & DispatchProps;
@@ -56,9 +58,9 @@ class Create extends React.Component<IProps, IState> {
             return;
         };
 
-        console.error = function () {
-            return;
-        };
+        // console.error = function () {
+        //     return;
+        // };
     }
 
     componentWillReceiveProps(newProps: any) {
@@ -91,12 +93,6 @@ class Create extends React.Component<IProps, IState> {
         }
     };
 
-    handleCloseModalUpdate = () => {
-        this.setState({
-            openUpdateModal: false,
-        });
-    }
-
     handleClickRemove = async (groupKey: any) => {
         this.setState({
             groupKey: groupKey,
@@ -104,28 +100,22 @@ class Create extends React.Component<IProps, IState> {
         })
     };
 
-    handleCloseModalRemove = () => {
-        this.setState({
-            openRemoveModal: false,
-        });
-    }
-
     handleSaveAll = () => {
-        // this.setState({
-        //     saveAllLoading: true
-        // });
-        // setTimeout(async () => {
-        //     await this.props.saveAll(this.state.groups);
-        //     this.setState({
-        //         groups: [],
-        //         redirectToList: true,
-        //         saveAllLoading: false
-        //     });
-        //
-        // }, LOADING_TIMEOUT);
+        this.setState({
+            saveAllLoading: true
+        });
+        setTimeout(async () => {
+            await this.props.saveAll(this.state.groups);
+            this.setState({
+                groups: [],
+                redirectToList: true,
+                saveAllLoading: false
+            });
+
+        }, LOADING_TIMEOUT);
 
         console.log("Save all");
-    }
+    };
 
     render() {
         const columns = [
@@ -161,11 +151,11 @@ class Create extends React.Component<IProps, IState> {
         const checkExistCategories = groups.length;
 
         if (redirectToList) {
-            return <Redirect to="/categories"/>
+            return <Redirect to="/groups"/>
         }
 
         return (
-            <div id="create-category">
+            <div id="create-groups">
                 <div className="search-result-categories">
                     <FormCreate/>
 
@@ -215,8 +205,8 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    list: () => dispatch(list())
-    // saveAll: (groups: any) => dispatch(saveAll(groups))
+    list: () => dispatch(list()),
+    saveAll: (groups: any) => dispatch(saveAll(groups))
 });
 
 export default connect(

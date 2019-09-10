@@ -5,6 +5,7 @@ export default {
     apiLogout: baseUrl + "/oauth2/logout",
     apiCategory: baseUrl + "/product-category",
 
-    apiClass: baseUrl + "/product-class"
+    apiClass: baseUrl + "/product-class",
+    apiGroup: baseUrl + "/product-group"
 
 }
