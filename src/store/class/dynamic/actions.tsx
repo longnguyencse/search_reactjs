@@ -26,7 +26,7 @@ export const list = (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE): 
 };
 
 // All function to execute logic
-async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE) {
+export async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE) {
     try {
         const urlGetList = API.apiClass + `?page=${page}&size=${size}`
         const response: any = await axios.get(urlGetList);

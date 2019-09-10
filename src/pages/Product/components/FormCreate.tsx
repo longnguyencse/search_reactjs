@@ -22,7 +22,9 @@ import { LOADING_TIMEOUT } from '../../../constants';
 import { findElementInArrayObjectByAttribute } from '../../../helpers';
 
 interface OwnProps {
-    categories: any
+    categories: any,
+    groups: any,
+    classes: any
 }
 
 interface StateProps {
@@ -62,7 +64,7 @@ class CreateProduct extends React.Component<IProps, IState> {
     }
 
     getFields(keys: any) {
-        const { form, categories } = this.props;
+        const { form, categories, groups, classes } = this.props;
         let buttonRemove: any = null;
 
         const childrens = keys.map((k: any, value: any) => {
@@ -91,10 +93,10 @@ class CreateProduct extends React.Component<IProps, IState> {
                         <SelectCategory form={form} k={k} values={categories} />
                     </Col>
                     <Col span={7}>
-                        <SelectGroup form={form} k={k} values={categories} />
+                        <SelectGroup form={form} k={k} values={groups} />
                     </Col>
                     <Col span={8}>
-                        <SelectClass form={form} k={k} values={categories} />
+                        <SelectClass form={form} k={k} values={classes} />
                     </Col>
                     {buttonRemove}
                 </div>

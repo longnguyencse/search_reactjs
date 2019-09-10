@@ -30,7 +30,9 @@ interface OwnProps {
     visible: boolean,
     onCancel: () => void,
     isDynamic?: boolean,
-    categories: any
+    categories: any,
+    groups: any,
+    classes: any,
 }
 
 interface StateProps {
@@ -89,7 +91,7 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
     }
 
     getFields = () => {
-        const { form, categories } = this.props;
+        const { form, categories, groups, classes } = this.props;
         const { findProduct } = this.state;
 
         const key = null;
@@ -115,8 +117,8 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
                 <ProductNameInput form={form} k={key} loadValue={name} />
                 <ProductNoteTextArea form={form} k={key} loadValue={note} />
                 <SelectCategory form={form} k={key} values={categories} loadValue={categoryId} />
-                <SelectGroup form={form} k={key} values={categories} loadValue={groupId} />
-                <SelectClass form={form} k={key} values={categories} loadValue={classId} />
+                <SelectGroup form={form} k={key} values={groups} loadValue={groupId} />
+                <SelectClass form={form} k={key} values={classes} loadValue={classId} />
             </div>
         );
     }

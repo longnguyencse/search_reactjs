@@ -12,6 +12,8 @@ import { list } from '../../store/product/static/actions';
 import { createMulti as saveAll } from '../../store/product/dynamic/actions';
 
 import { executeList as getCategories } from '../../store/category/dynamic/actions';
+import { executeList as getGroups } from '../../store/group/dynamic/actions';
+import { executeList as getClasses } from '../../store/class/dynamic/actions';
 
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
@@ -41,6 +43,8 @@ interface ICreateProductState {
     openUpdateModal: boolean,
     openRemoveModal: boolean,
     categories: any,
+    groups: any,
+    classes: any,
     redirectToList: boolean,
     saveAllLoading: boolean
 }
@@ -55,6 +59,8 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             openUpdateModal: false,
             openRemoveModal: false,
             categories: [],
+            groups: [],
+            classes: [],
             redirectToList: false,
             saveAllLoading: false
         };
@@ -73,11 +79,17 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
         const products = this.props.products;
 
-        const response: any = await getCategories(0, 10000);
-        const categories = response && response.categories ? response.categories : [];
+        const responseCategory: any = await getCategories(0, 10000);
+        const responseGroup: any = await getGroups(0, 1000);
+        const responseClass: any = await getClasses(0, 1000);
+        const categories = responseCategory && responseCategory.categories ? responseCategory.categories : [];
+        const groups = responseGroup && responseGroup.categories ? responseGroup.categories : [];
+        const classes = responseClass && responseClass.categories ? responseClass.categories : [];
         this.setState({
             products,
-            categories
+            categories,
+            groups,
+            classes
         });
     }
 
@@ -169,6 +181,10 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                 <div className="search-result-list">
                     <FormCreate 
                         categories={this.state.categories}
+
+                        groups={this.state.groups}
+
+                        classes={this.state.classes}
                     />
 
                     <ModalUpdate
@@ -179,6 +195,10 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                         onCancel={() => { this.setState({ openUpdateModal: false }) }}
 
                         categories={this.state.categories}
+
+                        groups={this.state.groups}
+
+                        classes={this.state.classes}
                     />
 
                     <ModalRemove
