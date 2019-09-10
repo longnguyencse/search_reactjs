@@ -3,19 +3,23 @@ import React from 'react';
 import {Modal} from 'antd';
 
 
-import {Class} from '../../../store/Class/static/types';
-import {remove} from '../../../store/Class/static/actions';
+import {Class} from '../../../store/class/static/types';
+import {remove} from '../../../store/class/static/actions';
 import {AppState} from '../../../store';
 import {connect} from 'react-redux';
 
 import {ThunkDispatch} from 'redux-thunk';
 
-import {LOADING_TIMEOUT} from '../../../constants';
+import {DEFAULT_PAGE, DEFAULT_SIZE, LOADING_TIMEOUT} from '../../../constants';
+import {findElementInArrayObjectByAttribute} from "../../../helpers";
+import {executeGet, executeRemove, list} from "../../../store/class/dynamic/actions";
 
 interface OwnProps {
     groupKey: number | string,
     visible: boolean,
     onCancel: () => void,
+    isDynamic?: boolean,
+    currentPage?: number
 }
 
 interface StateProps {
@@ -23,7 +27,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    remove: typeof remove
+    remove: typeof remove,
+    list: typeof list,
 }
 
 type IProps = OwnProps & StateProps & DispatchProps;
@@ -45,17 +50,21 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
     }
 
-    componentWillReceiveProps(newProps: any) {
+    async componentWillReceiveProps(newProps: any) {
         const {data} = this.props;
-        const {groupKey: key} = newProps;
+        const {groupKey: key, isDynamic} = newProps;
         console.log('groupKey ', key, newProps);
         if (!key) {
             return;
         }
 
-        const find = data.find((datas: any) => {
-            return datas.key === key;
-        });
+        let find;
+        if (!isDynamic) {
+            find = findElementInArrayObjectByAttribute(data, 'key', key);
+        } else {
+            find = await executeGet(key);
+        }
+
 
         let modalText = "";
         if (find) {
@@ -84,9 +93,18 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
         });
         setTimeout(async () => {
 
-            const {groupKey} = this.props;
+            const {groupKey, isDynamic, currentPage} = this.props;
 
-            await this.props.remove(groupKey);
+            if (!isDynamic && !currentPage) {
+                await this.props.remove(groupKey);
+            } else {
+                const checkRemove = await executeRemove(groupKey);
+                if (checkRemove) {
+                    await this.props.list(currentPage);
+                } else {
+                    console.error("Loi me gi roi");
+                }
+            }
 
             this.closeModal();
 
@@ -121,6 +139,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     remove: (key) => dispatch(remove(key)),
+    list: (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE) => dispatch(list(page, size)),
 });
 
 export default connect(

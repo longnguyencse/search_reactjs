@@ -6,8 +6,8 @@ import InputCode from './InputCode';
 import InputName from './InputName';
 import InputNote from './InputNote';
 
-import {Class} from '../../../store/Class/static/types';
-import {update} from '../../../store/Class/static/actions';
+import {Class} from '../../../store/class/static/types';
+import {update} from '../../../store/class/static/actions';
 import {AppState} from '../../../store';
 import {connect} from 'react-redux';
 
@@ -16,12 +16,15 @@ import {ThunkDispatch} from 'redux-thunk';
 import {FormComponentProps} from 'antd/es/form';
 
 import {LOADING_TIMEOUT} from '../../../constants';
+import {findElementInArrayObjectByAttribute} from "../../../helpers";
+import {executeGet, update as updateDynamic} from "../../../store/class/dynamic/actions";
 
 
 interface OwnProps {
     classKey: number | string,
     visible: boolean,
     onCancel: () => void,
+    isDynamic?: boolean
 }
 
 interface StateProps {
@@ -30,6 +33,7 @@ interface StateProps {
 
 interface DispatchProps {
     update: typeof update,
+    updateDynamic: typeof updateDynamic,
 }
 
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
@@ -49,18 +53,21 @@ class ModalUpdate extends React.Component<IProps, IState> {
         }
     }
 
-    componentWillReceiveProps(newProps: any) {
+    async componentWillReceiveProps(newProps: any) {
         console.log('data ', newProps);
 
         const {data} = this.props;
-        const {classKey} = newProps;
+        const {classKey, isDynamic} = newProps;
         if (!classKey) {
             return;
         }
 
-        const find = data.find((rs: any) => {
-            return rs.key === classKey;
-        });
+        let find;
+        if (!isDynamic) {
+            find = findElementInArrayObjectByAttribute(data, 'key', classKey);
+        } else {
+            find = await executeGet(classKey);
+        }
 
         this.setState({
             find: find
@@ -104,7 +111,7 @@ class ModalUpdate extends React.Component<IProps, IState> {
             confirmLoading: true,
         });
         setTimeout(() => {
-            const {form} = this.props;
+            const {form, isDynamic} = this.props;
             form.validateFields(async (err, values) => {
                 if (err) {
                     return;
@@ -117,7 +124,11 @@ class ModalUpdate extends React.Component<IProps, IState> {
                     code: groupCode,
                     note: groupNote
                 };
-
+                if (!isDynamic) {
+                    await this.props.update(classKey, data);
+                } else {
+                    await this.props.updateDynamic(classKey, data);
+                }
                 await this.props.update(classKey, data);
                 this.closeModal();
             });
@@ -152,6 +163,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     update: (key: number | string, data: any) => dispatch(update(key, data)),
+    updateDynamic: (categoryKey: number | string, category: any) => dispatch(updateDynamic(categoryKey, category)),
 });
 
 const FormInModal = Form.create<IProps>({name: 'modal-update'})(ModalUpdate);
