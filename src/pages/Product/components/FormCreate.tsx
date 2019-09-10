@@ -19,6 +19,7 @@ import { FormComponentProps } from 'antd/es/form';
 import { LOADING_TIMEOUT } from '../../../constants';
 
 interface OwnProps {
+    categories: any
 }
 
 interface StateProps {
@@ -58,7 +59,7 @@ class CreateProduct extends React.Component<IProps, IState> {
     }
 
     getFields(keys: any) {
-        const { form } = this.props;
+        const { form, categories } = this.props;
         let buttonRemove: any = null;
 
         const childrens = keys.map((k: any, value: any) => {
@@ -84,7 +85,7 @@ class CreateProduct extends React.Component<IProps, IState> {
                         <TextAreaNote form={form} k={k} />
                     </Col>
                     <Col span={7}>
-                        <SelectCategory form={form} k={k}/>
+                        <SelectCategory form={form} k={k} values={categories} />
                     </Col>
                     {buttonRemove}
                 </div>

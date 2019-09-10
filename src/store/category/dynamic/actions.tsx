@@ -87,7 +87,7 @@ export const remove = (categoryId: number | string): ThunkAction<void, Category[
 }
 
 // All function to execute logic
-async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE){
+export async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE){
     try{
         const urlGetList = API.apiCategory + `?page=${page}&size=${size}`
         const response: any = await axios.get(urlGetList);

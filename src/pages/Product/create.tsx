@@ -8,6 +8,9 @@ import ModalRemove from './components/ModalRemove';
 
 import { Product } from '../../store/product/static/types';
 import { list } from '../../store/product/static/actions';
+
+import { executeList as getCategories } from '../../store/category/dynamic/actions';
+
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 
@@ -31,7 +34,8 @@ interface ICreateProductState {
     products: any,
     productKey: any,
     openUpdateModal: boolean,
-    openRemoveModal: boolean
+    openRemoveModal: boolean,
+    categories: any,
 }
 
 class CreateProduct extends React.Component<ICreateProductProps, ICreateProductState> {
@@ -43,6 +47,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             productKey: null,
             openUpdateModal: false,
             openRemoveModal: false,
+            categories: [],
         };
     }
 
@@ -59,8 +64,10 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
         const products = this.props.products;
 
+        const response: any = await getCategories(0, 10000);
         this.setState({
             products,
+            categories: response.categories
         });
     }
 
@@ -72,7 +79,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             })
         }
     }
-    
+
     handleClickRemove = async (productKey: any) => {
         this.setState({
             productKey,
@@ -108,7 +115,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                     );
                 },
             },
-        
+
         ];
 
         const { products } = this.state;
@@ -117,7 +124,9 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
         return (
             <div id="create-product">
                 <div className="search-result-list">
-                    <FormCreate />
+                    <FormCreate 
+                        categories={this.state.categories}
+                    />
 
                     <ModalUpdate
                         productKey={this.state.productKey}

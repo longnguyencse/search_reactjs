@@ -12,7 +12,8 @@ interface OwnProps {
     label?: string,
     placeholder?: string,
     rules?: any,
-    initialValue?: string
+    initialValue?: string,
+    values?: any
 }
 
 interface DispatchProps {
@@ -49,7 +50,7 @@ export default class CustomSelect extends React.Component<IProps, IState> {
 
 
     render() {
-        const { form, label, elementId, placeholder, rules, initialValue  } = this.props;
+        const { form, label, elementId, placeholder, rules, initialValue, values } = this.props;
         const { getFieldDecorator } = form;
 
         const loadLabel = returnDefaultString(label);
@@ -57,6 +58,7 @@ export default class CustomSelect extends React.Component<IProps, IState> {
         const loadRules = returnDefaultArary(rules);
         const loadPlaceholder = returnDefaultString(placeholder);
         const loadInitialValue = returnDefaultString(initialValue);
+        const loadOptions = returnDefaultArary(values);
 
         const formOptions: any = {
             rules: loadRules
@@ -65,7 +67,7 @@ export default class CustomSelect extends React.Component<IProps, IState> {
         if(loadInitialValue){
             formOptions.initialValue = loadInitialValue;
         }
-        
+
         return (
             <Form.Item label={loadLabel}>
                 {getFieldDecorator(loadElementId, formOptions)(<Select
@@ -80,9 +82,13 @@ export default class CustomSelect extends React.Component<IProps, IState> {
                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                 >
-                    <Option value="jack">Jack</Option>
-                    <Option value="lucy">Lucy</Option>
-                    <Option value="tom">Tom</Option>
+                    {
+                        loadOptions.map((item: any) => (
+                            <Select.Option key={item.id} value={item.id}>
+                                {item.name}
+                            </Select.Option>
+                        ))
+                    }
                 </Select>)}
             </Form.Item>
         );

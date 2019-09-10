@@ -5,7 +5,8 @@ import CustomSelect from '../../../components/CustomForm/Select';
 interface OwnProps {
     form: any,
     k?: any
-    loadValue?: any
+    loadValue?: any,
+    values?: any
 }
 
 interface DispatchProps {
@@ -24,8 +25,12 @@ export default class SelectCategory extends React.Component<IProps, IState> {
         super(props);
     }
 
+    componentDidMount(){
+        console.log("Select dimout")
+    }
+
     render(){
-        const { form, k, loadValue } = this.props;
+        const { form, k, loadValue, values } = this.props;
 
         let elementId = "productCategory";
         if(k !== null){
@@ -61,6 +66,8 @@ export default class SelectCategory extends React.Component<IProps, IState> {
                 rules = {rules}
 
                 initialValue={initialValue}
+
+                values={values}
             />
         );
     }
