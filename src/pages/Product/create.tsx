@@ -65,9 +65,10 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
         const products = this.props.products;
 
         const response: any = await getCategories(0, 10000);
+        const categories = response && response.categories ? response.categories : [];
         this.setState({
             products,
-            categories: response.categories
+            categories
         });
     }
 

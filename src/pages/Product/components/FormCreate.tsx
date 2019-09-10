@@ -6,6 +6,8 @@ import InputCode from './InputCode';
 import InputName from './InputName';
 import TextAreaNote from './TextAreaNote';
 import SelectCategory from './SelectCategory';
+import SelectGroup from './SelectGroup';
+import SelectClass from './SelectClass';
 
 import { Product } from '../../../store/product/static/types';
 import { createMulti } from '../../../store/product/static/actions';
