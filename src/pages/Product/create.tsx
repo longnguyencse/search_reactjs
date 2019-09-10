@@ -9,6 +9,8 @@ import ModalRemove from './components/ModalRemove';
 import { Product } from '../../store/product/static/types';
 import { list } from '../../store/product/static/actions';
 
+import { createMulti as saveAll } from '../../store/product/dynamic/actions';
+
 import { executeList as getCategories } from '../../store/category/dynamic/actions';
 
 import { AppState } from '../../store';
@@ -16,6 +18,8 @@ import { connect } from 'react-redux';
 
 
 import { ThunkDispatch } from 'redux-thunk';
+import { LOADING_TIMEOUT } from '../../constants';
+import { Redirect } from 'react-router';
 
 interface OwnProps {
 }
@@ -26,6 +30,7 @@ interface StateProps {
 
 interface DispatchProps {
     list: typeof list,
+    saveAll: typeof saveAll,
 }
 
 type ICreateProductProps = OwnProps & StateProps & DispatchProps;
@@ -36,6 +41,8 @@ interface ICreateProductState {
     openUpdateModal: boolean,
     openRemoveModal: boolean,
     categories: any,
+    redirectToList: boolean,
+    saveAllLoading: boolean
 }
 
 class CreateProduct extends React.Component<ICreateProductProps, ICreateProductState> {
@@ -48,6 +55,8 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             openUpdateModal: false,
             openRemoveModal: false,
             categories: [],
+            redirectToList: false,
+            saveAllLoading: false
         };
     }
 
@@ -63,8 +72,6 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
         await this.props.list();
 
         const products = this.props.products;
-
-        console.log(products);
 
         const response: any = await getCategories(0, 10000);
         const categories = response && response.categories ? response.categories : [];
@@ -88,6 +95,24 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             productKey,
             openRemoveModal: true
         })
+    }
+
+    handleSaveAll = () => {
+        this.setState({
+            saveAllLoading: true
+        });
+        setTimeout(async () => {
+            console.log(this.state.products);
+            await this.props.saveAll(this.state.products);
+            this.setState({
+                products: [],
+                redirectToList: true,
+                saveAllLoading: false
+            });
+
+        }, LOADING_TIMEOUT);
+
+        console.log("Save all");
     }
 
     render() {
@@ -132,8 +157,12 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
         ];
 
-        const { products } = this.state;
+        const { products, redirectToList, saveAllLoading } = this.state;
         const checkExist = products.length;
+
+        if (redirectToList) {
+            return <Redirect to="/products" />
+        }
 
         return (
             <div id="create-product">
@@ -164,6 +193,17 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                         <Table pagination={false} columns={columns} dataSource={products} rowKey="key" />
                         : null
                     }
+
+                    <Button
+                        style={
+                            {
+                                display: !checkExist ? "none" : "block"
+                            }
+                        }
+                        className="confirm-create-all"
+                        type="primary"
+                        loading={saveAllLoading}
+                        onClick={this.handleSaveAll}> Confirm create all products </Button>
                 </div>
             </div>
         );
@@ -178,6 +218,8 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     list: () => dispatch(list()),
+    saveAll: (products: any) => dispatch(saveAll(products))
+
 });
 
 export default connect(
