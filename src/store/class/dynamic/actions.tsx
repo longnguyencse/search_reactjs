@@ -71,7 +71,7 @@ async function executeCreateMulti(newCategories: Class[]) {
         const response: any = await axios.post(urlSaveAll, newCategories);
 
         if (response) {
-            await localS.setItem('categories', null);
+            await localS.setItem('classes', null);
 
             return newCategories;
         }

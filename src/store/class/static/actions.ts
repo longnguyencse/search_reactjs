@@ -1,4 +1,4 @@
-import {ActionType, Class} from "./types";
+import {ActionType, Class} from './types';
 import {
     CREATE_MULTI_STATIC_CLASS,
     LIST_STATIC_CLASS,

@@ -122,7 +122,7 @@ class Create extends React.Component<IProps, IState> {
         }, LOADING_TIMEOUT);
 
         console.log("Save all");
-    }
+    };
 
     render() {
         const columns = [
