@@ -9,7 +9,10 @@ export interface Product {
     key?: number | string,
     code: string,
     name: string,
-    note: string
+    note: string,
+    categoryId?: number | string,
+    groupId?: number | string,
+    classId?: number | string
 }
 
 export interface ListAction {

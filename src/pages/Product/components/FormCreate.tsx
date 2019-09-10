@@ -19,6 +19,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { FormComponentProps } from 'antd/es/form';
 
 import { LOADING_TIMEOUT } from '../../../constants';
+import { findElementInArrayObjectByAttribute } from '../../../helpers';
 
 interface OwnProps {
     categories: any
@@ -89,6 +90,12 @@ class CreateProduct extends React.Component<IProps, IState> {
                     <Col span={7}>
                         <SelectCategory form={form} k={k} values={categories} />
                     </Col>
+                    <Col span={7}>
+                        <SelectGroup form={form} k={k} values={categories} />
+                    </Col>
+                    <Col span={8}>
+                        <SelectClass form={form} k={k} values={categories} />
+                    </Col>
                     {buttonRemove}
                 </div>
             )
@@ -108,6 +115,7 @@ class CreateProduct extends React.Component<IProps, IState> {
     handleSubmit = async (e: any) => {
         e.preventDefault();
         const { products } = this.state;
+        const { categories } = this.props;
 
         let maxKey = 0;
         if (products.length) {
@@ -126,18 +134,21 @@ class CreateProduct extends React.Component<IProps, IState> {
             });
 
             setTimeout(() => {
-                const { keys, productName, productCode, productNote } = values;
-                const newCategories = keys.map((value: any, index: any) => {
+                const { keys, productName, productCode, productNote, productCategory, productGroup, productClass } = values;
+                const newProduct = keys.map((value: any, index: any) => {
                     maxKey++;
                     return {
                         key: maxKey,
                         code: productCode[value],
                         name: productName[value],
                         note: productNote[value],
+                        categoryId: productCategory[value],
+                        groupId: productGroup[value],
+                        classId: productClass[value],
                     };
                 });
 
-                this.props.createMulti(newCategories);
+                this.props.createMulti(newProduct);
 
                 this.handleReset();
 

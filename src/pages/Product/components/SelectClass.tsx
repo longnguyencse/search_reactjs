@@ -37,7 +37,7 @@ export default class SelectClass extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Product Category";
+        const label = "Product Class";
 
         const placeholder = "Please select your product class";
 

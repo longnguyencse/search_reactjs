@@ -64,6 +64,8 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
         const products = this.props.products;
 
+        console.log(products);
+
         const response: any = await getCategories(0, 10000);
         const categories = response && response.categories ? response.categories : [];
         this.setState({
@@ -98,10 +100,21 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                 title: "Ten san pham",
                 dataIndex: "name",
             },
-
             {
                 title: "Note",
                 dataIndex: "note",
+            },
+            {
+                title: "Category",
+                dataIndex: "categoryId",
+            },
+            {
+                title: "Group",
+                dataIndex: "groupId",
+            },
+            {
+                title: "Class",
+                dataIndex: "classId",
             },
             {
                 title: "Action",
@@ -135,6 +148,8 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                         visible={this.state.openUpdateModal}
 
                         onCancel={() => { this.setState({ openUpdateModal: false }) }}
+
+                        categories={this.state.categories}
                     />
 
                     <ModalRemove

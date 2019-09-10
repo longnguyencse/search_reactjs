@@ -5,6 +5,9 @@ import { Modal, Form } from 'antd';
 import ProductCodeInput from './InputCode';
 import ProductNameInput from './InputName';
 import ProductNoteTextArea from './TextAreaNote';
+import SelectCategory from './SelectCategory';
+import SelectGroup from './SelectGroup';
+import SelectClass from './SelectClass';
 
 import { Product } from '../../../store/product/static/types';
 import { update } from '../../../store/product/static/actions';
@@ -18,7 +21,7 @@ import { ThunkDispatch } from 'redux-thunk';
 
 import { FormComponentProps } from 'antd/es/form';
 
-import {LOADING_TIMEOUT} from '../../../constants';
+import { LOADING_TIMEOUT } from '../../../constants';
 
 import { findElementInArrayObjectByAttribute } from '../../../helpers';
 
@@ -26,7 +29,8 @@ interface OwnProps {
     productKey: number | string,
     visible: boolean,
     onCancel: () => void,
-    isDynamic?: boolean
+    isDynamic?: boolean,
+    categories: any
 }
 
 interface StateProps {
@@ -64,7 +68,7 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
         }
 
         let findProduct;
-        if(!isDynamic){
+        if (!isDynamic) {
             findProduct = findElementInArrayObjectByAttribute(products, 'key', productKey);
         }
         else {
@@ -85,7 +89,7 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
     }
 
     getFields = () => {
-        const { form } = this.props;
+        const { form, categories } = this.props;
         const { findProduct } = this.state;
 
         const key = null;
@@ -93,10 +97,16 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
         let code = null;
         let name = null;
         let note = null;
+        let categoryId = null;
+        let groupId = null;
+        let classId = null;
         if (findProduct) {
             code = findProduct.code;
             name = findProduct.name;
             note = findProduct.note;
+            categoryId = findProduct.categoryId;
+            groupId = findProduct.groupId;
+            classId = findProduct.classId;
         }
 
         return (
@@ -104,6 +114,9 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
                 <ProductCodeInput form={form} k={key} loadValue={code} />
                 <ProductNameInput form={form} k={key} loadValue={name} />
                 <ProductNoteTextArea form={form} k={key} loadValue={note} />
+                <SelectCategory form={form} k={key} values={categories} loadValue={categoryId} />
+                <SelectGroup form={form} k={key} values={categories} loadValue={groupId} />
+                <SelectClass form={form} k={key} values={categories} loadValue={classId} />
             </div>
         );
     }
@@ -118,16 +131,20 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
                 if (err) {
                     return;
                 }
-                const { productName, productCode, productNote } = values;
+                const { productName, productCode, productNote, productCategory, productGroup, productClass } = values;
                 const { productKey } = this.props;
+
                 const product = {
                     key: productKey,
                     name: productName,
                     code: productCode,
-                    note: productNote
+                    note: productNote,
+                    categoryId: productCategory,
+                    groupId: productGroup,
+                    classId: productClass,
                 };
 
-                if(!isDynamic){
+                if (!isDynamic) {
                     await this.props.update(productKey, product);
                 }
                 else {
