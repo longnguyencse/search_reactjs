@@ -170,16 +170,28 @@ class List extends React.Component<IProps, IState> {
     render() {        
         const columns = [
             {
-                title: "Product Code",
+                title: "Ma san pham",
                 dataIndex: "code",
             },
             {
-                title: "Product Name",
+                title: "Ten san pham",
                 dataIndex: "name",
             },
             {
-                title: "Product Note",
+                title: "Note",
                 dataIndex: "note",
+            },
+            {
+                title: "Category",
+                dataIndex: "category.name",
+            },
+            {
+                title: "Group",
+                dataIndex: "group.name",
+            },
+            {
+                title: "Class",
+                dataIndex: "productClass.name",
             },
             {
                 title: "Action",
@@ -208,10 +220,10 @@ class List extends React.Component<IProps, IState> {
         return (
             <div id="product-list" className="page-list">
                 <div className="page-list-header">
-                    <h1 className="page-list-title">Category List</h1>
+                    <h1 className="page-list-title">Product List</h1>
                     <div className="button-group">
                         <Button type="primary" className="btn-add-new">
-                            <Link to="/categories/create">Add New</Link>
+                            <Link to="/products/create">Add New</Link>
                         </Button>
                     </div>
                 </div>

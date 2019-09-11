@@ -12,7 +12,7 @@ import SelectClass from './SelectClass';
 import { Product } from '../../../store/product/static/types';
 import { update } from '../../../store/product/static/actions';
 
-// import { executeGet, update as updateDynamic } from '../../../store/product/dynamic/actions';
+import { executeGet, update as updateDynamic } from '../../../store/product/dynamic/actions';
 
 import { AppState } from '../../../store';
 import { connect } from 'react-redux';
@@ -41,7 +41,7 @@ interface StateProps {
 
 interface DispatchProps {
     update: typeof update,
-    // updateDynamic: typeof updateDynamic,
+    updateDynamic: typeof updateDynamic,
 }
 
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
@@ -74,7 +74,12 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
             findProduct = findElementInArrayObjectByAttribute(products, 'key', productKey);
         }
         else {
-            // findProduct = await executeGet(productKey);
+            findProduct = await executeGet(productKey);
+            if(findProduct){
+                findProduct.categoryId = findProduct.category.id;
+                findProduct.groupId = findProduct.group.id;
+                findProduct.classId = findProduct.productClass.id;
+            }
         }
 
         this.setState({
@@ -150,7 +155,7 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
                     await this.props.update(productKey, product);
                 }
                 else {
-                    // await this.props.updateDynamic(productKey, product);
+                    await this.props.updateDynamic(productKey, product);
                 }
                 this.closeModal();
             });
@@ -185,7 +190,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     update: (productKey: number | string, product: any) => dispatch(update(productKey, product)),
-    // updateDynamic: (productKey: number | string, product: any) => dispatch(updateDynamic(productKey, product)),
+    updateDynamic: (productKey: number | string, product: any) => dispatch(updateDynamic(productKey, product)),
 });
 
 const FormInModal = Form.create<IProps>({ name: 'modal-update' })(ModalUpdateProduct);

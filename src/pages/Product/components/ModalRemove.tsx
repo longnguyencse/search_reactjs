@@ -6,7 +6,7 @@ import { Modal } from 'antd';
 import { Product } from '../../../store/product/static/types';
 import { remove } from '../../../store/product/static/actions';
 
-// import {executeGet, executeRemove, list} from '../../../store/product/dynamic/actions';
+import {executeGet, executeRemove, list} from '../../../store/product/dynamic/actions';
 
 import { AppState } from '../../../store';
 import { connect } from 'react-redux';
@@ -31,7 +31,7 @@ interface StateProps {
 
 interface DispatchProps {
     remove: typeof remove
-    // list: typeof list,
+    list: typeof list,
 }
 
 type IProps = OwnProps & StateProps & DispatchProps;
@@ -66,7 +66,7 @@ class ModalRemoveProduct extends React.Component<IProps, IState> {
             findProduct = findElementInArrayObjectByAttribute(products, 'key', productKey);
         }
         else {
-            // findProduct = await executeGet(productKey);
+            findProduct = await executeGet(productKey);
         }
 
         let modalText = "";
@@ -102,13 +102,13 @@ class ModalRemoveProduct extends React.Component<IProps, IState> {
                 await this.props.remove(productKey);
             }
             else {
-                // const checkRemove = await executeRemove(productKey);
-                // if(checkRemove){
-                //     await this.props.list(currentPage);
-                // }
-                // else {
-                //     console.error("Loi me gi roi");
-                // }
+                const checkRemove = await executeRemove(productKey);
+                if(checkRemove){
+                    await this.props.list(currentPage);
+                }
+                else {
+                    console.error("Loi me gi roi");
+                }
             }
 
             this.closeModal();
@@ -144,7 +144,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     remove: (productKey: number | string) => dispatch(remove(productKey)),
-    // list: (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE) => dispatch(list(page, size)),
+    list: (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE) => dispatch(list(page, size)),
 });
 
 export default connect(

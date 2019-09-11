@@ -6,13 +6,13 @@ import {
 } from "../../../constants/product";
 
 export interface Product {
-    id: number | string,
+    id?: number | string,
     code: string,
     name: string,
     note: string,
-    category: any,
-    group: any
-    class: any
+    categoryId: any,
+    groupId: any
+    classId: any
 }
 
 export interface ListAction {
