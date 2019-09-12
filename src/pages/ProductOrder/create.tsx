@@ -1,22 +1,35 @@
 import React from "react";
 import {Empty} from 'antd';
 
-interface ICreatePoProps {
+import FormCreate from './components/FormCreate';
+
+interface OwnProps {
 
 }
 
-interface ICreatePoStates {
+interface StateProps {
 
 }
 
-class CreateProductOrder extends React.Component<ICreatePoProps, ICreatePoStates> {
-    constructor(props: ICreatePoProps) {
+interface DispatchProps {
+
+}
+
+type IProps = OwnProps & StateProps & DispatchProps;
+
+interface IState {
+
+}
+
+class CreateProductOrder extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
     }
 
     render() {
         return (
-            <Empty/>
+            <FormCreate />
+            // <Empty/>
         );
     }
 }

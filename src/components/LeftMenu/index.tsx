@@ -91,7 +91,7 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             </span>
                     }>
                         <Menu.Item key="1">
-                            <Link to="/create/po">Nhập ĐH</Link>
+                            <Link to="/po/create">Nhập ĐH</Link>
                         </Menu.Item>
                         <Menu.Item key="2">
                             <Link to="/po">Duyệt ĐH</Link>
