@@ -20,6 +20,12 @@ export function findElementInArrayObjectByAttribute(array: any, attribute: any, 
     });
 }
 
+export function findAllElementInArrayObjectByAttribute(array: any, attribute: any, compareValue: any){
+    return array.filter((arr: any) => {
+        return arr[attribute] === compareValue;
+    });
+}
+
 export function returnDefaultString(value: any){
     if(!value){
         return "";

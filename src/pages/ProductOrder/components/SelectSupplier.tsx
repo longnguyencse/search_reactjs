@@ -2,6 +2,13 @@ import React from 'react';
 
 import CustomSelect from '../../../components/CustomForm/Select';
 
+import { getProducts } from '../../../store/order/static/actions';
+
+import { AppState } from '../../../store';
+import { connect } from 'react-redux';
+
+import { ThunkDispatch } from 'redux-thunk';
+
 interface OwnProps {
     form: any,
     k?: any
@@ -10,6 +17,7 @@ interface OwnProps {
 }
 
 interface DispatchProps {
+    getProducts: typeof getProducts
 }
 
 interface StateProps {
@@ -20,13 +28,18 @@ type IProps = OwnProps & DispatchProps & StateProps;
 interface IState {
 }
 
-export default class SelectSupplier extends React.Component<IProps, IState> {
+class SelectSupplier extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
     }
 
     componentDidMount(){
         console.log("Select dimout")
+    }
+
+    receiveSupplier = (supplierId: number | string) => {
+        this.props.getProducts(supplierId);
+        console.log("SelectSupplier", supplierId);
     }
 
     render(){
@@ -68,7 +81,19 @@ export default class SelectSupplier extends React.Component<IProps, IState> {
                 initialValue={initialValue}
 
                 values={values}
+
+
+                onChange={(supplierId: number | string) => { this.receiveSupplier(supplierId) }}
             />
         );
     }
 }
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    getProducts: (supplierId: number | string) => dispatch(getProducts(supplierId)),
+});
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(SelectSupplier);

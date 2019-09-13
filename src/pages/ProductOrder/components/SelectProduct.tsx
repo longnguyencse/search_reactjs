@@ -29,6 +29,19 @@ export default class SelectProduct extends React.Component<IProps, IState> {
         console.log("Select dimout")
     }
 
+    receiveProduct = (productId: number | string) => {
+        // this.props.form.setFieldsValue({
+        //     price: `Hi, ${productId}`
+        // });
+        // const allFields = this.props.form.getFieldsValue();
+        // const allValueInFieldPrice = allFields.price.filter();
+        
+        // this.props.form.setFieldsValue({
+        //     price: ["1", "3", "4"]
+        // });
+        console.log("Select Product", this.props.form.getFieldsValue())
+    }
+
     render(){
         const { form, k, loadValue, values } = this.props;
 
@@ -68,6 +81,8 @@ export default class SelectProduct extends React.Component<IProps, IState> {
                 initialValue={initialValue}
 
                 values={values}
+
+                onChange = {(productId: number | string) => this.receiveProduct(productId)}
             />
         );
     }

@@ -13,7 +13,8 @@ interface OwnProps {
     placeholder?: string,
     rules?: any,
     initialValue?: string,
-    values?: any
+    values?: any,
+    onChange?: (selectValue: number | string) => void,
 }
 
 interface DispatchProps {
@@ -33,6 +34,9 @@ export default class CustomSelect extends React.Component<IProps, IState> {
     }
 
     onChange = (value: any) => {
+        if(this.props.onChange){
+            this.props.onChange(value);
+        }
         console.log(`selected ${value}`);
     }
 

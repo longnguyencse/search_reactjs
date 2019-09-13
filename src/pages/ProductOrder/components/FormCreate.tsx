@@ -9,29 +9,26 @@ import InputPrice from './InputPrice';
 import InputMoney from './InputMoney';
 import InputDiscount from './InputDiscount';
 
-// import InputCode from './InputCode';
-// import InputName from './InputName';
-// import TextAreaNote from './TextAreaNote';
-// import SelectCategory from './SelectCategory';
-// import SelectGroup from './SelectGroup';
-// import SelectClass from './SelectClass';
+import { Order } from '../../../store/order/static/types';
+import { createMulti } from '../../../store/order/static/actions';
+import { AppState } from '../../../store';
+import { connect } from 'react-redux';
 
-// import { Product } from '../../../store/product/static/types';
-// import { createMulti } from '../../../store/product/static/actions';
-// import { AppState } from '../../../store';
-// import { connect } from 'react-redux';
-
-// import { ThunkDispatch } from 'redux-thunk';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { FormComponentProps } from 'antd/es/form';
 
 import { LOADING_TIMEOUT } from '../../../constants';
+import { string } from 'prop-types';
 // import { findElementInArrayObjectByAttribute } from '../../../helpers';
 
 interface OwnProps {
+    suppliers?: any,
+    products?: any
 }
 
 interface StateProps {
+    supplierId: number | string
     // productOrders: Product[]
 }
 
@@ -42,6 +39,7 @@ interface DispatchProps {
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 interface IState {
+    // supplierId: number | string,
     productOrders: any,
     loading: boolean,
     disabledButton: boolean,
@@ -54,21 +52,35 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
+            // supplierId: 0,
             productOrders: [],
             loading: false,
             disabledButton: false
         };
     }
 
+    componentDidUpdate(prevProps: any){
+        if(prevProps.supplierId !== this.props.supplierId){
+            const allFieldsValue = this.props.form.getFieldsValue();
+            const allFieldsToReset = Object.keys(allFieldsValue).filter((key: any) => {
+                return key !== "supplier" && key !== "keys";
+            });
+
+            this.props.form.resetFields(allFieldsToReset);
+        }
+        return false;
+    }
+
     componentWillReceiveProps(newProps: any) {
-        // console.log('new props', newProps);
+        console.log('new props', newProps);
         // this.setState({
         //     productOrders: newProps.productOrders,
         // });
     }
 
     getFields(keys: any) {
-        const { form } = this.props;
+        const { form, products } = this.props;
+        console.log("getFields", products);
         let buttonRemove: any = null;
 
         const childrens = keys.map((k: any, value: any) => {
@@ -91,7 +103,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
             return (
                 <div key={k}>
                     <Col span={6}>
-                        <SelectProduct form={form} k={k} />
+                        <SelectProduct form={form} k={k} values={products} />
                     </Col>
                     <Col span={4}>
                         <InputQuantity form={form} k={k} />
@@ -196,7 +208,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
     }
 
     render() {
-        const {form} = this.props;
+        const { form, suppliers } = this.props;
         const { getFieldDecorator, getFieldValue } = form;
         getFieldDecorator('keys', { initialValue: [0] });
         const keys = getFieldValue('keys');
@@ -206,7 +218,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
                     <h1>Create Form</h1>
                     <Row>
-                        <SelectSupplier form={form} />
+                        <SelectSupplier form={form} values={suppliers} />
                     </Row>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
@@ -228,9 +240,9 @@ class CreateProductOrder extends React.Component<IProps, IState> {
     }
 }
 
-const CreateProductOrderForm = Form.create({ name: 'create_product_order_form' })(CreateProductOrder);
+// const CreateProductOrderForm = Form.create({ name: 'create_product_order_form' })(CreateProductOrder);
 
-export default CreateProductOrderForm;
+// export default CreateProductOrderForm;
 
 // const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 //     productOrders: state.staticProducts,
@@ -240,6 +252,14 @@ export default CreateProductOrderForm;
 //     createMulti: (productOrders: Product[]) => dispatch(createMulti(productOrders)),
 // });
 
-// const CreateProductOrderForm = Form.create({ name: 'create_product_form' })(CreateProductOrder);
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    supplierId: state.product1.supplierId
+})
 
-// export default connect(mapStateToProps, mapDispatchToProps)(CreateProductOrderForm);
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {
+    return {};
+};
+
+const CreateProductOrderForm = Form.create({ name: 'create_product_order_form' })(CreateProductOrder);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProductOrderForm);
