@@ -1,12 +1,20 @@
 import React from 'react';
 
-
-interface IProps {
-
+interface OwnProps {
+    form?: any,
+    k?: any
+    loadValue?: any
 }
 
-interface IState {
+interface DispatchProps {
+}
 
+interface StateProps {
+}
+
+type IProps = OwnProps & DispatchProps & StateProps;
+
+interface IState {
 }
 
 class ModalRemove extends React.Component<IProps, IState> {
@@ -16,7 +24,7 @@ class ModalRemove extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <div id="code-supplier">
+            <div id="remove-supplier">
                 <p>Hello</p>
             </div>
         );

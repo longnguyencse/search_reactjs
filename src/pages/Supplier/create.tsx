@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {Button, Col, Form, Icon, Input, Row} from 'antd';
+import {Col, Form, Input} from 'antd';
+import FormCreate from "./component/FormCreate";
 
 interface ICreateSupplierProps {
     form?: any,
@@ -67,22 +68,7 @@ class CreateSupplier extends React.Component <ICreateSupplierProps, ICreateSuppl
         // const {expand} = this.state;
         return (
             <div id="create-supplier">
-                <Form className="ant-advanced-search-form" onSubmit={this.handSubmit}>
-                    <Row gutter={24}>{this.state.numView}</Row>
-                    <Row>
-                        <Col span={24} style={{textAlign: 'right'}}>
-                            <Button type="primary" htmlType="submit">
-                                Tạo NCC
-                            </Button>
-                            <Button style={{marginLeft: 8}} onClick={this.handleReset}>
-                                Xóa
-                            </Button>
-                            <Button type="dashed" onClick={this.add}>
-                                <Icon type="plus"/> Add field
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
+                <FormCreate/>
             </div>
         );
     }

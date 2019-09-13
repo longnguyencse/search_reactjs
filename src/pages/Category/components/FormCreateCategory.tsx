@@ -96,7 +96,7 @@ class CreateCategory extends React.Component<IProps, IState> {
             loading: false,
             disabledButton: false
         });
-    }
+    };
 
     handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -149,7 +149,7 @@ class CreateCategory extends React.Component<IProps, IState> {
         form.setFieldsValue({
             keys: nextKeys,
         });
-    }
+    };
 
     handleRemove = (i: any) => {
         const { form } = this.props;
@@ -167,7 +167,7 @@ class CreateCategory extends React.Component<IProps, IState> {
         });
 
 
-    }
+    };
 
     render() {
         const { getFieldDecorator, getFieldValue } = this.props.form;

@@ -16,7 +16,7 @@ class ModalUpdate extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <div id="email-supplier">
+            <div id="update-supplier">
                 <p>Hello</p>
             </div>
         );
