@@ -1,9 +1,8 @@
 import React from 'react';
 import {Supplier} from "../../../store/supplier/static/types";
 import {remove} from "../../../store/supplier/static/actions";
-import {list} from "../../../store/supplier/dynamic/actions";
+import {executeGet, executeRemove, list} from "../../../store/supplier/dynamic/actions";
 import {findElementInArrayObjectByAttribute} from "../../../helpers";
-import {executeGet, executeRemove} from "../../../store/class/dynamic/actions";
 import {DEFAULT_PAGE, DEFAULT_SIZE, LOADING_TIMEOUT} from "../../../constants";
 import {Modal} from "antd";
 import {AppState} from "../../../store";

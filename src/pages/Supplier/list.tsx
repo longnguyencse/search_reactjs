@@ -131,9 +131,9 @@ class ListSupplier extends React.Component<IProps, IState> {
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            <Button onClick={() => this.handleClickUpdate(row.id)}>Update - {row.id}</Button>
                             -
-                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
+                            <Button onClick={() => this.handleClickRemove(row.id)}>Delete - {row.id}</Button>
                         </div>
                     );
                 }

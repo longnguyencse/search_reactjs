@@ -4,14 +4,16 @@ import {update} from "../../../store/supplier/static/actions";
 import {executeGet, update as updateDynamic} from "../../../store/supplier/dynamic/actions";
 import {FormComponentProps} from "antd/es/form";
 import {findElementInArrayObjectByAttribute} from "../../../helpers";
-import InputCode from "../../Class/components/InputCode";
-import InputName from "../../Class/components/InputName";
-import InputNote from "../../Class/components/InputNote";
 import {LOADING_TIMEOUT} from "../../../constants";
 import {Form, Modal} from "antd";
 import {AppState} from "../../../store";
 import {ThunkDispatch} from "redux-thunk";
 import {connect} from "react-redux";
+import EmailInput from "./EmailInput";
+import CodeInput from "./CodeInput";
+import NameInput from "./NameInput";
+import AddressInput from "./AddressInput";
+import PhoneInput from "./PhoneInput";
 
 
 interface OwnProps {
@@ -97,11 +99,11 @@ class ModalUpdate extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <InputCode form={form} k={key} loadValue={code}/>
-                <InputName form={form} k={key} loadValue={name}/>
-                <InputNote form={form} k={key} loadValue={email}/>
-                <InputNote form={form} k={key} loadValue={address}/>
-                <InputNote form={form} k={key} loadValue={phone}/>
+                <CodeInput form={form} k={key} loadValue={code}/>
+                <NameInput form={form} k={key} loadValue={name}/>
+                <EmailInput form={form} k={key} loadValue={email}/>
+                <AddressInput form={form} k={key} loadValue={address}/>
+                <PhoneInput form={form} k={key} loadValue={phone}/>
             </div>
         );
     };
