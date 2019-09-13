@@ -13,7 +13,7 @@ import {staticClassReducer} from './class/static/reducers';
 import {dynamicClassReducer} from './class/dynamic/reducers';
 import {dynamicGroupReducer} from './group/dynamic/reducers';
 import {staticSupplierReducer} from './supplier/static/reducers';
-import {dynamicSupplierReducer} from './supplier/dymamic/reducers';
+import {dynamicSupplierReducer} from './supplier/dynamic/reducers';
 
 
 const rootReducers = combineReducers({
