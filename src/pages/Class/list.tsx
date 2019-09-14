@@ -123,11 +123,9 @@ class List extends React.Component<IProps, IState> {
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Update
-                                - {row.id}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Cập nhật</Button>
                             -
-                            <Button type="danger" onClick={() => this.handleClickRemove(row.id)}>Delete
-                                - {row.id}</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.id)}>Xóa</Button>
                         </div>
                     );
                 },

@@ -71,7 +71,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
         console.log('groups ', groups);
         let modalText = "";
         if (find) {
-            modalText = `Do you want remove group with name is : ${find.name}`;
+            modalText = `Bạn muốn xóa nhóm hàng với tên : ${find.name}`;
         }
 
         this.setState({
@@ -123,7 +123,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
         return (
             <Modal
-                title="Xóa loại hàng"
+                title="Xóa nhóm hàng"
                 okText="Đồng ý"
                 cancelText = "Hủy bỏ"
                 visible={visible}
