@@ -64,7 +64,7 @@ class Create extends React.Component<IProps, IState> {
             if (k > 0) {
                 buttonRemove = (
                     <Col span={2}>
-                        <Form.Item label={`Remove`}>
+                        <Form.Item label={`Xóa`}>
                             <Button type="danger" onClick={() => this.handleRemoveProduct(k)}>X</Button>
                         </Form.Item>
                     </Col>

@@ -33,14 +33,14 @@ export default class InputCode extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Class Code";
+        const label = "Mã Ngành Hàng";
 
-        const placeholder = "Please enter your class code";
+        const placeholder = "Vui lòng nhập mã nghành hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your class code',
+                message: 'Vui lòng nhập mã nghành hàng',
             },
         ];
 
