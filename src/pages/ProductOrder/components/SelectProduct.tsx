@@ -33,7 +33,6 @@ class SelectProduct extends React.Component<IProps, IState> {
     }
 
     componentDidMount(){
-        console.log("Select dimout")
     }
 
     receiveProduct = async (productId: number | string) => {
@@ -47,7 +46,6 @@ class SelectProduct extends React.Component<IProps, IState> {
         this.props.form.setFieldsValue({
             price: prices
         });
-        console.log("Select Product", this.props.form.getFieldsValue())
     }
 
     render(){

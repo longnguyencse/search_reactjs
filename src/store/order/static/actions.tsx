@@ -12,48 +12,48 @@ import LocalStorage from '../../../services/LocalStorage';
 import { mergeTwoArrayObject, updateArrayObjectByAttribute, filterArrayObjectByAttribute, findElementInArrayObjectByAttribute, findAllElementInArrayObjectByAttribute } from '../../../helpers';
 
 // All function use to dispatch
-export const _list = (orders: Order[]): ActionType => {
+export const _list = (order: Order): ActionType => {
     return {
         type: LIST_STATIC_ORDER,
-        payload: orders
+        payload: order
     }
 }
 
-export const _createMulti = (orders: Order[]): ActionType => {
+export const _createMulti = (order: Order): ActionType => {
     return {
         type: CREATE_MULTI_STATIC_ORDERS,
-        payload: orders
+        payload: order
     }
 }
 
-export const _update = (orderKey: number | string, order: Order): ActionType => {
+export const _update = (productId: number | string, order: Order): ActionType => {
     return {
         type: UPDATE_STATIC_ORDER,
-        key: orderKey,
+        key: productId,
         payload: order,
     }
 }
 
-export const _remove = (orderKey: number | string): ActionType => {
+export const _remove = (productId: number | string): ActionType => {
     return {
         type: REMOVE_STATIC_ORDER,
-        key: orderKey,
+        key: productId,
     }
 }
 // All function use to dispatch
 
 // All function use Component call
-export const list = (): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
-    const newOrders = await executeList();
+export const list = (): ThunkAction<void, Order, null, Action<string>> => async dispatch => {
+    const newOrder: any = await executeList();
     dispatch(
-        _list(newOrders)
+        _list(newOrder)
     );
 }
 
-export const createMulti = (orders: Order[]): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
-    const newOrders = await executeCreateMulti(orders);
+export const createMulti = (order: Order): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
+    const newOrder = await executeCreateMulti(order);
     dispatch(
-        _createMulti(newOrders)
+        _createMulti(newOrder)
     );
 }
 
@@ -76,21 +76,38 @@ export const remove = (orderKey: number | string): ThunkAction<void, Order[], nu
 async function executeList(){
     const localS = new LocalStorage();
 
-    const orders = await localS.getArrayValue('orders');
+    let order:any = await localS.getItem('order');
 
-    return orders;
+    if(!order){
+        order = {
+            supplierId: 0,
+            items: []
+        };
+    }
+
+    console.log(order.items);
+
+    return order;
 }
 
-async function executeCreateMulti(newOrders: Order[]){
+async function executeCreateMulti(newOrder: Order){
     const localS = new LocalStorage();
     
-    const oldOrders = await localS.getArrayValue('orders');
+    const newItems = newOrder.items;
 
-    const mergeOrders = mergeTwoArrayObject(oldOrders, newOrders);
+    const oldOrder: any = await localS.getItem('order');
+    const oldItems = oldOrder !== undefined ? oldOrder.items : [];
 
-    await localS.setItem('orders', mergeOrders);
+    const mergeItems = mergeTwoArrayObject(oldItems, newItems);
 
-    return newOrders;
+    const mergeOrder = {
+        supplierId: newOrder.supplierId,
+        items: mergeItems
+    };
+
+    await localS.setItem('order', mergeOrder);
+
+    return newOrder;
 }
 
 async function executeUpdate(orderKey: number | string, updatedOrder: Order){

@@ -58,20 +58,14 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         };
     }
 
-    componentDidUpdate(prevProps: any){
-        if(prevProps.supplierId !== this.props.supplierId){
-            const allFieldsValue = this.props.form.getFieldsValue();
-            const allFieldsToReset = Object.keys(allFieldsValue).filter((key: any) => {
-                return key !== "supplier" && key !== "keys";
-            });
-
-            this.props.form.resetFields(allFieldsToReset);
-        }
-        return false;
-    }
+    // componentDidUpdate(prevProps: any){
+    //     if(prevProps.supplierId !== this.props.supplierId){
+    //         this.resetItems();
+    //     }
+    //     return false;
+    // }
 
     componentWillReceiveProps(newProps: any) {
-        console.log('new props', newProps);
         // this.setState({
         //     productOrders: newProps.productOrders,
         // });
@@ -79,7 +73,6 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 
     getFields(keys: any) {
         const { form, products } = this.props;
-        console.log("getFields", this.props.form.getFieldsValue());
         let buttonRemove: any = null;
 
         const childrens = keys.map((k: any, value: any) => {
@@ -132,6 +125,20 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         });
     }
 
+    resetItems = () => {
+        const allFieldsValue = this.props.form.getFieldsValue();
+        const allFieldsToReset = Object.keys(allFieldsValue).filter((key: any) => {
+            return key !== "supplier" && key !== "keys";
+        });
+
+        this.props.form.resetFields(allFieldsToReset);
+
+        this.setState({
+            loading: false,
+            disabledButton: false
+        });
+    }
+
     handleSubmit = async (e: any) => {
         e.preventDefault();
         const { productOrders } = this.state;
@@ -164,17 +171,16 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                     };
                 });
 
-                const newOrders = [
-                    {
+                const newOrder = {
                         key: 1,
                         supplierId: supplier,
                         items: newProducts
-                    }
-                ];
+                };
 
-                this.props.createMulti(newOrders);
+                this.props.createMulti(newOrder);
 
-                this.handleReset();
+                // this.handleReset();
+                this.resetItems();
 
             }, LOADING_TIMEOUT);
         });
@@ -261,7 +267,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 })
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    createMulti: (orders: Order[]) => dispatch(createMulti(orders)),
+    createMulti: (order: Order) => dispatch(createMulti(order)),
 });
 
 const CreateProductOrderForm = Form.create({ name: 'create_product_order_form' })(CreateProductOrder);

@@ -1,9 +1,10 @@
 import {Action, AnyAction} from 'redux';
 import {
-    GET_PRODUCTS_BELONG_SUPPLIER,
+    GET_PRODUCTS_BELONG_SUPPLIER, 
+    CREATE_MULTI_DYNAMIC_ORDERS,
 } from '../../../constants/order';
 
-import { ActionType } from './types';
+import { Order, ActionType } from './types';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
 import LocalStorage from '../../../services/LocalStorage';
@@ -12,13 +13,19 @@ import { mergeTwoArrayObject, updateArrayObjectByAttribute, filterArrayObjectByA
 import API from '../../../services/API';
 import axios from 'axios';
 
-
 // All function use to dispatch
 export const _getProductsBelongSupplier = (products: any): ActionType => {
     return {
         type: GET_PRODUCTS_BELONG_SUPPLIER,
         payload: products
     };
+}
+
+export const _createMulti = (order: Order): ActionType => {
+    return {
+        type: CREATE_MULTI_DYNAMIC_ORDERS,
+        payload: order
+    }
 }
 // All function use to dispatch
 
@@ -31,6 +38,13 @@ export const getProductsBelongSupplier = (supplierId: number | string): ThunkAct
     };
     dispatch(
         _getProductsBelongSupplier(newValue)
+    );
+}
+
+export const createMulti = (order: Order): ThunkAction<void, Order, null, Action<string>> => async dispatch => {
+    const newProducts = await executeCreateMulti(order);
+    dispatch(
+        _createMulti(newProducts)
     );
 }
 // All function use Component call
@@ -76,6 +90,24 @@ export async function exeGetSuppierProductDetail(supplierId: number | string, pr
     }
     catch(ex){
         console.log(ex);
+    }
+}
+
+async function executeCreateMulti(newOrder: Order){
+    try{
+        const localS = new LocalStorage();
+
+        const urlSaveAll = API.apiProductOrder;
+        const response: any = await axios.post(urlSaveAll, newOrder);
+
+        if(response){
+            await localS.setItem('order', null);
+        }
+
+        return response.data;
+    }
+    catch(ex){
+        console.error(ex);
     }
 }
 // All function to execute logic
