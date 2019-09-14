@@ -100,24 +100,24 @@ class List extends React.Component<IProps, IState> {
             categoryId,
             openRemoveModal: true
         })
-    }
+    };
 
     render() {        
         const columns = [
             {
-                title: "Category Code",
+                title: "Mã Loại Hàng",
                 dataIndex: "code",
             },
             {
-                title: "Category Name",
+                title: "Tên Loại Hàng",
                 dataIndex: "name",
             },
             {
-                title: "Category Note",
+                title: "Ghi Chú",
                 dataIndex: "note",
             },
             {
-                title: "Action",
+                title: "Thao Tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
@@ -141,10 +141,10 @@ class List extends React.Component<IProps, IState> {
         return (
             <div id="product-list" className="page-list">
                 <div className="page-list-header">
-                    <h1 className="page-list-title">Category List</h1>
+                    <h1 className="page-list-title">Danh Sách Loại Hàng</h1>
                     <div className="button-group">
                         <Button type="primary" className="btn-add-new">
-                            <Link to="/categories/create">Add New</Link>
+                            <Link to="/categories/create">Tạo Loại Hàng</Link>
                         </Button>
                     </div>
                 </div>

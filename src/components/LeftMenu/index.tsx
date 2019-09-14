@@ -55,16 +55,7 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
         this.props.logoutSystem();
         this.handleCheckAuthenticate();
         console.log(this.props.auth);
-        // if(!this.props.auth.token){
-        //     this.setState({
-        //         isRedirect: true,
-        //     });
-        // }
-        
-        // this.props.checkAuthenticate(this.props.auth);
-        // this.props.logoutSystem({});
-        // console.log(this.props);
-    }
+    };
 
     async handleCheckAuthenticate(){
         await this.props.checkAuthenticate(this.props.auth);
@@ -136,13 +127,13 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             <Link to="/products">Sản phẩm</Link>
                         </Menu.Item>
                         <Menu.Item key="8">
-                            <Link to="/categories">Category (ML1)</Link>
+                            <Link to="/categories">Loại Hàng</Link>
                         </Menu.Item>
                         <Menu.Item key="9">
-                            <Link to="/groups">Group (ML2)</Link>
+                            <Link to="/groups">Nhóm Hàng</Link>
                         </Menu.Item>
                         <Menu.Item key="10">
-                            <Link to="/classes">Class (ML3)</Link>
+                            <Link to="/classes">Lớp Hàng</Link>
                         </Menu.Item>
                     </SubMenu>
 
@@ -159,10 +150,6 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             <Button type="danger" onClick={this.handleLogout}>Logout</Button>
                         </Menu.Item>
                     </SubMenu>
-
-                    {/*<Menu.Item key="13">*/}
-                    {/*    <Button type="danger" onClick={this.handleLogout}>Logout</Button>*/}
-                    {/*</Menu.Item>*/}
                 </Menu>
                 
 

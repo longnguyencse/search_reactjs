@@ -64,7 +64,7 @@ class CreateCategory extends React.Component<IProps, IState> {
             if (k > 0) {
                 buttonRemove = (
                     <Col span={2}>
-                        <Form.Item label={`Remove`}>
+                        <Form.Item label={`Xóa`}>
                             <Button type="danger" onClick={() => this.handleRemove(k)}>X</Button>
                         </Form.Item>
                     </Col>
@@ -177,7 +177,7 @@ class CreateCategory extends React.Component<IProps, IState> {
         return (
             <div id="create-category">
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
-                    <h1>Create Form</h1>
+                    <h1>Form Tạo Loại Hàng</h1>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>

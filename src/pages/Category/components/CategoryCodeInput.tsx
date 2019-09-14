@@ -33,14 +33,14 @@ export default class CategoryCodeInput extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Category Code";
+        const label = "Mã Loại Hàng";
 
-        const placeholder = "Please enter your category code";
+        const placeholder = "Vui lòng nhập mã loại hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your category code',
+                message: 'Vui lòng nhập mã loại hàng',
             },
         ];
 

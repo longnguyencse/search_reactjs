@@ -127,19 +127,19 @@ class Create extends React.Component<IProps, IState> {
     render() {
         const columns = [
             {
-                title: "Category Code",
+                title: "Mã Loại Hàng",
                 dataIndex: "code",
             },
             {
-                title: "Category Name",
+                title: "Tên Loại Hàng",
                 dataIndex: "name",
             },
             {
-                title: "Category Note",
+                title: "Ghi Chú",
                 dataIndex: "note",
             },
             {
-                title: "Action",
+                title: "Thao Tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
@@ -196,7 +196,7 @@ class Create extends React.Component<IProps, IState> {
                         className="confirm-create-all"
                         type="primary"
                         loading={saveAllLoading}
-                        onClick={this.handleSaveAll}> Confirm create all categories </Button>
+                        onClick={this.handleSaveAll}>Xác nhận tạo loại hàng</Button>
                 </div>
             </div>
         );
