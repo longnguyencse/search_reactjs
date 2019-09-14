@@ -25,6 +25,22 @@ export default class InputQuantity extends React.Component<IProps, IState> {
         super(props);
     }
 
+    receiveQuantity = (quanity: number) => {
+        const allFields = this.props.form.getFieldsValue();
+        const prices = allFields.price;
+        const moneyArr = allFields.money;
+        const selectedKey = this.props.k;
+
+        const currentPrice = prices[selectedKey];
+        const currentMoney = currentPrice * quanity;
+
+        moneyArr[selectedKey] = currentMoney;
+        this.props.form.setFieldsValue({
+            money: moneyArr
+        });
+        console.log("Receive Quantity", quanity);
+    }
+
     render(){
         const { form, k, loadValue } = this.props;
 
@@ -62,6 +78,10 @@ export default class InputQuantity extends React.Component<IProps, IState> {
                 rules = {rules}
 
                 initialValue={initialValue}
+
+                minValue = {0}
+
+                onChange = {(quantity: any) => {this.receiveQuantity(quantity)}}
             />
         );
     }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Input, Form } from 'antd';
 
-import {returnDefaultString, returnDefaultArary} from '../../helpers';
+import { returnDefaultString, returnDefaultArary, returnDefaultBoolean } from '../../helpers';
 
 interface OwnProps {
     form: any,
@@ -10,7 +10,8 @@ interface OwnProps {
     label?: string,
     placeholder?: string,
     rules?: any,
-    initialValue?: string
+    initialValue?: string,
+    disabled?: boolean
 }
 
 interface DispatchProps {
@@ -31,7 +32,7 @@ export default class CustomInput extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { form, label, elementId, placeholder, rules, initialValue  } = this.props;
+        const { form, label, elementId, placeholder, rules, initialValue, disabled } = this.props;
         const { getFieldDecorator } = form;
 
         const loadLabel = returnDefaultString(label);
@@ -39,15 +40,19 @@ export default class CustomInput extends React.Component<IProps, IState> {
         const loadRules = returnDefaultArary(rules);
         const loadPlaceholder = returnDefaultString(placeholder);
         const loadInitialValue = returnDefaultString(initialValue);
-
+        const loadDisabled = returnDefaultBoolean(disabled);
 
         return (
             <Form.Item label={loadLabel}>
-            {getFieldDecorator(loadElementId, {
-                initialValue: loadInitialValue,
-                rules: loadRules,
-            })(<Input placeholder={loadPlaceholder} />)}
-        </Form.Item>
+                {getFieldDecorator(loadElementId, {
+                    initialValue: loadInitialValue,
+                    rules: loadRules,
+                })(<Input
+                    placeholder={loadPlaceholder}
+
+                    disabled={loadDisabled}
+                />)}
+            </Form.Item>
         );
     }
 }

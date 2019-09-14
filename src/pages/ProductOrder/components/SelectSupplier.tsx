@@ -21,20 +21,41 @@ interface DispatchProps {
 }
 
 interface StateProps {
+    orders?: any
 }
 
 type IProps = OwnProps & DispatchProps & StateProps;
 
 interface IState {
+    disabled: boolean,
+    loadValue: any
 }
 
 class SelectSupplier extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
+
+        this.state = {
+            disabled: false,
+            loadValue: null
+        }
     }
 
     componentDidMount(){
-        console.log("Select dimout")
+        // console.log("Select Didmount Select Supplier", this.props);
+    }
+
+    componentWillReceiveProps(newProps: any){
+        if(newProps.orders.length){
+            const orders = newProps.orders;
+            // console.log(orders);
+            const order = orders[0];
+            
+            this.setState({
+                disabled: true,
+                loadValue: order.supplierId["undefined"]
+            });
+        }
     }
 
     receiveSupplier = async (supplierId: number | string) => {
@@ -44,6 +65,8 @@ class SelectSupplier extends React.Component<IProps, IState> {
 
     render(){
         const { form, k, loadValue, values } = this.props;
+
+        const stateLoadValue = this.state.loadValue;
 
         let elementId = "supplier";
         if(k !== null){
@@ -66,6 +89,10 @@ class SelectSupplier extends React.Component<IProps, IState> {
             initialValue = this.props.loadValue;
         }
 
+        if(stateLoadValue){
+            initialValue = stateLoadValue;
+        }
+
         return (
             <CustomSelect 
                 form={form}
@@ -82,6 +109,7 @@ class SelectSupplier extends React.Component<IProps, IState> {
 
                 values={values}
 
+                disabled={this.state.disabled}
 
                 onChange={(supplierId: number | string) => { this.receiveSupplier(supplierId) }}
             />
@@ -89,11 +117,15 @@ class SelectSupplier extends React.Component<IProps, IState> {
     }
 }
 
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    orders: state.staticOrder
+});
+
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
     getProductsBelongSupplier: (supplierId: number | string) => dispatch(getProductsBelongSupplier(supplierId)),
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(SelectSupplier);

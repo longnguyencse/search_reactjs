@@ -62,6 +62,8 @@ export default class InputMoney extends React.Component<IProps, IState> {
                 rules = {rules}
 
                 initialValue={initialValue}
+
+                disabled={true}
             />
         );
     }

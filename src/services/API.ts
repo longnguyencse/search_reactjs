@@ -10,5 +10,5 @@ export default {
     apiGroup: baseUrl + "/product-group",
     apiSupplier: baseUrl + "/supplier",
     apiSupplierProduct: baseUrl + "/supplier-product",
-    apiSupplierProductDetail: baseUrl + "/supplier-product-detail"
+    apiSupplierProductDetail: baseUrl + "/product-detail"
 }

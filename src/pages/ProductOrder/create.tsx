@@ -1,12 +1,12 @@
 import React from "react";
-import {Empty} from 'antd';
+import { Table } from 'antd';
 
 import FormCreate from './components/FormCreate';
 
 import { Order } from '../../store/order/static/types';
 import { list } from '../../store/order/static/actions';
 
-import {executeList as getSuppliers} from '../../store/supplier/dynamic/actions';
+import { executeList as getSuppliers } from '../../store/supplier/dynamic/actions';
 
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
@@ -18,11 +18,12 @@ interface OwnProps {
 }
 
 interface StateProps {
-
+    products: any,
+    orders: Order[]
 }
 
 interface DispatchProps {
-
+    list: typeof list
 }
 
 type IProps = OwnProps & StateProps & DispatchProps;
@@ -30,30 +31,8 @@ type IProps = OwnProps & StateProps & DispatchProps;
 interface IState {
     suppliers: any,
     products: any,
+    orders: any
 }
-
-const _suppliers = [
-    {
-        id: 1, 
-        name: "Supplier 01"
-    },
-    {
-        id: 2, 
-        name: "Supplier 02"
-    },
-    {
-        id: 3, 
-        name: "Supplier 03"
-    },
-    {
-        id: 4, 
-        name: "Supplier 04"
-    },
-    {
-        id: 5, 
-        name: "Supplier 05"
-    }
-];
 
 class CreateProductOrder extends React.Component<IProps, IState> {
     constructor(props: IProps) {
@@ -61,51 +40,109 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 
         this.state = {
             suppliers: [],
-            products: []
+            products: [],
+            orders: []
         }
     }
 
-    componentWillReceiveProps(newProps: any){
+    componentWillReceiveProps(newProps: any) {
         console.log(newProps)
-        if(newProps.products){
+        if (newProps.products) {
             this.setState({
                 products: newProps.products
             });
         }
     }
 
-    async componentDidMount(){
-        const responseSupplier: any = await getSuppliers(0, 10000);
+    async componentDidMount() {
+        await this.props.list();
 
+        const dataToSetState: any = {};
+
+        if (this.props.orders) {
+            dataToSetState.orders = this.props.orders;
+        }
+
+        const responseSupplier: any = await getSuppliers(0, 10000);
         const suppliers = responseSupplier && responseSupplier.suppliers ? responseSupplier.suppliers : [];
-        this.setState({
-            suppliers
-        });
-        this.setState({
-            suppliers
-        });
+
+        dataToSetState.suppliers = suppliers;
+
+        this.setState(dataToSetState);
     }
 
     render() {
-        console.log("this.state.products", this.state.products)
-        return (
-            <FormCreate 
-                suppliers = {this.state.suppliers}
+        const columns = [
+            {
+                title: "Ten san pham",
+                dataIndex: "productId",
+            },
+            {
+                title: "Gia",
+                dataIndex: "price",
+            },
+            {
+                title: "So luong",
+                dataIndex: "quantity",
+            },
+            {
+                title: "Thanh tien",
+                dataIndex: "money",
+            },
+            {
+                title: "Giam gia",
+                dataIndex: "discount",
+            },
+            {
+                title: "Action",
+                dataIndex: "action",
+                render: (text: any, row: any, index: any) => {
+                    return (
+                        <div>
+                            {/* <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            -
+                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button> */}
+                        </div>
+                    );
+                },
+            },
+        ];
 
-                products = {this.state.products}
-            />
-            // <Empty/>
+        const { orders } = this.state;
+        const checkExist = orders.length;
+
+        return (
+            <div id="create-order">
+                <div className="search-result-list">
+                <FormCreate
+                    suppliers={this.state.suppliers}
+
+                    products={this.state.products}
+                />
+
+                {checkExist ?
+                    <Table pagination={false} columns={columns} dataSource={orders[0]["items"]} rowKey="key" />
+                    : null
+                }
+                </div>
+            </div>
         );
     }
 }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
     products: state.orderSupplierProduct.products,
+    orders: state.staticOrder
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    list: () => dispatch(list()),
+
 });
 
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
 )(CreateProductOrder);
 
 // export default CreateProductOrder;

@@ -4,6 +4,10 @@ import CustomSelect from '../../../components/CustomForm/Select';
 
 import {exeGetSuppierProductDetail as getSuppierProductDetail} from '../../../store/order/dynamic/actions';
 
+import { Order } from '../../../store/order/static/types';
+import { AppState } from '../../../store';
+import { connect } from 'react-redux';
+
 interface OwnProps {
     form: any,
     k?: any
@@ -15,6 +19,7 @@ interface DispatchProps {
 }
 
 interface StateProps {
+    supplierId?: any
 }
 
 type IProps = OwnProps & DispatchProps & StateProps;
@@ -22,7 +27,7 @@ type IProps = OwnProps & DispatchProps & StateProps;
 interface IState {
 }
 
-export default class SelectProduct extends React.Component<IProps, IState> {
+class SelectProduct extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
     }
@@ -32,27 +37,16 @@ export default class SelectProduct extends React.Component<IProps, IState> {
     }
 
     receiveProduct = async (productId: number | string) => {
-        // this.props.form.setFieldsValue({
-        //     price: `Hi, ${productId}`
-        // });
-        // const allFields = this.props.form.getFieldsValue();
-        // const allValueInFieldPrice = allFields.price.filter();
-        
-        // this.props.form.setFieldsValue({
-        //     price: ["1", "3", "4"]
-        // });
-
         const allFields = this.props.form.getFieldsValue();
-        // const keys = allFields.keys;
         const prices = allFields.price;
         const selectedKey = this.props.k;
 
-        const supplierProductDetail = await getSuppierProductDetail();
+        const supplierProductDetail = await getSuppierProductDetail(this.props.supplierId, productId);
 
-        prices[selectedKey] = productId;
+        prices[selectedKey] = supplierProductDetail.price;
         this.props.form.setFieldsValue({
             price: prices
-        })
+        });
         console.log("Select Product", this.props.form.getFieldsValue())
     }
 
@@ -101,3 +95,9 @@ export default class SelectProduct extends React.Component<IProps, IState> {
         );
     }
 }
+
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    supplierId: state.orderSupplierProduct.supplierId
+})
+
+export default connect(mapStateToProps, null)(SelectProduct);

@@ -19,7 +19,6 @@ import { ThunkDispatch } from 'redux-thunk';
 import { FormComponentProps } from 'antd/es/form';
 
 import { LOADING_TIMEOUT } from '../../../constants';
-import { string } from 'prop-types';
 // import { findElementInArrayObjectByAttribute } from '../../../helpers';
 
 interface OwnProps {
@@ -33,7 +32,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    // createMulti: typeof createMulti
+    createMulti: typeof createMulti
 }
 
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
@@ -80,7 +79,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 
     getFields(keys: any) {
         const { form, products } = this.props;
-        console.log("getFields", products);
+        console.log("getFields", this.props.form.getFieldsValue());
         let buttonRemove: any = null;
 
         const childrens = keys.map((k: any, value: any) => {
@@ -115,7 +114,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                         <InputMoney form={form} k={k} />
                     </Col>
                     <Col span={4}>
-                        <InputDiscount form={form} k={k} />
+                        <InputDiscount form={form} k={k} loadValue={0}/>
                     </Col>
                     {buttonRemove}
                 </div>
@@ -154,21 +153,26 @@ class CreateProductOrder extends React.Component<IProps, IState> {
             });
 
             setTimeout(() => {
-                const { keys, productName, productCode, productNote, productCategory, productGroup, productClass } = values;
-                const newProduct = keys.map((value: any, index: any) => {
-                    maxKey++;
+                const { keys, supplier, product, price, quantity, money, discount } = values;
+                const newProducts = keys.map((value: any, index: any) => {
                     return {
-                        key: maxKey,
-                        code: productCode[value],
-                        name: productName[value],
-                        note: productNote[value],
-                        categoryId: productCategory[value],
-                        groupId: productGroup[value],
-                        classId: productClass[value],
+                        productId: product[value],
+                        price: price[value],
+                        money: money[value],
+                        quantity: quantity[value],
+                        discount: discount[value]
                     };
                 });
 
-                // this.props.createMulti(newProduct);
+                const newOrders = [
+                    {
+                        key: 1,
+                        supplierId: supplier,
+                        items: newProducts
+                    }
+                ];
+
+                this.props.createMulti(newOrders);
 
                 this.handleReset();
 
@@ -256,9 +260,9 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
     supplierId: state.orderSupplierProduct.supplierId
 })
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {
-    return {};
-};
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    createMulti: (orders: Order[]) => dispatch(createMulti(orders)),
+});
 
 const CreateProductOrderForm = Form.create({ name: 'create_product_order_form' })(CreateProductOrder);
 

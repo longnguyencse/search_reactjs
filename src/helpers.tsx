@@ -33,6 +33,10 @@ export function returnDefaultString(value: any){
     return value;
 }
 
+export function returnDefaultBoolean(value: any){
+    return value ? true: false;
+}
+
 export function returnDefaultArary(value: any){
     if(!value){
         return [];

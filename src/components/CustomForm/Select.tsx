@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Form, Select } from 'antd';
 
-import {returnDefaultString, returnDefaultArary} from '../../helpers';
+import {returnDefaultString, returnDefaultArary, returnDefaultBoolean} from '../../helpers';
 
 const { Option } = Select;
 
@@ -15,6 +15,7 @@ interface OwnProps {
     initialValue?: string,
     values?: any,
     onChange?: (selectValue: number | string) => void,
+    disabled?: boolean
 }
 
 interface DispatchProps {
@@ -54,7 +55,7 @@ export default class CustomSelect extends React.Component<IProps, IState> {
 
 
     render() {
-        const { form, label, elementId, placeholder, rules, initialValue, values } = this.props;
+        const { form, label, elementId, placeholder, rules, initialValue, values, disabled } = this.props;
         const { getFieldDecorator } = form;
 
         const loadLabel = returnDefaultString(label);
@@ -63,6 +64,7 @@ export default class CustomSelect extends React.Component<IProps, IState> {
         const loadPlaceholder = returnDefaultString(placeholder);
         const loadInitialValue = returnDefaultString(initialValue);
         const loadOptions = returnDefaultArary(values);
+        const loadDisabled = returnDefaultBoolean(disabled);
 
         const formOptions: any = {
             rules: loadRules
@@ -85,6 +87,8 @@ export default class CustomSelect extends React.Component<IProps, IState> {
                     filterOption={(input: any, option: any) =>
                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
+
+                    disabled={loadDisabled}
                 >
                     {
                         loadOptions.map((item: any) => (
