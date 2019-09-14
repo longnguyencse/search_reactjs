@@ -147,8 +147,9 @@ class ModalUpdate extends React.Component<IProps, IState> {
         return (
             <Modal
                 visible={visible}
-                title="Update a Supplier"
-                okText="Submit"
+                title="Cập nhật nhà cung cấp"
+                okText="Đồng ý"
+                cancelText="Hủy bỏ"
                 onCancel={() => this.closeModal()}
                 onOk={() => this.handleSubmit()}
                 confirmLoading={confirmLoading}

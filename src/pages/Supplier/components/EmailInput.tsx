@@ -29,12 +29,12 @@ class EmailInput extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
         const label = "Email";
-        const placeholder = "Please enter your email address";
+        const placeholder = "Vui lòng nhập địa chỉ email";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your email address',
+                message: 'Vui lòng nhập địa chỉ email',
             },
         ];
 

@@ -226,7 +226,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         return (
             <div id="create-product-order">
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
-                    <h1>Create Form</h1>
+                    <h1>Tạo nhà cung cấp</h1>
                     <Row>
                         <SelectSupplier form={form} values={suppliers} />
                     </Row>
