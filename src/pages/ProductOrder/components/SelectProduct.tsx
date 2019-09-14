@@ -39,6 +39,15 @@ export default class SelectProduct extends React.Component<IProps, IState> {
         // this.props.form.setFieldsValue({
         //     price: ["1", "3", "4"]
         // });
+
+        const allFields = this.props.form.getFieldsValue();
+        // const keys = allFields.keys;
+        const prices = allFields.price;
+        const selectedKey = this.props.k;
+        prices[selectedKey] = productId;
+        this.props.form.setFieldsValue({
+            price: prices
+        })
         console.log("Select Product", this.props.form.getFieldsValue())
     }
 
