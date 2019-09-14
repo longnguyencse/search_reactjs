@@ -9,9 +9,9 @@ export interface Supplier {
     id?: number | string,
     code: string,
     name: string,
-    "address": string,
-    "phone": string,
-    "email": string
+    address: string,
+    phone: string,
+    email: string
 }
 
 export interface ListAction {

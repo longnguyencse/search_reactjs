@@ -22,7 +22,7 @@ class Supplier extends React.Component <IProductProps, IProductState> {
     render() {
         return (
             <div id="supplier">
-                <Route exact path="/supplier/create" component={CreateSupplierForm}/>
+                <Route exact path="/suppliers/create" component={CreateSupplierForm}/>
                 <Route exact path="/suppliers" component={ListSupplier}/>
             </div>
         );

@@ -1,93 +1,207 @@
 import React from 'react';
 
-import {Button, Col, Form, Icon, Input, Row} from 'antd';
+import {Button, Table} from 'antd';
+import FormCreate from "./components/FormCreate";
+import ModalRemove from "./components/ModalRemove";
+import {Supplier} from "../../store/supplier/static/types";
+import {list} from "../../store/supplier/static/actions";
+import {createMulti as saveAll} from "../../store/supplier/dynamic/actions";
+import {LOADING_TIMEOUT} from "../../constants";
+import {Redirect} from "react-router";
+import {AppState} from "../../store";
+import {ThunkDispatch} from "redux-thunk";
+import {connect} from "react-redux";
+import ModalUpdate from "./components/ModalUpdate";
 
-interface ICreateSupplierProps {
-    form?: any,
+interface OwnProps {
+    form?: any
 }
 
-interface ICreateSupplierState {
-    expand: boolean,
-    numView: Array<any>
+interface StateProps {
+    data: Supplier[]
 }
 
-class CreateSupplier extends React.Component <ICreateSupplierProps, ICreateSupplierState> {
-    constructor(props: ICreateSupplierProps) {
+interface DispatchProps {
+    list: typeof list,
+    saveAll: typeof saveAll
+}
+
+type IProps = OwnProps & StateProps & DispatchProps;
+
+interface IState {
+    data: any,
+    supplierKey: any,
+    openRemoveModal: boolean,
+    openUpdateModal: boolean,
+    redirectToList: boolean,
+    saveAllLoading: boolean
+}
+
+class CreateSupplier extends React.Component <IProps, IState> {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {
-            expand: false,
-            numView: this.getFields()
+            data: [],
+            supplierKey: null,
+            openRemoveModal: false,
+            openUpdateModal: false,
+            redirectToList: false,
+            saveAllLoading: false
         };
-
-        this.handleReset = this.handleReset.bind(this);
-        this.handSubmit = this.handSubmit.bind(this);
     }
 
-    getFields() {
-        const {getFieldDecorator} = this.props.form;
-        const children = [];
-        const propertiesOfSupplier = ['Tên NCC', 'Mã NCC'];
-        for (let i = 0; i < propertiesOfSupplier.length; i++) {
-            const label = propertiesOfSupplier[i];
-            children.push(
-                <Col span={8} key={i}>
-                    <Form.Item label={label}>
-                        {getFieldDecorator(label, {
-                            rules: [
-                                {
-                                    required: true,
-                                    message: 'Input something!',
-                                },
-                            ],
-                        })(<Input placeholder={label}/>)}
-                    </Form.Item>
-                </Col>,
-            );
-        }
-        return children;
-    }
-
-    handleReset() {
-        this.props.form.resetFields();
-    }
-
-    handSubmit = (e: any) => {
-        e.preventDefault();
-        this.props.form.validateFields((err: any, values: any) => {
-            console.log('Received values of form: ', values);
+    componentWillReceiveProps(newProps: any) {
+        console.log(newProps);
+        const {data} = newProps;
+        this.setState({
+            data,
         });
+    }
+
+    async componentDidMount() {
+        await this.props.list();
+        const data = this.props.data;
+
+
+        this.setState({
+            data,
+            redirectToList: false
+        });
+    }
+
+    handleClickUpdate = (key: any) => {
+        console.log('key ', key);
+        if (key) {
+            this.setState({
+                supplierKey: key,
+                openUpdateModal: true,
+            })
+        }
     };
 
-    add = (e: any) => {
-        console.log('add');
+    handleClickRemove = async (key: any) => {
+        this.setState({
+            supplierKey: key,
+            openRemoveModal: true
+        })
+    };
+
+    handleSaveAll = () => {
+        this.setState({
+            saveAllLoading: true
+        });
+        setTimeout(async () => {
+            await this.props.saveAll(this.state.data);
+            this.setState({
+                data: [],
+                redirectToList: true,
+                saveAllLoading: false
+            });
+
+        }, LOADING_TIMEOUT);
+
+        console.log("Save all");
     };
 
     render() {
+        const columns = [
+            {
+                title: "Supplier  Name",
+                dataIndex: "name",
+            },
+            {
+                title: "Supplier Code",
+                dataIndex: "code",
+            },
+            {
+                title: "Supplier Email",
+                dataIndex: "email",
+            },
+            {
+                title: "Supplier Address",
+                dataIndex: "address",
+            },
+            {
+                title: "Supplier Phone",
+                dataIndex: "phone",
+            },
+            {
+                title: "Action",
+                dataIndex: "action",
+                render: (text: any, row: any, index: any) => {
+                    return (
+                        <div>
+                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            -
+                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
+                        </div>
+                    );
+                },
+            },
+        ];
+
+        const {data, redirectToList, saveAllLoading} = this.state;
+
+        const checkExistCategories = data.length;
+
+        if (redirectToList) {
+            return <Redirect to="/suppliers"/>
+        }
+
+
         // const {expand} = this.state;
         return (
             <div id="create-supplier">
-                <Form className="ant-advanced-search-form" onSubmit={this.handSubmit}>
-                    <Row gutter={24}>{this.state.numView}</Row>
-                    <Row>
-                        <Col span={24} style={{textAlign: 'right'}}>
-                            <Button type="primary" htmlType="submit">
-                                Tạo NCC
-                            </Button>
-                            <Button style={{marginLeft: 8}} onClick={this.handleReset}>
-                                Xóa
-                            </Button>
-                            <Button type="dashed" onClick={this.add}>
-                                <Icon type="plus"/> Add field
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
+                <FormCreate/>
+                <ModalRemove
+                    supplierKey={this.state.supplierKey}
+
+                    visible={this.state.openRemoveModal}
+
+                    onCancel={() => {
+                        this.setState({openRemoveModal: false})
+                    }}
+                />
+                <ModalUpdate
+                    supplierKey={this.state.supplierKey}
+
+                    visible={this.state.openUpdateModal}
+
+                    onCancel={() => {
+                        this.setState({openUpdateModal: false})
+                    }}
+                />
+                {checkExistCategories ?
+                    <Table pagination={false} columns={columns} dataSource={data} rowKey="key"/>
+                    : null
+                }
+
+                <Button
+                    style={
+                        {
+                            display: !checkExistCategories ? "none" : "block"
+                        }
+                    }
+                    className="confirm-create-all"
+                    type="primary"
+                    loading={saveAllLoading}
+                    onClick={this.handleSaveAll}> Commit </Button>
             </div>
         );
     }
 }
 
-const CreateSupplierForm = Form.create({name: 'create_supplier_form'})(CreateSupplier);
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    data: state.staticSupplierReducer,
+});
 
-export default CreateSupplierForm;
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    list: () => dispatch(list()),
+    saveAll: (data: any) => dispatch(saveAll(data))
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateSupplier);

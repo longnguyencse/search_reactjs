@@ -52,7 +52,7 @@ async function executeCreateMulti(data: Supplier[]) {
     const mergeData = mergeTwoArrayObject(oldData, data);
 
     await localS.setItem(mapKey, mergeData);
-
+    console.log('data ', data);
     return data;
 }
 
