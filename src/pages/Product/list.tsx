@@ -182,7 +182,7 @@ class List extends React.Component<IProps, IState> {
                 dataIndex: "category.name",
             },
             {
-                title: "Ngảnh hàng",
+                title: "Ngành hàng",
                 dataIndex: "group.name",
             },
             {
