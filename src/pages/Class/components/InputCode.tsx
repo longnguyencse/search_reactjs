@@ -33,7 +33,7 @@ export default class InputCode extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Mã Ngành Hàng";
+        const label = "Mã ngành hàng";
 
         const placeholder = "Vui lòng nhập mã nghành hàng";
 

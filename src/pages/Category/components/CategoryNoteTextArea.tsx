@@ -38,7 +38,7 @@ export default class CategoryCodeTextArea extends React.Component<IProps, IState
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Ghi Chú";
+        const label = "Ghi chú";
 
         const placeholder = "Vui lòng ghi chú cho loại hàng";
 

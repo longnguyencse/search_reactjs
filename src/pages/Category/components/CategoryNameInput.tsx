@@ -36,7 +36,7 @@ export default class CategoryNameInput extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Tên Loại hàng";
+        const label = "Tên loại hàng";
 
         const placeholder = "Vui lòng nhập tên loại hàng";
 

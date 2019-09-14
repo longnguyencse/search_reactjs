@@ -106,19 +106,19 @@ class List extends React.Component<IProps, IState> {
     render() {
         const columns = [
             {
-                title: "Category Code",
+                title: "Mã ngành hàng",
                 dataIndex: "code",
             },
             {
-                title: "Category Name",
+                title: "Tên ngành hàng",
                 dataIndex: "name",
             },
             {
-                title: "Category Note",
+                title: "Ghi chú",
                 dataIndex: "note",
             },
             {
-                title: "Action",
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
@@ -144,10 +144,10 @@ class List extends React.Component<IProps, IState> {
         return (
             <div id="product-list" className="page-list">
                 <div className="page-list-header">
-                    <h1 className="page-list-title">Category List</h1>
+                    <h1 className="page-list-title">Danh sách ngành hàng</h1>
                     <div className="button-group">
                         <Button type="primary" className="btn-add-new">
-                            <Link to="/classes/create">Add New</Link>
+                            <Link to="/classes/create">Tạo mới</Link>
                         </Button>
                     </div>
                 </div>

@@ -37,14 +37,14 @@ export default class SelectClass extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Product Class";
+        const label = "Ngành hàng";
 
-        const placeholder = "Please select your product class";
+        const placeholder = "Vui lòng lựa chọn ngành hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please select your product class',
+                message: 'Vui lòng lựa chọn ngành hàng',
             },
         ];
 

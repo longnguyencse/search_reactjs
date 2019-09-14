@@ -127,26 +127,26 @@ class Create extends React.Component<IProps, IState> {
     render() {
         const columns = [
             {
-                title: "Mã Loại Hàng",
+                title: "Mã loại hàng",
                 dataIndex: "code",
             },
             {
-                title: "Tên Loại Hàng",
+                title: "Tên loại hàng",
                 dataIndex: "name",
             },
             {
-                title: "Ghi Chú",
+                title: "Ghi chú",
                 dataIndex: "note",
             },
             {
-                title: "Thao Tác",
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.key)}>Cập nhật</Button>
                             -
-                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.key)}>Xóa</Button>
                         </div>
                     );
                 },

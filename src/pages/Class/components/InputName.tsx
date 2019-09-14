@@ -36,7 +36,7 @@ export default class InputName extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Tên Ngành Hàng";
+        const label = "Tên ngành hàng";
 
         const placeholder = "Vui lòng nhập tên nghành hàng";
 

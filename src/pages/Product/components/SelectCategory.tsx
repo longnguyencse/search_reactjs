@@ -37,14 +37,14 @@ export default class SelectCategory extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Product Category";
+        const label = "Loại hàng";
 
-        const placeholder = "Please select your product category";
+        const placeholder = "Vui lòng lựa chọn loại hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please select your product category',
+                message: 'Vui lòng lựa chọn loại hàng',
             },
         ];
 

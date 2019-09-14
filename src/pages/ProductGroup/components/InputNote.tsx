@@ -38,14 +38,14 @@ export default class InputNote extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Group Note";
+        const label = "Ghi chú";
 
-        const placeholder = "Please enter your group note";
+        const placeholder = "Vui lòng nhập ghi chú";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your group note',
+                message: 'Vui lòng nhập ghi chú',
             },
         ];
 

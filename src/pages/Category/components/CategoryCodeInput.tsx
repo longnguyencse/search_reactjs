@@ -33,7 +33,7 @@ export default class CategoryCodeInput extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Mã Loại Hàng";
+        const label = "Mã loại hàng";
 
         const placeholder = "Vui lòng nhập mã loại hàng";
 

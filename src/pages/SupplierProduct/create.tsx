@@ -134,13 +134,13 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
                             <Button type="primary" htmlType="submit">
-                                Submit
+                                Đồng ý
                             </Button>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-                                Reset
+                                Tạo lại
                             </Button>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleAddMore}>
-                                Add More
+                                Thêm
                             </Button>
                         </Col>
                     </Row>
