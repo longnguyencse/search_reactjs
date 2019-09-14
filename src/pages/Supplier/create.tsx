@@ -132,9 +132,11 @@ class CreateSupplier extends React.Component <IProps, IState> {
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.key)}>Update
+                                - {row.key}</Button>
                             -
-                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.key)}>Delete
+                                - {row.key}</Button>
                         </div>
                     );
                 },
