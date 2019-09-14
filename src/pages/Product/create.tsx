@@ -130,38 +130,38 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
     render() {
         const columns = [
             {
-                title: "Ma san pham",
+                title: "Mã sản phẩm",
                 dataIndex: "code",
             },
             {
-                title: "Ten san pham",
+                title: "Tên sản phẩm",
                 dataIndex: "name",
             },
             {
-                title: "Note",
+                title: "Ghi chú",
                 dataIndex: "note",
             },
             {
-                title: "Category",
+                title: "Loại",
                 dataIndex: "categoryId",
             },
             {
-                title: "Group",
+                title: "Ngành",
                 dataIndex: "groupId",
             },
             {
-                title: "Class",
+                title: "Nhóm",
                 dataIndex: "classId",
             },
             {
-                title: "Action",
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.key)}>Cập nhật</Button>
                             -
-                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
+                            <Button type="danger"onClick={() => this.handleClickRemove(row.key)}>Xóa</Button>
                         </div>
                     );
                 },

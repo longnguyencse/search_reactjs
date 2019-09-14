@@ -176,7 +176,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                         className="confirm-create-all"
                         type="primary"
                         loading={saveAllLoading}
-                        onClick={this.handleSaveAll}> Confirm create all products </Button>
+                        onClick={this.handleSaveAll}>  Xác nhận ạo sản phẩm  </Button>
                 </div>
             </div>
         );
