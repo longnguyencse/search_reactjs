@@ -20,12 +20,12 @@ export interface Order {
 
 export interface ListAction {
     type: typeof LIST_STATIC_ORDER,
-    payload: Order[]
+    payload: Order
 }
 
 export interface CreateMultiAction {
     type: typeof CREATE_MULTI_STATIC_ORDERS,
-    payload: Order[]
+    payload: Order
 }
 
 export interface UpdateAction {
