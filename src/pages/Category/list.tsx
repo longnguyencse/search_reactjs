@@ -100,31 +100,31 @@ class List extends React.Component<IProps, IState> {
             categoryId,
             openRemoveModal: true
         })
-    }
+    };
 
     render() {        
         const columns = [
             {
-                title: "Category Code",
+                title: "Mã lại hàng",
                 dataIndex: "code",
             },
             {
-                title: "Category Name",
+                title: "Tên loại hàng",
                 dataIndex: "name",
             },
             {
-                title: "Category Note",
+                title: "Ghi chú",
                 dataIndex: "note",
             },
             {
-                title: "Action",
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Update - {row.id}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Cập nhật</Button>
                             -
-                            <Button type="danger" onClick={() => this.handleClickRemove(row.id)}>Delete - {row.id}</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.id)}>Xóa</Button>
                         </div>
                     );
                 },
@@ -141,10 +141,10 @@ class List extends React.Component<IProps, IState> {
         return (
             <div id="product-list" className="page-list">
                 <div className="page-list-header">
-                    <h1 className="page-list-title">Category List</h1>
+                    <h1 className="page-list-title">Danh sách loại hàng</h1>
                     <div className="button-group">
                         <Button type="primary" className="btn-add-new">
-                            <Link to="/categories/create">Add New</Link>
+                            <Link to="/categories/create">Tạo mới</Link>
                         </Button>
                     </div>
                 </div>

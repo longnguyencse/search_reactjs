@@ -197,18 +197,18 @@ class CreateProduct extends React.Component<IProps, IState> {
         return (
             <div id="create-product">
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
-                    <h1>Create Form</h1>
+                    <h1>Tạo sản phẩm</h1>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
                             <Button type="primary" htmlType="submit" loading={loading}>
-                                Submit
+                                Đồng ý
                             </Button>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleReset} disabled={disabledButton}>
-                                Reset
+                                Tạo lại
                             </Button>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleAddMore} disabled={disabledButton}>
-                                Add More
+                                Thêm
                             </Button>
                         </Col>
                     </Row>

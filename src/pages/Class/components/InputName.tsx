@@ -36,14 +36,14 @@ export default class InputName extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Class Name";
+        const label = "Tên ngành hàng";
 
-        const placeholder = "Please enter your class name";
+        const placeholder = "Vui lòng nhập tên nghành hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your class name',
+                message: 'Vui lòng nhập tên nghành hàng',
             },
         ];
 

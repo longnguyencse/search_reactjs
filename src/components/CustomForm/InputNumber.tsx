@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { InputNumber, Form } from 'antd';
+import {Form, InputNumber} from 'antd';
 
-import { returnDefaultString, returnDefaultArary } from '../../helpers';
+import {returnDefaultArary, returnDefaultString} from '../../helpers';
 
 interface OwnProps {
     form: any,
@@ -38,7 +38,7 @@ export default class CustomInputNumber extends React.Component<IProps, IState> {
             this.props.onChange(value);
         }
         console.log("Input Number was changed");
-    }
+    };
 
     render() {
         const { form, label, elementId, placeholder, rules, initialValue, minValue } = this.props;

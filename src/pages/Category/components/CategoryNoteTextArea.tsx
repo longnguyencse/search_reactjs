@@ -38,14 +38,14 @@ export default class CategoryCodeTextArea extends React.Component<IProps, IState
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Category Note";
+        const label = "Ghi chú";
 
-        const placeholder = "Please enter your category note";
+        const placeholder = "Vui lòng ghi chú cho loại hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your category note',
+                message: 'Vui lòng ghi chú cho loại hàng',
             },
         ];
 

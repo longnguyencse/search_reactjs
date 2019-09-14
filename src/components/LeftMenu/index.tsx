@@ -55,16 +55,7 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
         this.props.logoutSystem();
         this.handleCheckAuthenticate();
         console.log(this.props.auth);
-        // if(!this.props.auth.token){
-        //     this.setState({
-        //         isRedirect: true,
-        //     });
-        // }
-        
-        // this.props.checkAuthenticate(this.props.auth);
-        // this.props.logoutSystem({});
-        // console.log(this.props);
-    }
+    };
 
     async handleCheckAuthenticate(){
         await this.props.checkAuthenticate(this.props.auth);
@@ -136,13 +127,13 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             <Link to="/products">Sản phẩm</Link>
                         </Menu.Item>
                         <Menu.Item key="8">
-                            <Link to="/categories">Category (ML1)</Link>
+                            <Link to="/categories">Loại Hàng</Link>
                         </Menu.Item>
                         <Menu.Item key="9">
-                            <Link to="/groups">Group (ML2)</Link>
+                            <Link to="/groups">Nhóm Hàng</Link>
                         </Menu.Item>
                         <Menu.Item key="10">
-                            <Link to="/classes">Class (ML3)</Link>
+                            <Link to="/classes">Lớp Hàng</Link>
                         </Menu.Item>
                     </SubMenu>
 
@@ -156,48 +147,12 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             <Link to="/user/profile">Thông Tin</Link></Menu.Item>
                         <Menu.Item key="12">
                             {/*<Link to="/logout">Thoát</Link>*/}
-                            <Button type="danger" onClick={this.handleLogout}>Logout</Button>
+                            <Button type="danger" onClick={this.handleLogout}>Thoát</Button>
                         </Menu.Item>
                     </SubMenu>
-
-                    {/*<Menu.Item key="13">*/}
-                    {/*    <Button type="danger" onClick={this.handleLogout}>Logout</Button>*/}
-                    {/*</Menu.Item>*/}
                 </Menu>
                 
 
-            </Sider>
-        );
-        return (
-            <Sider className="left-sider">
-                <Menu>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-                        <Menu.Item key="1">
-                            <Icon type="appstore-o" />
-                            <span className="nav-text">
-                                <Link to="/po">Product Order</Link>
-                            </span>
-                        </Menu.Item>
-                        <Menu.Item key="2">
-                            <Icon type="user" />
-                            <span className="nav-text">Test</span>
-                        </Menu.Item>
-                        <SubMenu
-                            key="sub4"
-                            title={
-                                <span>
-                <Icon type="setting"/>
-                <span>Navigation Three</span>
-              </span>
-                            }
-                        >
-                            <Menu.Item key="9">Option 9</Menu.Item>
-                            <Menu.Item key="10">Option 10</Menu.Item>
-                            <Menu.Item key="11">Option 11</Menu.Item>
-                            <Menu.Item key="12">Option 12</Menu.Item>
-                        </SubMenu>
-                    </Menu>
-                </Menu>
             </Sider>
         );
     }

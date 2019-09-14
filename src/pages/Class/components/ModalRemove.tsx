@@ -68,7 +68,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
         let modalText = "";
         if (find) {
-            modalText = `Do you want remove group with name is : ${find.name}`;
+            modalText = `Bạn muốn xóa ngành hàng với tên là: ${find.name}`;
         }
 
         this.setState({
@@ -88,7 +88,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
     handleOk = () => {
         this.setState({
-            modalText: 'The modal will be closed after one second',
+            modalText: 'Xin chờ chốc lát',
             confirmLoading: true,
         });
         setTimeout(async () => {

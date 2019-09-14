@@ -38,14 +38,14 @@ export default class InputNote extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Class Note";
+        const label = "Ghi chú";
 
-        const placeholder = "Please enter your class note";
+        const placeholder = "Vui lòng nhập ghi chú";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your classs note',
+                message: 'Vui lòng nhập ghi chú',
             },
         ];
 

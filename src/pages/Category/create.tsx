@@ -92,20 +92,20 @@ class Create extends React.Component<IProps, IState> {
                 categoryKey: categoryKey
             })
         }
-    }
+    };
 
     handleCloseModalUpdate = () => {
         this.setState({
             openUpdateModal: false,
         });
-    }
+    };
 
     handleClickRemove = async (categoryKey: any) => {
         this.setState({
             categoryKey: categoryKey,
             openRemoveModal: true
         })
-    }
+    };
 
     handleSaveAll = () => {
         this.setState({
@@ -127,26 +127,26 @@ class Create extends React.Component<IProps, IState> {
     render() {
         const columns = [
             {
-                title: "Category Code",
+                title: "Mã loại hàng",
                 dataIndex: "code",
             },
             {
-                title: "Category Name",
+                title: "Tên loại hàng",
                 dataIndex: "name",
             },
             {
-                title: "Category Note",
+                title: "Ghi chú",
                 dataIndex: "note",
             },
             {
-                title: "Action",
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.key)}>Cập nhật</Button>
                             -
-                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.key)}>Xóa</Button>
                         </div>
                     );
                 },
@@ -196,7 +196,7 @@ class Create extends React.Component<IProps, IState> {
                         className="confirm-create-all"
                         type="primary"
                         loading={saveAllLoading}
-                        onClick={this.handleSaveAll}> Confirm create all categories </Button>
+                        onClick={this.handleSaveAll}>Xác nhận tạo loại hàng</Button>
                 </div>
             </div>
         );
