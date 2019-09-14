@@ -150,7 +150,7 @@ class ListSupplier extends React.Component<IProps, IState> {
         return (
             <div id="supplier-list" className="page-list">
                 <div className="page-list-header">
-                    <h1 className="page-list-title">Category List</h1>
+                    <h1 className="page-list-title">Danh sách nhà cung cấp</h1>
                     <div className="button-group">
                         <Button type="primary" className="btn-add-new">
                             <Link to="/suppliers/create">Tạo mới</Link>
