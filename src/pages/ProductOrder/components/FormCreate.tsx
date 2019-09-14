@@ -253,7 +253,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 // });
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    supplierId: state.product1.supplierId
+    supplierId: state.orderSupplierProduct.supplierId
 })
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => {

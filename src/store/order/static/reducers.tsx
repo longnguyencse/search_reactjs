@@ -2,8 +2,8 @@ import {
     LIST_STATIC_ORDER, 
     CREATE_MULTI_STATIC_ORDERS, 
     UPDATE_STATIC_ORDER, 
-    REMOVE_STATIC_ORDER,
-    GET_PRODUCT_FROM_SUPPLIER} from '../../../constants/order';
+    REMOVE_STATIC_ORDER
+} from '../../../constants/order';
 import { Order, ActionType } from './types';
 import { mergeTwoArrayObject, updateArrayObjectByAttribute, filterArrayObjectByAttribute } from '../../../helpers';
 
@@ -26,15 +26,6 @@ export function staticOrderReducer(state = initialState, action: ActionType) {
             return filterArrayObjectByAttribute(state, 'key', action.key);
         }
 
-        default:
-            return state;
-    }
-}
-
-export function productReducer(state = [], action: ActionType){
-    switch (action.type) {
-        case GET_PRODUCT_FROM_SUPPLIER:
-            return action.payload;
         default:
             return state;
     }

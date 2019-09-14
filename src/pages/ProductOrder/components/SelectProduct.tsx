@@ -2,6 +2,8 @@ import React from 'react';
 
 import CustomSelect from '../../../components/CustomForm/Select';
 
+import {exeGetSuppierProductDetail as getSuppierProductDetail} from '../../../store/order/dynamic/actions';
+
 interface OwnProps {
     form: any,
     k?: any
@@ -29,7 +31,7 @@ export default class SelectProduct extends React.Component<IProps, IState> {
         console.log("Select dimout")
     }
 
-    receiveProduct = (productId: number | string) => {
+    receiveProduct = async (productId: number | string) => {
         // this.props.form.setFieldsValue({
         //     price: `Hi, ${productId}`
         // });
@@ -44,6 +46,9 @@ export default class SelectProduct extends React.Component<IProps, IState> {
         // const keys = allFields.keys;
         const prices = allFields.price;
         const selectedKey = this.props.k;
+
+        const supplierProductDetail = await getSuppierProductDetail();
+
         prices[selectedKey] = productId;
         this.props.form.setFieldsValue({
             price: prices

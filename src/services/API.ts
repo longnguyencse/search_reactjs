@@ -9,5 +9,6 @@ export default {
     apiClass: baseUrl + "/product-class",
     apiGroup: baseUrl + "/product-group",
     apiSupplier: baseUrl + "/supplier",
-
+    apiSupplierProduct: baseUrl + "/supplier-product",
+    apiSupplierProductDetail: baseUrl + "/supplier-product-detail"
 }

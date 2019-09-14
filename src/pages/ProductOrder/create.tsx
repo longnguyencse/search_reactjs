@@ -6,6 +6,8 @@ import FormCreate from './components/FormCreate';
 import { Order } from '../../store/order/static/types';
 import { list } from '../../store/order/static/actions';
 
+import {executeList as getSuppliers} from '../../store/supplier/dynamic/actions';
+
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
 
@@ -72,9 +74,15 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         }
     }
 
-    componentDidMount(){
+    async componentDidMount(){
+        const responseSupplier: any = await getSuppliers(0, 10000);
+
+        const suppliers = responseSupplier && responseSupplier.suppliers ? responseSupplier.suppliers : [];
         this.setState({
-            suppliers: _suppliers
+            suppliers
+        });
+        this.setState({
+            suppliers
         });
     }
 
@@ -92,7 +100,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    products: state.product1.products,
+    products: state.orderSupplierProduct.products,
 });
 
 export default connect(

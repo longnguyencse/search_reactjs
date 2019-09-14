@@ -2,7 +2,8 @@ import {
     CREATE_MULTI_DYNAMIC_ORDERS,
     LIST_DYNAMIC_ORDER,
     REMOVE_DYNAMIC_ORDER,
-    UPDATE_DYNAMIC_ORDER
+    UPDATE_DYNAMIC_ORDER,
+    GET_PRODUCTS_BELONG_SUPPLIER
 } from "../../../constants/order";
 
 export interface Item {
@@ -39,6 +40,11 @@ export interface DeleteAction {
     key: number | string,
 }
 
-export type ActionType = ListAction | CreateMultiAction | UpdateAction | DeleteAction;
+export interface GetProductsBelongSupplier {
+    type: typeof GET_PRODUCTS_BELONG_SUPPLIER,
+    payload: any
+}
+
+export type ActionType = ListAction | CreateMultiAction | UpdateAction | DeleteAction | GetProductsBelongSupplier;
 
 

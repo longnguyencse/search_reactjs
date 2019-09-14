@@ -4,7 +4,7 @@ import {
     CREATE_MULTI_STATIC_ORDERS, 
     UPDATE_STATIC_ORDER, 
     REMOVE_STATIC_ORDER,
-    GET_PRODUCT_FROM_SUPPLIER} from '../../../constants/order';
+} from '../../../constants/order';
 import { Order, ActionType } from './types';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
@@ -40,13 +40,6 @@ export const _remove = (orderKey: number | string): ActionType => {
         key: orderKey,
     }
 }
-
-export const _getProducts = (products: any): ActionType => {
-    return {
-        type: GET_PRODUCT_FROM_SUPPLIER,
-        payload: products
-    };
-}
 // All function use to dispatch
 
 // All function use Component call
@@ -75,17 +68,6 @@ export const remove = (orderKey: number | string): ThunkAction<void, Order[], nu
     const newOrderKey = await executeRemove(orderKey);
     dispatch(
         _remove(newOrderKey)
-    );
-}
-
-export const getProducts = (supplierId: number | string): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
-    const newProducts = await executeGetProducts(supplierId);
-    const newValue = {
-        supplierId,
-        products: newProducts
-    };
-    dispatch(
-        _getProducts(newValue)
     );
 }
 // All function use Component call
@@ -137,62 +119,5 @@ async function executeRemove(orderKey: number | string){
     await localS.setItem('orders', newOrders);
 
     return orderKey;
-}
-
-async function executeGetProducts(supplierId: number | string){
-    const _products = [
-        {
-            id: 1,
-            supplierId: 1,
-            name: "Product 01",
-            price: 10000
-        },
-        {
-            id: 2,
-            supplierId: 1,
-            name: "Product 02",
-            price: 20000
-        },
-        {
-            id: 3,
-            supplierId: 2,
-            name: "Product 03",
-            price: 10000
-        },
-        {
-            id: 4,
-            supplierId: 3,
-            name: "Product 04",
-            price: 10000
-        },
-        {
-            id: 5,
-            supplierId: 4,
-            name: "Product 05",
-            price: 10000
-        },
-        {
-            id: 6,
-            supplierId: 4,
-            name: "Product 06",
-            price: 10000
-        },
-        {
-            id: 7,
-            supplierId: 5,
-            name: "Product 07",
-            price: 10000
-        },
-        {
-            id: 8,
-            supplierId: 5,
-            name: "Product 08",
-            price: 15000
-        }
-    ];
-
-    const products = findAllElementInArrayObjectByAttribute(_products, "supplierId", supplierId);
-
-    return products;
 }
 // All function to execute logic

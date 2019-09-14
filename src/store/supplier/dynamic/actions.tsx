@@ -19,16 +19,16 @@ export const list = (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE): 
     const data = await executeList(page, size);
 
     if (data) {
-        const {total, totalPage, currentPage, categories} = data;
+        const {total, totalPage, currentPage, suppliers} = data;
 
         dispatch(
-            _list(total, totalPage, currentPage, categories)
+            _list(total, totalPage, currentPage, suppliers)
         );
     }
 };
 
 // All function to execute logic
-async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE) {
+export async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE) {
     try {
         const urlGetList = API.apiSupplier + `?page=${page}&size=${size}`
         const response: any = await axios.get(urlGetList);
@@ -39,7 +39,7 @@ async function executeList(page: number | null = DEFAULT_PAGE, size: number | nu
             total: responseData.total,
             totalPage: responseData.totalPage,
             currentPage: responseData.page,
-            categories: responseData.data
+            suppliers: responseData.data
         };
     } catch (ex) {
         console.error(ex);

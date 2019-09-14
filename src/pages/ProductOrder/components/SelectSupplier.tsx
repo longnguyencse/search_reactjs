@@ -2,7 +2,7 @@ import React from 'react';
 
 import CustomSelect from '../../../components/CustomForm/Select';
 
-import { getProducts } from '../../../store/order/static/actions';
+import { getProductsBelongSupplier } from '../../../store/order/dynamic/actions';
 
 import { AppState } from '../../../store';
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ interface OwnProps {
 }
 
 interface DispatchProps {
-    getProducts: typeof getProducts
+    getProductsBelongSupplier: typeof getProductsBelongSupplier
 }
 
 interface StateProps {
@@ -37,8 +37,8 @@ class SelectSupplier extends React.Component<IProps, IState> {
         console.log("Select dimout")
     }
 
-    receiveSupplier = (supplierId: number | string) => {
-        this.props.getProducts(supplierId);
+    receiveSupplier = async (supplierId: number | string) => {
+        await this.props.getProductsBelongSupplier(supplierId);
         console.log("SelectSupplier", supplierId);
     }
 
@@ -90,7 +90,7 @@ class SelectSupplier extends React.Component<IProps, IState> {
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    getProducts: (supplierId: number | string) => dispatch(getProducts(supplierId)),
+    getProductsBelongSupplier: (supplierId: number | string) => dispatch(getProductsBelongSupplier(supplierId)),
 });
 
 export default connect(
