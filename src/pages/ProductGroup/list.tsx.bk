@@ -1,0 +1,29 @@
+import React from 'react';
+
+import {Route} from 'react-router-dom';
+import Create from './create';
+
+
+interface IProps {
+
+}
+
+interface IState {
+
+}
+
+class List extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div id="product-group">
+                <Route exact path="/groups/create" component={Create}/>
+            </div>
+        );
+    }
+}
+
+export default List;

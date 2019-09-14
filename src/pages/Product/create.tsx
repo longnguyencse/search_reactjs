@@ -1,191 +1,229 @@
 import React from 'react';
 
-import {Button, Col, Form, Row, Table} from 'antd';
+import { Button, Col, Form, Row, Table } from 'antd';
 
-import SupplierSelect from './components/SupplierSelect';
-import ProductNameInput from './components/ProductNameInput';
-import ProductCodeInput from './components/ProductCodeInput';
+import FormCreate from './components/FormCreate';
+import ModalUpdate from './components/ModalUpdate';
+import ModalRemove from './components/ModalRemove';
 
-interface ICreateProductProps {
-    form?: any,
+import { Product } from '../../store/product/static/types';
+import { list } from '../../store/product/static/actions';
+
+import { createMulti as saveAll } from '../../store/product/dynamic/actions';
+
+import { executeList as getCategories } from '../../store/category/dynamic/actions';
+import { executeList as getGroups } from '../../store/group/dynamic/actions';
+import { executeList as getClasses } from '../../store/class/dynamic/actions';
+
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
+
+
+import { ThunkDispatch } from 'redux-thunk';
+import { LOADING_TIMEOUT } from '../../constants';
+import { Redirect } from 'react-router';
+
+interface OwnProps {
 }
+
+interface StateProps {
+    products: {}
+}
+
+interface DispatchProps {
+    list: typeof list,
+    saveAll: typeof saveAll,
+}
+
+type ICreateProductProps = OwnProps & StateProps & DispatchProps;
 
 interface ICreateProductState {
-    expand: boolean,
-    productNumber: number,
     products: any,
+    productKey: any,
+    openUpdateModal: boolean,
+    openRemoveModal: boolean,
+    categories: any,
+    groups: any,
+    classes: any,
+    redirectToList: boolean,
+    saveAllLoading: boolean
 }
-
-let productNumber:number = 1;
-
-const columns = [
-    {
-        title: "Nha cung cap",
-        dataIndex: "nhaCungCap",
-    },
-    {
-        title: "Ten san pham",
-        dataIndex: "tenSanPham",
-    },
-    {
-        title: "Ma san pham",
-        dataIndex: "maSanPham",
-    },
-    {
-        title: "Action",
-        dataIndex: "action",
-        render: () => <a href="#">Update</a>,
-    },
-
-];
 
 class CreateProduct extends React.Component<ICreateProductProps, ICreateProductState> {
     constructor(props: ICreateProductProps) {
         super(props);
 
         this.state = {
-            expand: false,
-            productNumber: 1,
-            products: null
+            products: [],
+            productKey: null,
+            openUpdateModal: false,
+            openRemoveModal: false,
+            categories: [],
+            groups: [],
+            classes: [],
+            redirectToList: false,
+            saveAllLoading: false
         };
-
-        this.handleReset = this.handleReset.bind(this);
-        this.toggle = this.toggle.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleAddMore = this.handleAddMore.bind(this);
-        this.handleRemoveProduct = this.handleRemoveProduct.bind(this);
     }
 
-    componentWillMount(){
-        const {products} = this.state;
-        if(!products){
-            return;
-        }
-    }
-
-    getFields(keys:any) {
-        // const count = this.state.productNumber;
-        const { form } = this.props;
-        let buttonRemove:any = null;
-
-        const childrens = keys.map((k: any, value: any) => {
-            if(k > 0){
-                buttonRemove = (
-                    <Col span={3}>
-                        <Form.Item label={`Remove`}>
-                            <Button type="danger" onClick={() => this.handleRemoveProduct(k)}>X</Button>
-                        </Form.Item>
-                    </Col>
-                );
-            }
-            return (
-                <div key={k}>
-                    <Col span={7}>
-                        <SupplierSelect form={form} k={k}/>
-                    </Col>
-                    <Col span={7}>
-                        <ProductNameInput form={form} k={k} />
-                    </Col>
-                    <Col span={7}>
-                        <ProductCodeInput form={form} k={k} />
-                    </Col>
-                    {buttonRemove}
-                </div>
-            )
+    componentWillReceiveProps(newProps: any) {
+        console.log(newProps);
+        const { products } = newProps;
+        this.setState({
+            products,
         });
-
-        return childrens;
     }
 
-    handleReset() {
-        this.props.form.resetFields();
+    async componentDidMount() {
+        await this.props.list();
+
+        const products = this.props.products;
+
+        const responseCategory: any = await getCategories(0, 10000);
+        const responseGroup: any = await getGroups(0, 1000);
+        const responseClass: any = await getClasses(0, 1000);
+        const categories = responseCategory && responseCategory.categories ? responseCategory.categories : [];
+        const groups = responseGroup && responseGroup.categories ? responseGroup.categories : [];
+        const classes = responseClass && responseClass.categories ? responseClass.categories : [];
+        this.setState({
+            products,
+            categories,
+            groups,
+            classes
+        });
     }
 
-    toggle() {
-        const { expand } = this.state;
-        this.setState({ expand: !expand });
-    }
-
-    handleSubmit = (e: any) => {
-        e.preventDefault();
-        this.props.form.validateFields((err: any, values: any) => {
-            if(err){
-                return;
-            }
-            const {keys, supplier, productName, productCode}= values;
-            const products = keys.map((k:any, index:any) => {
-                return {
-                    key: k,
-                    nhaCungCap: supplier[k],
-                    tenSanPham: productName[k],
-                    maSanPham: productCode[k]  
-                };
-            });
+    handleClickUpdate = (productKey: any) => {
+        if (productKey) {
             this.setState({
-                products
-            });
-            this.handleReset();
-            console.log('Received values of form: ', products);
-        });
-    };
-
-    handleAddMore(){
-        const {form} = this.props;
-
-        const keys = form.getFieldValue('keys');
-        const nextKeys = keys.concat(productNumber++);
-
-        form.setFieldsValue({
-            keys: nextKeys,
-        });
+                openUpdateModal: true,
+                productKey
+            })
+        }
     }
 
-    handleRemoveProduct(i:any){
-        const { form } = this.props;
+    handleClickRemove = async (productKey: any) => {
+        this.setState({
+            productKey,
+            openRemoveModal: true
+        })
+    }
 
-        const keys = form.getFieldValue('keys');
-
-        // We need at least one product
-        if (keys.length === 1) {
-            return;
-        }
-
-        // can use data-binding to set
-        form.setFieldsValue({
-            keys: keys.filter((key:any) => key !== i),
+    handleSaveAll = () => {
+        this.setState({
+            saveAllLoading: true
         });
+        setTimeout(async () => {
+            console.log(this.state.products);
+            await this.props.saveAll(this.state.products);
+            this.setState({
+                products: [],
+                redirectToList: true,
+                saveAllLoading: false
+            });
 
+        }, LOADING_TIMEOUT);
 
+        console.log("Save all");
     }
 
     render() {
-        const { getFieldDecorator, getFieldValue } = this.props.form;
-        getFieldDecorator('keys', { initialValue: [0] });
-        const keys = getFieldValue('keys');
-        const {products} = this.state;
+        const columns = [
+            {
+                title: "Ma san pham",
+                dataIndex: "code",
+            },
+            {
+                title: "Ten san pham",
+                dataIndex: "name",
+            },
+            {
+                title: "Note",
+                dataIndex: "note",
+            },
+            {
+                title: "Category",
+                dataIndex: "categoryId",
+            },
+            {
+                title: "Group",
+                dataIndex: "groupId",
+            },
+            {
+                title: "Class",
+                dataIndex: "classId",
+            },
+            {
+                title: "Action",
+                dataIndex: "action",
+                render: (text: any, row: any, index: any) => {
+                    return (
+                        <div>
+                            <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            -
+                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button>
+                        </div>
+                    );
+                },
+            },
+
+        ];
+
+        const { products, redirectToList, saveAllLoading } = this.state;
+        const checkExist = products.length;
+
+        if (redirectToList) {
+            return <Redirect to="/products" />
+        }
+
         return (
             <div id="create-product">
-                <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
-                    <Row gutter={24}>{this.getFields(keys)}</Row>
-                    <Row>
-                        <Col span={24} style={{ textAlign: 'right' }}>
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-                                Reset
-                            </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={this.handleAddMore}>
-                                Add More
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
                 <div className="search-result-list">
-                    { products ?
-                        <Table pagination={false} columns={columns} dataSource={products} rowKey="key"/>
+                    <FormCreate 
+                        categories={this.state.categories}
+
+                        groups={this.state.groups}
+
+                        classes={this.state.classes}
+                    />
+
+                    <ModalUpdate
+                        productKey={this.state.productKey}
+
+                        visible={this.state.openUpdateModal}
+
+                        onCancel={() => { this.setState({ openUpdateModal: false }) }}
+
+                        categories={this.state.categories}
+
+                        groups={this.state.groups}
+
+                        classes={this.state.classes}
+                    />
+
+                    <ModalRemove
+                        productKey={this.state.productKey}
+
+                        visible={this.state.openRemoveModal}
+
+                        onCancel={() => { this.setState({ openRemoveModal: false }) }}
+                    />
+
+                    {checkExist ?
+                        <Table pagination={false} columns={columns} dataSource={products} rowKey="key" />
                         : null
                     }
+
+                    <Button
+                        style={
+                            {
+                                display: !checkExist ? "none" : "block"
+                            }
+                        }
+                        className="confirm-create-all"
+                        type="primary"
+                        loading={saveAllLoading}
+                        onClick={this.handleSaveAll}> Confirm create all products </Button>
                 </div>
             </div>
         );
@@ -194,4 +232,17 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
 const CreateProductForm = Form.create({ name: 'create_product_form' })(CreateProduct);
 
-export default CreateProductForm;
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
+    products: state.staticProducts,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
+    list: () => dispatch(list()),
+    saveAll: (products: any) => dispatch(saveAll(products))
+
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateProductForm);

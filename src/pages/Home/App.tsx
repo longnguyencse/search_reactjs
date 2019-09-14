@@ -73,11 +73,11 @@ class App extends React.Component<IAppProps, IAppState> {
     }
     
     async handleCheckAuthenticate(){
-        await this.props.checkAuthenticate(this.props.auth);
-        const {auth} = this.props;
-        if(!auth.token){
-            history.push("/login");
-        }
+        // await this.props.checkAuthenticate(this.props.auth);
+        // const {auth} = this.props;
+        // if(!auth.token){
+        //     history.push("/login");
+        // }
     }
 
 

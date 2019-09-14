@@ -6,6 +6,8 @@ import ProductOrder from '../../pages/ProductOrder';
 import Product from '../../pages/Product';
 import Supplier from '../../pages/Supplier';
 import Discount from '../../pages/Discount';
+import SupplierProduct from '../../pages/SupplierProduct';
+import Category from '../../pages/Category';
 
 import "./styles.scss";
 
@@ -14,6 +16,8 @@ import {AppState} from '../../store';
 import {connect} from 'react-redux';
 import {Dispatch} from "redux";
 import User from "../../pages/User";
+import ProductGroup from "../../pages/ProductGroup";
+import ProductClass from "../../pages/Class";
 
 const {Content} = Layout;
 
@@ -46,6 +50,10 @@ class MainContent extends React.Component<IMainContentProps, IMainContentState> 
                     <Supplier/>
                     <Discount/>
                     <User/>
+                    <SupplierProduct />
+                    <ProductGroup/>
+                    <Category />
+                    <ProductClass/>
                 </div>
             </Content>
         );

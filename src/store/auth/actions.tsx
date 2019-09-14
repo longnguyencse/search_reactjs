@@ -3,6 +3,11 @@ import {AuthState, CHECK_AUTHENICATE, LOGIN, LOGOUT, AuthenActionType} from './t
 import LocalStorage from '../../services/LocalStorage';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 
+import API from '../../services/API';
+
+import { Observable } from 'rxjs';
+import axios from 'axios';
+
 export const _loginSystem = (auth: AuthState): AuthenActionType => {
     console.log("_loginSystem");
     return {
@@ -52,14 +57,52 @@ export const checkAuthenticate = (auth: AuthState): ThunkAction<void, {}, {}, An
 };
 
 async function excuteLogin(userName: string, password: string){
-    const localS = new LocalStorage();
+
+    const postData = {
+        userName,
+        password
+    };
+
+    // axios
+    //     .post(API.apiLogin, postData)
+    //     .then(response => {
+    //         const localS = new LocalStorage();
+    //         const data = response.data;
+    //         let token = "";
+    //         if(data){
+    //             token = data.data.accessToken;
+    //         }
+    //         localS.setValue("token", token).then(() => {
+    //             localS.getValue("token").then(data => {
+    //                 console.log(data);
+    //             }).catch(err => {console.log(err)});
+    //         }).catch(err => {
+    //             console.log(err);
+    //         })
+            
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //         return null;
+    //     });
+
+    // return {
+    //     userName,
+    //     password,
+    // };
+
     let token = "";
-    if(userName === "nhan" && password === "vo"){
-        token = "nhan_vo";
-        await localS.setValue("token", token);
+
+    try{
+        const response = await axios.post(API.apiLogin, postData);
+        if(response){
+            const localS = new LocalStorage();
+            token = response.data.data.accessToken;
+            await localS.setValue("token", token);
+        }
     }
-    else {
-        console.error("Error");
+    catch(ex){
+        console.error(ex);
     }
 
     return {

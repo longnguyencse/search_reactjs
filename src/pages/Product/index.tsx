@@ -1,9 +1,11 @@
 import React from 'react';
 
-import CreateProductForm from './create';
-
 import {Route} from 'react-router-dom';
-import List from "../ProductOrder/list";
+
+import CreateProductForm from './create';
+import List from "./list";
+
+import "./styles.scss";
 
 interface IProductProps {
 
@@ -21,8 +23,8 @@ export default class Product extends React.Component <IProductProps, IProductSta
     render(){
         return (
             <div id="product">
-                <Route exact path="/product" component={List}/>
-                <Route exact path="/product/create" component={CreateProductForm}/>
+                <Route exact path="/products" component={List}/>
+                <Route exact path="/products/create" component={CreateProductForm}/>
             </div>
         );
     }

@@ -1,15 +1,15 @@
 import React from "react";
-import {Icon, Layout, Menu, Button} from 'antd';
+import {Button, Icon, Layout, Menu} from 'antd';
 
 import {Link, Redirect} from 'react-router-dom';
 
 import './styles.scss';
 
 import {AuthState} from '../../store/auth/types';
-import {loginSystem, logoutSystem, checkAuthenticate} from '../../store/auth/actions';
-import { AppState } from '../../store';
-import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk'
+import {checkAuthenticate, logoutSystem} from '../../store/auth/actions';
+import {AppState} from '../../store';
+import {connect} from 'react-redux';
+import {ThunkDispatch} from 'redux-thunk'
 
 const {Sider} = Layout;
 const {SubMenu} = Menu;
@@ -91,7 +91,7 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             </span>
                     }>
                         <Menu.Item key="1">
-                            <Link to="/create/po">Nhập ĐH</Link>
+                            <Link to="/po/create">Nhập ĐH</Link>
                         </Menu.Item>
                         <Menu.Item key="2">
                             <Link to="/po">Duyệt ĐH</Link>
@@ -119,7 +119,7 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             </span>
                     }>
                         <Menu.Item key="5">
-                            <Link to={"/supplier/create"}>Tạo NCC</Link>
+                            <Link to={"/suppliers/create"}>Tạo NCC</Link>
                         </Menu.Item>
                         <Menu.Item key="6">
                             <Link to={"/suppliers"}>Xem NCC</Link>
@@ -129,16 +129,21 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                     <SubMenu key="sub3" title={
                         <span>
                                 <Icon type="gift"/>
-                                <span>Sản Phẩm</span>
+                                <span>Tồn kho</span>
                             </span>
                     }>
                         <Menu.Item key="7">
-                            <Link to="/product/create">Nhập SP</Link>
+                            <Link to="/products">Sản phẩm</Link>
                         </Menu.Item>
                         <Menu.Item key="8">
-                            <Link to="/product">Duyệt SP</Link>
+                            <Link to="/categories">Category (ML1)</Link>
                         </Menu.Item>
-                        {/* <Menu.Item key="9">Xem SP</Menu.Item> */}
+                        <Menu.Item key="9">
+                            <Link to="/groups">Group (ML2)</Link>
+                        </Menu.Item>
+                        <Menu.Item key="10">
+                            <Link to="/classes">Class (ML3)</Link>
+                        </Menu.Item>
                     </SubMenu>
 
                     <SubMenu key="sub4" title={
@@ -147,16 +152,17 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                                 <span>Người Dùng</span>
                             </span>
                     }>
-                        <Menu.Item key="10">
-                            <Link to="/user/profile">Thông Tin</Link></Menu.Item>
                         <Menu.Item key="11">
-                            <Link to="/logout">Thoát</Link>
+                            <Link to="/user/profile">Thông Tin</Link></Menu.Item>
+                        <Menu.Item key="12">
+                            {/*<Link to="/logout">Thoát</Link>*/}
+                            <Button type="danger" onClick={this.handleLogout}>Logout</Button>
                         </Menu.Item>
                     </SubMenu>
 
-                    <Menu.Item key="9">
-                        <Button type="danger" onClick={this.handleLogout}>Logout</Button>
-                    </Menu.Item>
+                    {/*<Menu.Item key="13">*/}
+                    {/*    <Button type="danger" onClick={this.handleLogout}>Logout</Button>*/}
+                    {/*</Menu.Item>*/}
                 </Menu>
                 
 
