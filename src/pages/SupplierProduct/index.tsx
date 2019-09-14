@@ -3,6 +3,7 @@ import React from 'react';
 import CreateSupplierProductForm from './create';
 
 import {Route} from 'react-router-dom';
+
 // import List from "../ProductOrder/list";
 
 interface IProductProps {
@@ -21,7 +22,6 @@ export default class Product extends React.Component <IProductProps, IProductSta
     render(){
         return (
             <div id="supplier-products">
-                {/* <Route exact path="/product" component={List}/> */}
                 <Route exact path="/supplier_products/create" component={CreateSupplierProductForm}/>
             </div>
         );
