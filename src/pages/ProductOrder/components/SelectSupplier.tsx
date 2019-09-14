@@ -21,7 +21,7 @@ interface DispatchProps {
 }
 
 interface StateProps {
-    orders?: any
+    order?: any
 }
 
 type IProps = OwnProps & DispatchProps & StateProps;
@@ -41,26 +41,25 @@ class SelectSupplier extends React.Component<IProps, IState> {
         }
     }
 
-    componentDidMount(){
-        // console.log("Select Didmount Select Supplier", this.props);
+    async componentDidMount(){
     }
 
-    componentWillReceiveProps(newProps: any){
-        if(newProps.orders.length){
-            const orders = newProps.orders;
-            // console.log(orders);
-            const order = orders[0];
+    async componentWillReceiveProps(newProps: any){
+        if(newProps.order && newProps.order.supplierId){
+            const order = newProps.order;
             
+            if(newProps.order.supplierId !== this.props.order.supplierId){
+                await this.props.getProductsBelongSupplier(order.supplierId);
+            }
             this.setState({
                 disabled: true,
-                loadValue: order.supplierId["undefined"]
+                loadValue: order.supplierId
             });
         }
     }
 
     receiveSupplier = async (supplierId: number | string) => {
         await this.props.getProductsBelongSupplier(supplierId);
-        console.log("SelectSupplier", supplierId);
     }
 
     render(){
@@ -69,7 +68,7 @@ class SelectSupplier extends React.Component<IProps, IState> {
         const stateLoadValue = this.state.loadValue;
 
         let elementId = "supplier";
-        if(k !== null){
+        if(k !== null && k !== undefined){
             elementId = elementId + `[${this.props.k}]`;
         }
 
@@ -118,7 +117,7 @@ class SelectSupplier extends React.Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-    orders: state.staticOrder
+    order: state.staticOrder
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({

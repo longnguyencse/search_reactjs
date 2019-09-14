@@ -1,21 +1,10 @@
-#po-list {
-    .po-list-header {
-        margin-bottom: 30px;
-
-        .po-list-title {
-            display: inline;
-        }
-    
-        .btn-change-status {
-            float: right
-        }
+#product-order {
+    .ant-table-wrapper {
+        padding-top: 15px;
     }
-    
-    .po-list-footer {
-        margin-top: 30px;
 
-        .pagination {
-            float: right;
-        }
+    .confirm-create-all {
+        float: right;
+        margin-top: 15px;
     }
 }

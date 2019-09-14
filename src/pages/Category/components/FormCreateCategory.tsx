@@ -182,7 +182,7 @@ class CreateCategory extends React.Component<IProps, IState> {
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
                             <Button type="primary" htmlType="submit" loading={loading}>
-                                Dồng ý
+                                Đồng ý
                             </Button>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleReset} disabled={disabledButton}>
                                 Tạo lại

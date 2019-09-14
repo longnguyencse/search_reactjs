@@ -26,6 +26,17 @@ export function findAllElementInArrayObjectByAttribute(array: any, attribute: an
     });
 }
 
+function compareTwoArrayObject(otherArray: any, attribute: any){
+    return function(current: any){
+        return otherArray.filter(function(other: any){
+            return other[attribute] !== current[attribute];
+        }).length === 0;
+      }
+}
+export function filerTwoArrayObjectByAttribute(first: any, two: any, attribute: any){
+    return first.filter(compareTwoArrayObject(two, attribute));
+}
+
 export function returnDefaultString(value: any){
     if(!value){
         return "";

@@ -71,7 +71,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
         let modalText = "";
         if (findCategory) {
-            modalText = `Bạn muốn xóa loại hàng với name là: ${findCategory.name}`;
+            modalText = `Bạn muốn xóa loại hàng với tên: ${findCategory.name}`;
         }
 
         this.setState({
@@ -126,7 +126,9 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
         return (
             <Modal
-                title="Remove Category"
+                title="Xóa loại hàng"
+                okText="Đồng ý"
+                cancelText = "Hủy bỏ"
                 visible={visible}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}

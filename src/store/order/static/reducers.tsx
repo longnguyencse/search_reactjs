@@ -7,7 +7,10 @@ import {
 import { Order, ActionType } from './types';
 import { mergeTwoArrayObject, updateArrayObjectByAttribute, filterArrayObjectByAttribute } from '../../../helpers';
 
-const initialState: Order[] = [];
+const initialState = {
+    supplierId: 0,
+    items: []
+};
 
 export function staticOrderReducer(state = initialState, action: ActionType) {
     switch (action.type) {
@@ -15,7 +18,13 @@ export function staticOrderReducer(state = initialState, action: ActionType) {
             return action.payload;
         
         case CREATE_MULTI_STATIC_ORDERS: {
-            return mergeTwoArrayObject(state, action.payload);
+            console.log("state", state);
+            console.log('action' ,action);
+            return {
+                ...state,
+                supplierId: action.payload.supplierId,
+                items: mergeTwoArrayObject(state.items, action.payload.items)
+            };
         }
 
         case UPDATE_STATIC_ORDER: {

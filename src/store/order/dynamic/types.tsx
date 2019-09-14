@@ -21,12 +21,12 @@ export interface Order {
 
 export interface ListAction {
     type: typeof LIST_DYNAMIC_ORDER,
-    payload: Order[]
+    payload: Order
 }
 
 export interface CreateMultiAction {
     type: typeof CREATE_MULTI_DYNAMIC_ORDERS,
-    payload: Order[]
+    payload: Order
 }
 
 export interface UpdateAction {
