@@ -33,14 +33,14 @@ export default class InputCode extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Group Code";
+        const label = "Mã nhóm hàng";
 
-        const placeholder = "Please enter your groups code";
+        const placeholder = "Vui lòng nhập mã nhóm hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your groups code',
+                message: 'Vui lòng nhập mã nhóm hàng',
             },
         ];
 

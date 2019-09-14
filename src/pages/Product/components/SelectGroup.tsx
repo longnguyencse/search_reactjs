@@ -37,14 +37,14 @@ export default class SelectGroup extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Product Group";
+        const label = "Nhóm hàng";
 
-        const placeholder = "Please select your product group";
+        const placeholder = "Vui lòng lựa chọn nhóm hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please select your product group',
+                message: 'Vui lòng lựa chọn nhóm hàng',
             },
         ];
 

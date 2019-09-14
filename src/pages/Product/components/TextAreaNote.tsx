@@ -38,14 +38,14 @@ export default class TextAreaNote extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Product Note";
+        const label = "Ghi chú";
 
-        const placeholder = "Please enter your product note";
+        const placeholder = "Vui lòng nhập ghi chú";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your product note',
+                message: 'Vui lòng nhập ghi chú',
             },
         ];
 

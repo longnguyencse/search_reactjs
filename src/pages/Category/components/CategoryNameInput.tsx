@@ -36,14 +36,14 @@ export default class CategoryNameInput extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Category Name";
+        const label = "Tên loại hàng";
 
-        const placeholder = "Please enter your category name";
+        const placeholder = "Vui lòng nhập tên loại hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your category name',
+                message: 'Vui lòng nhập tên loại hàng',
             },
         ];
 

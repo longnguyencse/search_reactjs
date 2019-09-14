@@ -234,13 +234,13 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
                             <Button type="primary" htmlType="submit" loading={loading}>
-                                Submit
+                                Đồng ý
                             </Button>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleReset} disabled={disabledButton}>
-                                Reset
+                                Tạo lại
                             </Button>
                             <Button style={{ marginLeft: 8 }} onClick={this.handleAddMore} disabled={disabledButton}>
-                                Add More
+                                Thêm
                             </Button>
                         </Col>
                     </Row>

@@ -36,14 +36,14 @@ export default class InputName extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Group Name";
+        const label = "Tên nhóm hàng";
 
-        const placeholder = "Please enter your group name";
+        const placeholder = "Vui lòng nhập tên nhóm hàng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your group name',
+                message: 'Vui lòng nhập tên nhóm hàng',
             },
         ];
 

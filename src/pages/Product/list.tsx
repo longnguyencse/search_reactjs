@@ -170,38 +170,38 @@ class List extends React.Component<IProps, IState> {
     render() {        
         const columns = [
             {
-                title: "Ma san pham",
+                title: "Mã sản phẩm",
                 dataIndex: "code",
             },
             {
-                title: "Ten san pham",
+                title: "Tên sản phẩm",
                 dataIndex: "name",
             },
             {
-                title: "Note",
-                dataIndex: "note",
-            },
-            {
-                title: "Category",
+                title: "Loại hàng",
                 dataIndex: "category.name",
             },
             {
-                title: "Group",
+                title: "Ngành hàng",
                 dataIndex: "group.name",
             },
             {
-                title: "Class",
+                title: "Nhóm hàng",
                 dataIndex: "productClass.name",
             },
             {
-                title: "Action",
+                title: "Ghi chú",
+                dataIndex: "note",
+            },
+            {
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Update - {row.id}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Cập nhật</Button>
                             -
-                            <Button type="danger" onClick={() => this.handleClickRemove(row.id)}>Delete - {row.id}</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.id)}>Xóa</Button>
                         </div>
                     );
                 },
@@ -220,10 +220,10 @@ class List extends React.Component<IProps, IState> {
         return (
             <div id="product-list" className="page-list">
                 <div className="page-list-header">
-                    <h1 className="page-list-title">Product List</h1>
+                    <h1 className="page-list-title">Danh sách sản phẩm</h1>
                     <div className="button-group">
                         <Button type="primary" className="btn-add-new">
-                            <Link to="/products/create">Add New</Link>
+                            <Link to="/products/create">Tạo mới</Link>
                         </Button>
                     </div>
                 </div>

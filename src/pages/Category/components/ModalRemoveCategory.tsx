@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { Modal } from 'antd';
+import {Modal} from 'antd';
 
 
-import { Category } from '../../../store/category/static/types';
-import { remove } from '../../../store/category/static/actions';
+import {Category} from '../../../store/category/static/types';
+import {remove} from '../../../store/category/static/actions';
 
 import {executeGet, executeRemove, list} from '../../../store/category/dynamic/actions';
 
-import { AppState } from '../../../store';
-import { connect } from 'react-redux';
+import {AppState} from '../../../store';
+import {connect} from 'react-redux';
 
-import { ThunkDispatch } from 'redux-thunk';
+import {ThunkDispatch} from 'redux-thunk';
 
-import {LOADING_TIMEOUT, DEFAULT_PAGE, DEFAULT_SIZE} from '../../../constants';
+import {DEFAULT_PAGE, DEFAULT_SIZE, LOADING_TIMEOUT} from '../../../constants';
 
-import { findElementInArrayObjectByAttribute } from '../../../helpers';
+import {findElementInArrayObjectByAttribute} from '../../../helpers';
 
 interface OwnProps {
     categoryKey: number | string,
@@ -71,7 +71,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
         let modalText = "";
         if (findCategory) {
-            modalText = `Do you want remove category with name is : ${findCategory.name}`;
+            modalText = `Bạn muốn xóa loại hàng với tên: ${findCategory.name}`;
         }
 
         this.setState({
@@ -91,7 +91,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
     handleOk = () => {
         this.setState({
-            modalText: 'The modal will be closed after one second',
+            modalText: 'Xin chờ trong chốc lát',
             confirmLoading: true,
         });
         setTimeout(async () => {
@@ -126,7 +126,9 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
         return (
             <Modal
-                title="Remove Category"
+                title="Xóa loại hàng"
+                okText="Đồng ý"
+                cancelText = "Hủy bỏ"
                 visible={visible}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}
