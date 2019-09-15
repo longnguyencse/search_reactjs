@@ -138,10 +138,6 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                 dataIndex: "name",
             },
             {
-                title: "Ghi chú",
-                dataIndex: "note",
-            },
-            {
                 title: "Loại",
                 dataIndex: "categoryId",
             },
@@ -152,6 +148,10 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             {
                 title: "Nhóm",
                 dataIndex: "classId",
+            },
+            {
+                title: "Ghi chú",
+                dataIndex: "note",
             },
             {
                 title: "Thao tác",

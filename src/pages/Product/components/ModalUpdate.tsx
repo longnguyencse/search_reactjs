@@ -120,10 +120,10 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
             <div>
                 <ProductCodeInput form={form} k={key} loadValue={code} />
                 <ProductNameInput form={form} k={key} loadValue={name} />
-                <ProductNoteTextArea form={form} k={key} loadValue={note} />
                 <SelectCategory form={form} k={key} values={categories} loadValue={categoryId} />
                 <SelectGroup form={form} k={key} values={groups} loadValue={groupId} />
                 <SelectClass form={form} k={key} values={classes} loadValue={classId} />
+                <ProductNoteTextArea form={form} k={key} loadValue={note} />
             </div>
         );
     }
