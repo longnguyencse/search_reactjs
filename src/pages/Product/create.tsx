@@ -223,7 +223,7 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
                         className="confirm-create-all"
                         type="primary"
                         loading={saveAllLoading}
-                        onClick={this.handleSaveAll}> Xác nhận ạo sản phẩm </Button>
+                        onClick={this.handleSaveAll}> Xác nhận tạo sản phẩm </Button>
                 </div>
             </div>
         );
