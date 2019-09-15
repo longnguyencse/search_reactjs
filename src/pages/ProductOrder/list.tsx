@@ -6,35 +6,35 @@ import {Button, Pagination, Radio, Table} from 'antd';
 
 const columns = [
     {
-        title: "Ngay tao",
+        title: "Ngày tạo",
         dataIndex: "ngayTao",
     },
     {
-        title: "Ngay giao hang",
+        title: "Ngày giao hàng",
         dataIndex: "ngayGiaoHang",
     },
     {
-        title: "Ma PO",
+        title: "Mã đơn hàng",
         dataIndex: "maPO",
     },
     {
-        title: "Nha cung cap",
+        title: "Nhà cung cấp",
         dataIndex: "nhaCungCap",
     },
     {
-        title: "Ten san pham",
+        title: "Tên sản phẩm",
         dataIndex: "tenSanPham",
     },
     {
-        title: "So luong",
+        title: "Số lượng",
         dataIndex: "soLuong",
     },
     {
-        title: "Don vi",
+        title: "Đơn vị",
         dataIndex: "donVi",
     },
     {
-        title: "Thanh tien",
+        title: "Thành tiền",
         dataIndex: "thanhTien",
     },
     {
@@ -42,7 +42,7 @@ const columns = [
         dataIndex: "trangThai",
     },
     {
-        title: "Action",
+        title: "Thao tác",
         dataIndex: "action",
         render: () => <a href="#">Delete</a>,
     },
