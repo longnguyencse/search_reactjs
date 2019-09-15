@@ -26,7 +26,6 @@ export default class SelectCategory extends React.Component<IProps, IState> {
     }
 
     componentDidMount(){
-        console.log("Select dimout")
     }
 
     render(){

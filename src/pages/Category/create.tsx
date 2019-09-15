@@ -65,7 +65,6 @@ class Create extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
-        console.log(newProps);
         const { categories } = newProps;
         this.setState({
             categories,
@@ -76,8 +75,6 @@ class Create extends React.Component<IProps, IState> {
         await this.props.list();
 
         const categories = this.props.categories;
-
-        console.log("didMount", categories);
 
         this.setState({
             categories,
@@ -121,7 +118,6 @@ class Create extends React.Component<IProps, IState> {
 
         }, LOADING_TIMEOUT);
 
-        console.log("Save all");
     };
 
     render() {

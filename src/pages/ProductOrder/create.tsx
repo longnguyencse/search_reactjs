@@ -98,7 +98,6 @@ class CreateProductOrder extends React.Component<IProps, IState> {
             saveAllLoading: true
         });
         setTimeout(async () => {
-            console.log(this.state.products);
             await this.props.saveAll(this.state.order);
             this.setState({
                 products: [],
@@ -108,7 +107,6 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 
         }, LOADING_TIMEOUT);
 
-        console.log("Save all");
     }
 
     render() {
@@ -150,8 +148,6 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 
         const { order, saveAllLoading } = this.state;
         const checkExist = order && order.supplierId ? true : false;
-
-        console.log(order);
 
         return (
             <div id="create-order">

@@ -49,7 +49,6 @@ class ModalUpdate extends React.Component<IProps, IState> {
     }
 
     async componentWillReceiveProps(newProps: any) {
-        console.log('data ', newProps);
 
         const {data} = this.props;
         const {supplierKey, isDynamic} = newProps;
