@@ -2,6 +2,7 @@ import {Action, AnyAction} from 'redux';
 import {
     GET_PRODUCTS_BELONG_SUPPLIER, 
     CREATE_MULTI_DYNAMIC_ORDERS,
+    LIST_DYNAMIC_ORDER,
 } from '../../../constants/order';
 
 import { Order, ActionType } from './types';
@@ -12,6 +13,7 @@ import { mergeTwoArrayObject, updateArrayObjectByAttribute, filterArrayObjectByA
 
 import API from '../../../services/API';
 import axios from 'axios';
+import { DEFAULT_PAGE, DEFAULT_SIZE } from '../../../constants';
 
 // All function use to dispatch
 export const _getProductsBelongSupplier = (products: any): ActionType => {
@@ -20,6 +22,17 @@ export const _getProductsBelongSupplier = (products: any): ActionType => {
         payload: products
     };
 }
+
+export const _list = (total: number, totalPage: number, currentPage: number, orders: Order[]): ActionType => {
+    return {
+        type: LIST_DYNAMIC_ORDER,
+        total,
+        totalPage,
+        currentPage,
+        payload: orders
+    }
+}
+
 
 export const _createMulti = (order: Order): ActionType => {
     return {
@@ -39,6 +52,19 @@ export const getProductsBelongSupplier = (supplierId: number | string): ThunkAct
     dispatch(
         _getProductsBelongSupplier(newValue)
     );
+}
+
+export const list = (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE, options: any): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
+    console.log("list", options);
+    const newOrders = await executeList(page, size, options);
+
+    if(newOrders){
+        const {total, totalPage, currentPage, orders} = newOrders;
+
+        dispatch(
+            _list(total, totalPage, currentPage, orders)
+        );
+    }
 }
 
 export const createMulti = (order: Order): ThunkAction<void, Order, null, Action<string>> => async dispatch => {
@@ -93,6 +119,34 @@ export async function exeGetSuppierProductDetail(supplierId: number | string, pr
     }
 }
 
+export async function executeList(page: number | null = DEFAULT_PAGE, size: number | null = DEFAULT_SIZE, options: any){
+    try{
+        console.log("executeList", options);
+        const url = API.apiProductOrder;
+
+        const params = {
+            page,
+            size,
+            filter: options.status
+        };
+        const response: any = await axios.get(url, {
+            params
+        });
+
+        const responseData: any = response.data.data;
+
+        return {
+            total: responseData.total,
+            totalPage: responseData.totalPage,
+            currentPage: responseData.page,
+            orders: responseData.data
+        };
+    }
+    catch(ex){
+        console.error(ex);
+    }
+}
+
 async function executeCreateMulti(newOrder: Order){
     try{
         const localS = new LocalStorage();
@@ -105,6 +159,26 @@ async function executeCreateMulti(newOrder: Order){
         }
 
         return response.data;
+    }
+    catch(ex){
+        console.error(ex);
+    }
+}
+
+export async function executeChangeStatus(order: Order[], typeChange: string){
+    try{
+        const url = API.apiProductOrder + '/update-status';
+
+        const params = {
+            status: typeChange
+        };
+        const response: any = await axios.put(url, order, {
+            params
+        });
+
+        const responseData: any = response.data.data;
+        
+        return responseData;
     }
     catch(ex){
         console.error(ex);

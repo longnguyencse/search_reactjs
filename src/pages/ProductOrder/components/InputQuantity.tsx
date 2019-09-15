@@ -49,14 +49,14 @@ export default class InputQuantity extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Quantity";
+        const label = "Số lượng";
 
-        const placeholder = "Please enter your quantity";
+        const placeholder = "Vui lòng nhập số lượng";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your quantity',
+                message: 'Vui lòng nhập số lượng',
             },
         ];
 

@@ -2,12 +2,12 @@ import React from 'react';
 
 import CustomSelect from '../../../components/CustomForm/Select';
 
-import { getProductsBelongSupplier } from '../../../store/order/dynamic/actions';
+import {getProductsBelongSupplier} from '../../../store/order/dynamic/actions';
 
-import { AppState } from '../../../store';
-import { connect } from 'react-redux';
+import {AppState} from '../../../store';
+import {connect} from 'react-redux';
 
-import { ThunkDispatch } from 'redux-thunk';
+import {ThunkDispatch} from 'redux-thunk';
 
 interface OwnProps {
     form: any,
@@ -72,14 +72,14 @@ class SelectSupplier extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Supplier";
+        const label = "Chọn nhà cung cấp";
 
-        const placeholder = "Please select your supplier";
+        const placeholder = "Vui lòng chọn nhà cung cấp";
 
         const rules = [
             {
                 required: true,
-                message: 'Please select your supplier',
+                message: 'Vui lòng chọn nhà cung cấp',
             },
         ];
 

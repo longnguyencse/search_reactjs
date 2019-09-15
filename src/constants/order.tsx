@@ -31,3 +31,8 @@ export type REMOVE_DYNAMIC_ORDER = typeof REMOVE_DYNAMIC_ORDER;
 // Product with supplier
 export const GET_PRODUCTS_BELONG_SUPPLIER = "GET_PRODUCTS_BELONG_SUPPLIER";
 export type GET_PRODUCTS_BELONG_SUPPLIER = typeof GET_PRODUCTS_BELONG_SUPPLIER;
+
+// Status of order
+export const STATUS_PENDING = "PENDING";
+export const STATUS_APPROVED = "APPROVED";
+export const STATUS_CANCEL = "CANCEL";

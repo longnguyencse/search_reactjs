@@ -33,14 +33,14 @@ export default class InputMoney extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Money";
+        const label = "Thành tiền";
 
-        const placeholder = "Please enter your money";
+        const placeholder = "Vui lòng nhập số tiền";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your money',
+                message: 'Vui lòng nhập số tiền',
             },
         ];
 

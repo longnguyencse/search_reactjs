@@ -96,10 +96,10 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                          </span>
                     }>
                         <Menu.Item key="3">
-                            <Link to="/create/discount">Nhập CK</Link>
+                            <Link to="/create/discount">Nhập chiết khấu</Link>
                         </Menu.Item>
                         <Menu.Item key="4">
-                            <Link to="/discounts">Xem CK</Link>
+                            <Link to="/discounts">Xem chiết khấu</Link>
                         </Menu.Item>
                     </SubMenu>
 
@@ -110,10 +110,10 @@ class LeftMenu extends React.Component<Props, ILeftMenuState> {
                             </span>
                     }>
                         <Menu.Item key="5">
-                            <Link to={"/suppliers/create"}>Tạo NCC</Link>
+                            <Link to={"/suppliers/create"}>Tạo nhà cung cấp</Link>
                         </Menu.Item>
                         <Menu.Item key="6">
-                            <Link to={"/suppliers"}>Xem NCC</Link>
+                            <Link to={"/suppliers"}>Xem nhà cung cấp</Link>
                         </Menu.Item>
                     </SubMenu>
 
