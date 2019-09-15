@@ -84,4 +84,16 @@ export default class LocalStorage {
 
         return value;
     }
+
+    async getItemValue(key: string){
+        const getItem: any = await this.getItem(key);
+
+        let value = null;
+
+        if(getItem && getItem.value){
+            value = getItem.value;
+        }
+
+        return value;
+    }
 }

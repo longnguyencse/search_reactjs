@@ -67,7 +67,6 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
     }
 
     componentWillReceiveProps(newProps: any) {
-        console.log(newProps);
         const { products } = newProps;
         this.setState({
             products,
@@ -114,7 +113,6 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
             saveAllLoading: true
         });
         setTimeout(async () => {
-            console.log(this.state.products);
             await this.props.saveAll(this.state.products);
             this.setState({
                 products: [],
@@ -124,7 +122,6 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
         }, LOADING_TIMEOUT);
 
-        console.log("Save all");
     }
 
     render() {

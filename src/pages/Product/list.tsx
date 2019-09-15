@@ -140,7 +140,6 @@ class List extends React.Component<IProps, IState> {
     }
 
     onSelectChange = (selectedRowKeys: any) => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
     };
 
@@ -150,7 +149,6 @@ class List extends React.Component<IProps, IState> {
     }
 
     handleClickUpdate = (productId: any) => {
-        console.log("handleClickUpdate", productId)
         if (productId) {
             this.setState({
                 openUpdateModal: true,
@@ -160,7 +158,6 @@ class List extends React.Component<IProps, IState> {
     }
 
     handleClickRemove = async (productId: any) => {
-        console.log("handleClickRemove", productId);
         this.setState({
             productId,
             openRemoveModal: true

@@ -64,7 +64,6 @@ class Create extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
-        console.log(newProps);
         const {groups} = newProps;
         this.setState({
             groups,
@@ -76,7 +75,6 @@ class Create extends React.Component<IProps, IState> {
 
         const groups = this.props.groups;
 
-        console.log("didMount", groups);
 
         this.setState({
             groups,
@@ -114,7 +112,6 @@ class Create extends React.Component<IProps, IState> {
 
         }, LOADING_TIMEOUT);
 
-        console.log("Save all");
     };
 
     render() {
