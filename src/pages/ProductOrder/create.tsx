@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 
 import {ThunkDispatch} from 'redux-thunk';
 import {LOADING_TIMEOUT} from "../../constants";
+import { Redirect } from "react-router";
 
 interface OwnProps {
 
@@ -146,8 +147,12 @@ class CreateProductOrder extends React.Component<IProps, IState> {
             },
         ];
 
-        const { order, saveAllLoading } = this.state;
+        const { order, saveAllLoading, redirectToList } = this.state;
         const checkExist = order && order.supplierId ? true : false;
+
+        if(redirectToList){
+            return <Redirect to="/po" />
+        }
 
         return (
             <div id="create-order">
