@@ -29,13 +29,13 @@ class AddressInput extends React.Component<IProps, IState> {
         if (null !== k) {
             elementId = elementId + `[${this.props.k}]`;
         }
-        const label = "Address";
-        const placeholder = "Please enter your category code";
+        const label = "Địa chỉ";
+        const placeholder = "Vui lòng nhập địa chỉ";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your category code',
+                message: 'Vui lòng nhập địa chỉ',
             },
         ];
 

@@ -107,36 +107,34 @@ class CreateSupplier extends React.Component <IProps, IState> {
     render() {
         const columns = [
             {
-                title: "Supplier  Name",
+                title: "Tên nhà cung cấp",
                 dataIndex: "name",
             },
             {
-                title: "Supplier Code",
+                title: "Mã nhà cung cấp",
                 dataIndex: "code",
             },
             {
-                title: "Supplier Email",
+                title: "Email",
                 dataIndex: "email",
             },
             {
-                title: "Supplier Address",
+                title: "Địa chỉ",
                 dataIndex: "address",
             },
             {
-                title: "Supplier Phone",
+                title: "Điện thoại",
                 dataIndex: "phone",
             },
             {
-                title: "Action",
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button type="primary" onClick={() => this.handleClickUpdate(row.key)}>Update
-                                - {row.key}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.key)}>Cập nhật</Button>
                             -
-                            <Button type="danger" onClick={() => this.handleClickRemove(row.key)}>Delete
-                                - {row.key}</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.key)}>Xóa</Button>
                         </div>
                     );
                 },
@@ -188,7 +186,7 @@ class CreateSupplier extends React.Component <IProps, IState> {
                     className="confirm-create-all"
                     type="primary"
                     loading={saveAllLoading}
-                    onClick={this.handleSaveAll}> Commit </Button>
+                    onClick={this.handleSaveAll}> Xác nhận tạo nhà cung cấp </Button>
             </div>
         );
     }
