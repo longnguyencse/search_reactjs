@@ -125,7 +125,7 @@ class FormCreate extends React.Component<IProps, IState> {
         return (
             <div id="address-supplier">
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit}>
-                    <h1>Create Form</h1>
+                    <h1>Tao nhà cung cấp</h1>
                     <Row gutter={24}>{this.getFields(keys)}</Row>
                     <Row>
                         <Col span={24} style={{textAlign: 'right'}}>

@@ -61,7 +61,7 @@ class ModalRemove extends React.Component<IProps, IState> {
 
         let modalText = "";
         if (find) {
-            modalText = `Do you want remove group with name is : ${find.name}`;
+            modalText = `Bạn muốn xóa nhà cung cấp tên : ${find.name}`;
         }
 
         this.setState({
@@ -114,7 +114,9 @@ class ModalRemove extends React.Component<IProps, IState> {
 
         return (
             <Modal
-                title="Remove supplier"
+                title="Xóa nhà cung cấp"
+                okText="Đồng ý"
+                cancelText = "Hủy bỏ"
                 visible={visible}
                 onOk={this.handleOk}
                 confirmLoading={confirmLoading}

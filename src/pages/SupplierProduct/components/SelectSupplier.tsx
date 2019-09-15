@@ -3,6 +3,7 @@ import React from 'react';
 import CustomSelect from '../../../components/CustomForm/Select';
 
 import {exeGetSuppierProductDetail as getSuppierProductDetail} from '../../../store/order/dynamic/actions';
+
 import {AppState} from '../../../store';
 import {connect} from 'react-redux';
 
@@ -30,7 +31,7 @@ class SelectProduct extends React.Component<IProps, IState> {
         super(props);
     }
 
-    componentDidMount(){
+    componentDidMount() {
     }
 
     receiveProduct = async (productId: number | string) => {
@@ -44,34 +45,34 @@ class SelectProduct extends React.Component<IProps, IState> {
         this.props.form.setFieldsValue({
             price: prices
         });
-    }
+    };
 
-    render(){
-        const { form, k, loadValue, values } = this.props;
+    render() {
+        const {form, k, loadValue, values} = this.props;
 
         let elementId = "product";
-        if(k !== null){
+        if (k !== null) {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Chọn sản phẩm";
+        const label = "Product";
 
-        const placeholder = "Vui lòng chọn sản phẩm";
+        const placeholder = "Please select your product";
 
         const rules = [
             {
                 required: true,
-                message: 'Vui lòng chọn sản phẩm',
+                message: 'Please select your product',
             },
         ];
 
         let initialValue = "";
-        if(loadValue){
+        if (loadValue) {
             initialValue = this.props.loadValue;
         }
 
         return (
-            <CustomSelect 
+            <CustomSelect
                 form={form}
 
                 elementId={elementId}
@@ -80,13 +81,13 @@ class SelectProduct extends React.Component<IProps, IState> {
 
                 placeholder={placeholder}
 
-                rules = {rules}
+                rules={rules}
 
                 initialValue={initialValue}
 
                 values={values}
 
-                onChange = {(productId: number | string) => this.receiveProduct(productId)}
+                onChange={(productId: number | string) => this.receiveProduct(productId)}
             />
         );
     }

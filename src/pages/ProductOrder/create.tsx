@@ -1,20 +1,20 @@
 import React from "react";
-import { Table, Button } from 'antd';
+import {Button, Table} from 'antd';
 
 import FormCreate from './components/FormCreate';
 
-import { Order } from '../../store/order/static/types';
-import { list } from '../../store/order/static/actions';
+import {Order} from '../../store/order/static/types';
+import {list} from '../../store/order/static/actions';
 
-import { createMulti as saveAll } from '../../store/order/dynamic/actions';
+import {createMulti as saveAll} from '../../store/order/dynamic/actions';
 
-import { executeList as getSuppliers } from '../../store/supplier/dynamic/actions';
+import {executeList as getSuppliers} from '../../store/supplier/dynamic/actions';
 
-import { AppState } from '../../store';
-import { connect } from 'react-redux';
+import {AppState} from '../../store';
+import {connect} from 'react-redux';
 
-import { ThunkDispatch } from 'redux-thunk';
-import { LOADING_TIMEOUT } from "../../constants";
+import {ThunkDispatch} from 'redux-thunk';
+import {LOADING_TIMEOUT} from "../../constants";
 
 interface OwnProps {
 
@@ -114,27 +114,27 @@ class CreateProductOrder extends React.Component<IProps, IState> {
     render() {
         const columns = [
             {
-                title: "Ten san pham",
+                title: "Tên sản phẩm",
                 dataIndex: "productId",
             },
             {
-                title: "Gia",
+                title: "Giá",
                 dataIndex: "price",
             },
             {
-                title: "So luong",
+                title: "Số lượng",
                 dataIndex: "quantity",
             },
             {
-                title: "Thanh tien",
+                title: "Thành tiền",
                 dataIndex: "money",
             },
             {
-                title: "Giam gia",
+                title: "Chiết khấu",
                 dataIndex: "discount",
             },
             {
-                title: "Action",
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
@@ -176,7 +176,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                         className="confirm-create-all"
                         type="primary"
                         loading={saveAllLoading}
-                        onClick={this.handleSaveAll}> Confirm create all products </Button>
+                        onClick={this.handleSaveAll}>  Xác nhận tạo sản phẩm  </Button>
                 </div>
             </div>
         );

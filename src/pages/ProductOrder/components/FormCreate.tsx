@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Col, Form, Row } from 'antd';
+import {Button, Col, Form, Row} from 'antd';
 
 import SelectSupplier from './SelectSupplier';
 import SelectProduct from './SelectProduct';
@@ -9,16 +9,17 @@ import InputPrice from './InputPrice';
 import InputMoney from './InputMoney';
 import InputDiscount from './InputDiscount';
 
-import { Order } from '../../../store/order/static/types';
-import { createMulti } from '../../../store/order/static/actions';
-import { AppState } from '../../../store';
-import { connect } from 'react-redux';
+import {Order} from '../../../store/order/static/types';
+import {createMulti} from '../../../store/order/static/actions';
+import {AppState} from '../../../store';
+import {connect} from 'react-redux';
 
-import { ThunkDispatch } from 'redux-thunk';
+import {ThunkDispatch} from 'redux-thunk';
 
-import { FormComponentProps } from 'antd/es/form';
+import {FormComponentProps} from 'antd/es/form';
 
-import { LOADING_TIMEOUT } from '../../../constants';
+import {LOADING_TIMEOUT} from '../../../constants';
+
 // import { findElementInArrayObjectByAttribute } from '../../../helpers';
 
 interface OwnProps {
@@ -226,7 +227,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         return (
             <div id="create-product-order">
                 <Form className="ant-advanced-create-form" onSubmit={this.handleSubmit} >
-                    <h1>Create Form</h1>
+                    <h1>Tạo đơn hàng</h1>
                     <Row>
                         <SelectSupplier form={form} values={suppliers} />
                     </Row>

@@ -29,13 +29,13 @@ class CodeInput extends React.Component<IProps, IState> {
         if (null !== k) {
             elementId = elementId + `[${this.props.k}]`;
         }
-        const label = "Supplier Code";
-        const placeholder = "Please enter your Supplier code";
+        const label = "Mã nhà cung cấp";
+        const placeholder = "Vui lòng nhập tên mã nhà cung cấp";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your Supplier code',
+                message: 'Vui lòng nhập tên mã nhà cung cấp',
             },
         ];
 

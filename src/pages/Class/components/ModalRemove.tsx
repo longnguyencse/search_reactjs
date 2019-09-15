@@ -121,7 +121,7 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
 
         return (
             <Modal
-                title="Xóa loại hàng"
+                title="Xóa ngành hàng"
                 okText="Đồng ý"
                 cancelText = "Hủy bỏ"
                 visible={visible}

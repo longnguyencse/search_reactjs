@@ -28,13 +28,13 @@ class NameInput extends React.Component<IProps, IState> {
         if (null !== k) {
             elementId = elementId + `[${this.props.k}]`;
         }
-        const label = "Name";
-        const placeholder = "Please enter your supplier name";
+        const label = "Tên nhà cung cấp";
+        const placeholder = "Vui lòng nhập tên nhà cung cấp";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your supplier name',
+                message: 'Vui lòng nhập tên nhà cung cấp',
             },
         ];
 

@@ -28,13 +28,13 @@ class PhoneInput extends React.Component<IProps, IState> {
         if (null !== k) {
             elementId = elementId + `[${this.props.k}]`;
         }
-        const label = "Phone";
-        const placeholder = "Please enter your Supplier phone";
+        const label = "Điện thoại";
+        const placeholder = "Vui lòng nhập số điện thoại";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your Supplier phone',
+                message: 'Vui lòng nhập số điện thoại',
             },
         ];
 

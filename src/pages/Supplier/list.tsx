@@ -106,36 +106,34 @@ class ListSupplier extends React.Component<IProps, IState> {
     render() {
         const columns = [
             {
-                title: "Supplier  Name",
+                title: "Tên nhà cung cấp",
                 dataIndex: "name",
             },
             {
-                title: "Supplier Code",
+                title: "Mã nhà cung cấp",
                 dataIndex: "code",
             },
             {
-                title: "Supplier Email",
+                title: "Email",
                 dataIndex: "email",
             },
             {
-                title: "Supplier Address",
+                title: "Địa chỉ",
                 dataIndex: "address",
             },
             {
-                title: "Supplier Phone",
+                title: "Điện thoại",
                 dataIndex: "phone",
             },
             {
-                title: "Action",
+                title: "Thao tác",
                 dataIndex: "action",
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Update
-                                - {row.id}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.id)}>Cập nhật</Button>
                             -
-                            <Button type="danger" onClick={() => this.handleClickRemove(row.id)}>Delete
-                                - {row.id}</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.id)}>Xóa</Button>
                         </div>
                     );
                 }
@@ -152,7 +150,7 @@ class ListSupplier extends React.Component<IProps, IState> {
         return (
             <div id="supplier-list" className="page-list">
                 <div className="page-list-header">
-                    <h1 className="page-list-title">Category List</h1>
+                    <h1 className="page-list-title">Danh sách nhà cung cấp</h1>
                     <div className="button-group">
                         <Button type="primary" className="btn-add-new">
                             <Link to="/suppliers/create">Tạo mới</Link>
