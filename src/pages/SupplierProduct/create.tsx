@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Form} from 'antd';
+import {Form, Row} from 'antd';
 
 interface ICreateProductProps {
     form?: any,
@@ -36,8 +36,12 @@ class CreateProduct extends React.Component<ICreateProductProps, ICreateProductS
 
         return (
             <div id="create-supplier-product">
-                <span> Thông tin nhà cung cấp</span>
+                <span> Chọn nhà cung cấp</span>
+                <Row>
+                    {/*<SelectSupplier form={form} values={suppliers} />*/}
+                </Row>
                 {/* Information of supplier*/}
+
                 {/*<Table pagination={false} columns={columns} dataSource={categories}*/}
                 {/*       rowKey={(record: any) => record.id}/>*/}
                 {/*<div className="table-operations">*/}

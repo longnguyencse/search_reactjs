@@ -33,14 +33,14 @@ export default class InputDiscount extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Discount";
+        const label = "Chiết khấu";
 
-        const placeholder = "Please enter your discount";
+        const placeholder = "Vui lòng nhập chiết khấu";
 
         const rules = [
             {
-                required: true,
-                message: 'Please enter your discount',
+                required: false,
+                message: 'Vui lòng nhập chiết khấu',
             },
         ];
 
@@ -62,6 +62,8 @@ export default class InputDiscount extends React.Component<IProps, IState> {
                 rules = {rules}
 
                 initialValue={initialValue}
+
+                disabled={true}
             />
         );
     }

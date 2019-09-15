@@ -21,7 +21,10 @@ export interface Order {
 
 export interface ListAction {
     type: typeof LIST_DYNAMIC_ORDER,
-    payload: Order
+    total: number,
+    totalPage: number,
+    currentPage: number,
+    payload: Order[]
 }
 
 export interface CreateMultiAction {

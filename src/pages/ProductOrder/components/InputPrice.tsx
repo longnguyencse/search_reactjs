@@ -33,14 +33,14 @@ export default class InputPrice extends React.Component<IProps, IState> {
             elementId = elementId + `[${this.props.k}]`;
         }
 
-        const label = "Price";
+        const label = "Giá tiền";
 
-        const placeholder = "Please enter your price";
+        const placeholder = "Vui lòng nhập giá tiền";
 
         const rules = [
             {
                 required: true,
-                message: 'Please enter your price',
+                message: 'Vui lòng nhập giá tiền',
             },
         ];
 

@@ -15,7 +15,7 @@ import {dynamicGroupReducer} from './group/dynamic/reducers';
 import {staticSupplierReducer} from './supplier/static/reducers';
 import {dynamicSupplierReducer} from './supplier/dynamic/reducers';
 import {staticOrderReducer} from './order/static/reducers';
-import {supplierProductReducer as orderSupplierProductReducer} from './order/dynamic/reducers';
+import {dynamicOrderReducer, supplierProductReducer as orderSupplierProductReducer} from './order/dynamic/reducers';
 
 
 const rootReducers = combineReducers({
@@ -32,6 +32,7 @@ const rootReducers = combineReducers({
     staticSupplierReducer: staticSupplierReducer,
     dynamicSupplierReducer: dynamicSupplierReducer,
     staticOrder: staticOrderReducer,
+    dynamicOrders: dynamicOrderReducer,
     orderSupplierProduct: orderSupplierProductReducer
 });
 
