@@ -38,7 +38,6 @@ export default class InputQuantity extends React.Component<IProps, IState> {
         this.props.form.setFieldsValue({
             money: moneyArr
         });
-        console.log("Receive Quantity", quanity);
     }
 
     render(){

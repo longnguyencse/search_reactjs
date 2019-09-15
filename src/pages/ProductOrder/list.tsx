@@ -99,7 +99,6 @@ class List extends React.Component<IProps, IState> {
     }
 
     onSelectChange = (selectedRowKeys: any, selectedRows: any) => {
-        console.log('selectedRowKeys changed: ', selectedRows);
         this.setState({ selectedRowKeys, selectedRows });
     };
 

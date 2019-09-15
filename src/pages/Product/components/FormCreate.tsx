@@ -57,7 +57,6 @@ class CreateProduct extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
-        console.log('new props', newProps);
         this.setState({
             products: newProps.products,
         });

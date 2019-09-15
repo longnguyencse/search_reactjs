@@ -106,8 +106,6 @@ class Login extends Component<ILoginProps, ILoginState> {
             return <Redirect to="/" />
         }
 
-        console.log("Render", {loading, isRedirect});
-
         return (
             <div>
                 <Content>

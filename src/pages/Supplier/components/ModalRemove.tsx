@@ -46,7 +46,6 @@ class ModalRemove extends React.Component<IProps, IState> {
     async componentWillReceiveProps(newProps: any) {
         const {data} = this.props;
         const {supplierKey: key, isDynamic} = newProps;
-        console.log('supplierKey ', key, newProps);
         if (!key) {
             return;
         }
