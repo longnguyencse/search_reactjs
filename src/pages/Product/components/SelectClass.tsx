@@ -26,7 +26,6 @@ export default class SelectClass extends React.Component<IProps, IState> {
     }
 
     componentDidMount(){
-        console.log("Select dimout")
     }
 
     render(){

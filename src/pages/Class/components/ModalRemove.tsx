@@ -53,7 +53,6 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
     async componentWillReceiveProps(newProps: any) {
         const {data} = this.props;
         const {groupKey: key, isDynamic} = newProps;
-        console.log('groupKey ', key, newProps);
         if (!key) {
             return;
         }

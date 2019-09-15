@@ -52,7 +52,6 @@ class CreateSupplier extends React.Component <IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
-        console.log(newProps);
         const {data} = newProps;
         this.setState({
             data,
@@ -71,7 +70,6 @@ class CreateSupplier extends React.Component <IProps, IState> {
     }
 
     handleClickUpdate = (key: any) => {
-        console.log('key ', key);
         if (key) {
             this.setState({
                 supplierKey: key,
@@ -101,7 +99,6 @@ class CreateSupplier extends React.Component <IProps, IState> {
 
         }, LOADING_TIMEOUT);
 
-        console.log("Save all");
     };
 
     render() {
