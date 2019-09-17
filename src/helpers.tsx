@@ -26,15 +26,18 @@ export function findAllElementInArrayObjectByAttribute(array: any, attribute: an
     });
 }
 
-function compareTwoArrayObject(otherArray: any, attribute: any){
+function compareTwoArrayObject(otherArray: any, attributeFirst: any, attributeTwo: any){
     return function(current: any){
         return otherArray.filter(function(other: any){
-            return other[attribute] !== current[attribute];
+            if(attributeTwo){
+                return other[attributeFirst] !== current[attributeTwo];
+            }
+            return other[attributeFirst] !== current[attributeFirst];
         }).length === 0;
       }
 }
-export function filerTwoArrayObjectByAttribute(first: any, two: any, attribute: any){
-    return first.filter(compareTwoArrayObject(two, attribute));
+export function filerTwoArrayObjectByAttribute(first: any, two: any, attributeFirst: any, attributeTwo: any = null){
+    return first.filter(compareTwoArrayObject(two, attributeFirst, attributeTwo));
 }
 
 export function returnDefaultString(value: any){

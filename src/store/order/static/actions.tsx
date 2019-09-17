@@ -76,7 +76,9 @@ export const remove = (orderKey: number | string): ThunkAction<void, Order[], nu
 async function executeList(){
     const localS = new LocalStorage();
 
-    let order:any = await localS.getItemValue('order');
+    const orderArr:any = await localS.getArrayValue('order');
+    console.log(orderArr)
+    let order = orderArr[0];
 
     if(!order){
         order = {
@@ -93,7 +95,9 @@ async function executeCreateMulti(newOrder: Order){
     
     const newItems = newOrder.items;
 
-    const oldOrder: any = await localS.getItemValue('order');
+    const oldOrderArr: any = await localS.getArrayValue('order');
+    const oldOrder = oldOrderArr[0];
+
     const oldItems = oldOrder ? oldOrder.items : [];
 
     const mergeItems = mergeTwoArrayObject(oldItems, newItems);
@@ -103,7 +107,9 @@ async function executeCreateMulti(newOrder: Order){
         items: mergeItems
     };
 
-    await localS.setItem('order', mergeOrder);
+    const mergeOrderArr = [mergeOrder];
+
+    await localS.setItem('order', mergeOrderArr);
 
     return newOrder;
 }

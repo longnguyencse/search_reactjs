@@ -1,21 +1,22 @@
 import React from "react";
-import {Button, Table} from 'antd';
+import { Button, Table } from 'antd';
 
 import FormCreate from './components/FormCreate';
 
-import {Order} from '../../store/order/static/types';
-import {list} from '../../store/order/static/actions';
+import { Order } from '../../store/order/static/types';
+import { list } from '../../store/order/static/actions';
 
-import {createMulti as saveAll} from '../../store/order/dynamic/actions';
+import { createMulti as saveAll, exeGetProductsBelongSupplier } from '../../store/order/dynamic/actions';
 
-import {executeList as getSuppliers} from '../../store/supplier/dynamic/actions';
+import { executeList as getSuppliers } from '../../store/supplier/dynamic/actions';
 
-import {AppState} from '../../store';
-import {connect} from 'react-redux';
+import { AppState } from '../../store';
+import { connect } from 'react-redux';
 
-import {ThunkDispatch} from 'redux-thunk';
-import {LOADING_TIMEOUT} from "../../constants";
+import { ThunkDispatch } from 'redux-thunk';
+import { LOADING_TIMEOUT } from "../../constants";
 import { Redirect } from "react-router";
+import { filerTwoArrayObjectByAttribute } from "../../helpers";
 
 interface OwnProps {
 
@@ -64,13 +65,26 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 
     componentWillReceiveProps(newProps: any) {
         const dataToSetState: any = {};
+        let exceptProducts = [];
 
         if (newProps.order) {
-            dataToSetState.order = newProps.order;
+            const { order } = newProps;
+            dataToSetState.order = order;
+            if(order.items){
+                exceptProducts = order.items;
+            }
         }
 
         if (newProps.products) {
-            dataToSetState.products = newProps.products;
+            let { products } = newProps;
+            if(exceptProducts.length){
+                console.log({
+                    products,
+                    exceptProducts
+                });
+                products = filerTwoArrayObjectByAttribute(products, exceptProducts, "productId", "id");
+            }
+            dataToSetState.products = products;
         }
 
         this.setState(dataToSetState);
@@ -92,6 +106,22 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         dataToSetState.suppliers = suppliers;
 
         this.setState(dataToSetState);
+    }
+
+    handleClickUpdate = (productKey: any) => {
+        // if (productKey) {
+        //     this.setState({
+        //         openUpdateModal: true,
+        //         productKey
+        //     })
+        // }
+    }
+
+    handleClickRemove = async (productKey: any) => {
+        // this.setState({
+        //     productKey,
+        //     openRemoveModal: true
+        // })
     }
 
     handleSaveAll = () => {
@@ -138,9 +168,9 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            {/* <Button onClick={() => this.handleClickUpdate(row.key)}>Update - {row.key}</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.key)}>Cập nhật</Button>
                             -
-                            <Button onClick={() => this.handleClickRemove(row.key)}>Delete - {row.key}</Button> */}
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.key)}>Xóa</Button>
                         </div>
                     );
                 },
@@ -150,7 +180,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         const { order, saveAllLoading, redirectToList } = this.state;
         const checkExist = order && order.supplierId ? true : false;
 
-        if(redirectToList){
+        if (redirectToList) {
             return <Redirect to="/po" />
         }
 

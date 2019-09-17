@@ -30,9 +30,6 @@ class SelectProduct extends React.Component<IProps, IState> {
         super(props);
     }
 
-    componentDidMount(){
-    }
-
     receiveProduct = async (productId: number | string) => {
         const allFields = this.props.form.getFieldsValue();
         const prices = allFields.price;
@@ -41,6 +38,9 @@ class SelectProduct extends React.Component<IProps, IState> {
         const supplierProductDetail = await getSuppierProductDetail(this.props.supplierId, productId);
 
         prices[selectedKey] = supplierProductDetail.price;
+
+        this.props.form.resetFields(["quantity", "money"]);
+
         this.props.form.setFieldsValue({
             price: prices
         });

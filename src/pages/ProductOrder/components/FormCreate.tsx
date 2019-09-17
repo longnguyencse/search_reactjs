@@ -59,12 +59,12 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         };
     }
 
-    // componentDidUpdate(prevProps: any){
-    //     if(prevProps.supplierId !== this.props.supplierId){
-    //         this.resetItems();
-    //     }
-    //     return false;
-    // }
+    componentDidUpdate(prevProps: any){
+        if(prevProps.supplierId !== this.props.supplierId){
+            this.resetItems();
+        }
+        return false;
+    }
 
     componentWillReceiveProps(newProps: any) {
         // this.setState({

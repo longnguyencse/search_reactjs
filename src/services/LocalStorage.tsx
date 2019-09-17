@@ -52,6 +52,8 @@ export default class LocalStorage {
             object = {value: data, ...expiryObj};
         }
         
+        console.log(object);
+
         // object = data instanceof Object ? {...data, ...expiryObj} : {value: data, ...expiryObj};
 
         const dataString = JSON.stringify(object);
@@ -85,15 +87,19 @@ export default class LocalStorage {
         return value;
     }
 
-    async getItemValue(key: string){
-        const getItem: any = await this.getItem(key);
+    // async getItemValue(key: string){
+    //     const getItem: any = await this.getItem(key);
+    //     let value = null;
 
-        let value = null;
+    //     if(getItem){
+    //         if(!getItem.value){
+    //             value = 
+    //         }
+    //         else {
+    //             value = getItem;
+    //         }
+    //     }
 
-        if(getItem && getItem.value){
-            value = getItem.value;
-        }
-
-        return value;
-    }
+    //     return value;
+    // }
 }

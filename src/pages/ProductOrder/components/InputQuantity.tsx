@@ -78,7 +78,7 @@ export default class InputQuantity extends React.Component<IProps, IState> {
 
                 initialValue={initialValue}
 
-                minValue = {0}
+                minValue = {1}
 
                 onChange = {(quantity: any) => {this.receiveQuantity(quantity)}}
             />

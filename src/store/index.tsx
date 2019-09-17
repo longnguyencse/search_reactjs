@@ -20,7 +20,7 @@ import {dynamicOrderReducer, supplierProductReducer as orderSupplierProductReduc
 
 const rootReducers = combineReducers({
     auth: authReducer,
-    products: productReducer,
+    // products: productReducer,
     staticCategories: staticCategoryReducer,
     dynamicCategories: dynamicCategoryReducer,
     staticGroupReducer: staticGroupReducer,
