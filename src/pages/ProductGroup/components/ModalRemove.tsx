@@ -53,7 +53,6 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
     async componentWillReceiveProps(newProps: any) {
         const {groups} = this.props;
         const {groupKey, isDynamic} = newProps;
-        console.log('groupKey ', groupKey);
         if (!groupKey) {
             return;
         }
@@ -68,7 +67,6 @@ class ModalRemoveCategory extends React.Component<IProps, IState> {
         // const find = groups.find((groups: any) => {
         //     return groups.key === groupKey;
         // });
-        console.log('groups ', groups);
         let modalText = "";
         if (find) {
             modalText = `Bạn muốn xóa nhóm hàng với tên : ${find.name}`;

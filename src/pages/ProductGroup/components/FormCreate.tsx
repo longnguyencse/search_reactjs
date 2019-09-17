@@ -50,7 +50,6 @@ class CreateCategory extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(newProps: any) {
-        console.log('new props', newProps);
         this.setState({
             groups: newProps.groups,
         });
@@ -101,7 +100,6 @@ class CreateCategory extends React.Component<IProps, IState> {
     handleSubmit = async (e: any) => {
         e.preventDefault();
         const {groups} = this.state;
-        console.log('group : ', groups);
         let maxKey = 0;
         if (groups.length) {
             maxKey = Math.max.apply(Math, groups.map((group: any, index: any) => {

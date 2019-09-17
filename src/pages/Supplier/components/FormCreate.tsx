@@ -53,7 +53,6 @@ class FormCreate extends React.Component<IProps, IState> {
     }
 
     componentWillReceiveProps(nextProps: Readonly<OwnProps & StateProps & DispatchProps & FormComponentProps<any>>, nextContext: any): void {
-        console.log(nextProps);
         const {categories} = nextProps;
         this.setState({
             categories,
