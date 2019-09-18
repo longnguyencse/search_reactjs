@@ -64,10 +64,10 @@ export const update = (orderKey: number | string, updatedOrder: Order): ThunkAct
     );
 }
 
-export const remove = (orderKey: number | string): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
-    const newOrderKey = await executeRemove(orderKey);
+export const remove = (productId: number | string): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
+    await executeRemove(productId);
     dispatch(
-        _remove(newOrderKey)
+        _remove(productId)
     );
 }
 // All function use Component call
@@ -126,19 +126,22 @@ async function executeUpdate(orderKey: number | string, updatedOrder: Order){
     return updatedOrder;
 }
 
-async function executeRemove(orderKey: number | string){
+async function executeRemove(productId: number | string){
     const localS = new LocalStorage();
 
-    const orders = await localS.getArrayValue('orders');
+    const orderArr: any = await localS.getArrayValue('order');
+    let order = orderArr[0];
 
-    let newOrders = filterArrayObjectByAttribute(orders, "key", orderKey);
+    const oldItems = order ? order.items : [];
+    const newItems = filterArrayObjectByAttribute(oldItems, 'productId', productId);
+    // let newOrders = filterArrayObjectByAttribute(orders, "key", orderKey);
 
-    if(!newOrders.length){
-        newOrders = null;
+    if(!newItems.length){
+        order = null;
     }
 
-    await localS.setItem('orders', newOrders);
+    await localS.setItem('order', order);
 
-    return orderKey;
+    return productId;
 }
 // All function to execute logic

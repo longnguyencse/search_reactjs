@@ -32,7 +32,15 @@ export function staticOrderReducer(state = initialState, action: ActionType) {
         }
 
         case REMOVE_STATIC_ORDER: {
-            return filterArrayObjectByAttribute(state, 'key', action.key);
+            const filterItems = filterArrayObjectByAttribute(state.items, 'productId', action.key);
+            if(!filterItems.length){
+                return initialState;
+            }
+            return {
+                ...state,
+                items: filterItems
+            };
+            // return filterArrayObjectByAttribute(state, 'key', action.key);
         }
 
         default:

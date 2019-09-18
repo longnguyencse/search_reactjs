@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Table } from 'antd';
 
 import FormCreate from './components/FormCreate';
+import ModalRemove from './components/ModalRemove';
 
 import { Order } from '../../store/order/static/types';
 import { list } from '../../store/order/static/actions';
@@ -39,7 +40,9 @@ interface IState {
     products: any,
     order: any,
     saveAllLoading: boolean,
-    redirectToList: boolean
+    redirectToList: boolean,
+    productId: any,
+    openRemoveModal: boolean
 }
 
 class CreateProductOrder extends React.Component<IProps, IState> {
@@ -51,7 +54,9 @@ class CreateProductOrder extends React.Component<IProps, IState> {
             products: [],
             order: null,
             saveAllLoading: false,
-            redirectToList: false
+            redirectToList: false,
+            productId: null,
+            openRemoveModal: false
         }
 
         console.warn = function () {
@@ -77,13 +82,13 @@ class CreateProductOrder extends React.Component<IProps, IState> {
 
         if (newProps.products) {
             let { products } = newProps;
-            if(exceptProducts.length){
-                console.log({
-                    products,
-                    exceptProducts
-                });
-                products = filerTwoArrayObjectByAttribute(products, exceptProducts, "productId", "id");
-            }
+            // if(exceptProducts.length){
+            //     console.log({
+            //         products,
+            //         exceptProducts
+            //     });
+            //     products = filerTwoArrayObjectByAttribute(products, exceptProducts, "productId", "id");
+            // }
             dataToSetState.products = products;
         }
 
@@ -117,11 +122,11 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         // }
     }
 
-    handleClickRemove = async (productKey: any) => {
-        // this.setState({
-        //     productKey,
-        //     openRemoveModal: true
-        // })
+    handleClickRemove = async (productId: any) => {
+        this.setState({
+            productId,
+            openRemoveModal: true
+        })
     }
 
     handleSaveAll = () => {
@@ -168,9 +173,9 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                 render: (text: any, row: any, index: any) => {
                     return (
                         <div>
-                            <Button type="primary" onClick={() => this.handleClickUpdate(row.key)}>Cập nhật</Button>
+                            <Button type="primary" onClick={() => this.handleClickUpdate(row.productId)}>Cập nhật</Button>
                             -
-                            <Button type="danger" onClick={() => this.handleClickRemove(row.key)}>Xóa</Button>
+                            <Button type="danger" onClick={() => this.handleClickRemove(row.productId)}>Xóa</Button>
                         </div>
                     );
                 },
@@ -191,6 +196,14 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                         suppliers={this.state.suppliers}
 
                         products={this.state.products}
+                    />
+
+                    <ModalRemove
+                        productId={this.state.productId}
+
+                        visible={this.state.openRemoveModal}
+
+                        onCancel={() => { this.setState({ openRemoveModal: false }) }}
                     />
 
                     {checkExist ?

@@ -45,6 +45,7 @@ class SelectSupplier extends React.Component<IProps, IState> {
     }
 
     async componentWillReceiveProps(newProps: any){
+        console.log("Select Supplier", newProps);
         if(newProps.order && newProps.order.supplierId){
             const order = newProps.order;
             
@@ -54,6 +55,11 @@ class SelectSupplier extends React.Component<IProps, IState> {
             this.setState({
                 disabled: true,
                 loadValue: order.supplierId
+            });
+        }
+        else {
+            this.setState({
+                disabled: false
             });
         }
     }
