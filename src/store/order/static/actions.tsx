@@ -3,7 +3,7 @@ import {
     LIST_STATIC_ORDER, 
     CREATE_MULTI_STATIC_ORDERS, 
     UPDATE_STATIC_ORDER, 
-    REMOVE_STATIC_ORDER,
+    REMOVE_PRODUCT_IN_STATIC_ORDER,
 } from '../../../constants/order';
 import { Order, ActionType } from './types';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
@@ -34,9 +34,9 @@ export const _update = (productId: number | string, order: Order): ActionType =>
     }
 }
 
-export const _remove = (productId: number | string): ActionType => {
+export const _removeProduct = (productId: number | string): ActionType => {
     return {
-        type: REMOVE_STATIC_ORDER,
+        type: REMOVE_PRODUCT_IN_STATIC_ORDER,
         key: productId,
     }
 }
@@ -64,10 +64,10 @@ export const update = (orderKey: number | string, updatedOrder: Order): ThunkAct
     );
 }
 
-export const remove = (productId: number | string): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
+export const removeProduct = (productId: number | string): ThunkAction<void, Order[], null, Action<string>> => async dispatch => {
     await executeRemove(productId);
     dispatch(
-        _remove(productId)
+        _removeProduct(productId)
     );
 }
 // All function use Component call

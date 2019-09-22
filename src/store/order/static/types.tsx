@@ -1,7 +1,7 @@
 import {
     CREATE_MULTI_STATIC_ORDERS,
     LIST_STATIC_ORDER,
-    REMOVE_STATIC_ORDER,
+    REMOVE_PRODUCT_IN_STATIC_ORDER,
     UPDATE_STATIC_ORDER,
 } from "../../../constants/order";
 
@@ -34,13 +34,13 @@ export interface UpdateAction {
     payload: Order
 }
 
-export interface DeleteAction {
-    type: typeof REMOVE_STATIC_ORDER,
+export interface DeleteProductAction {
+    type: typeof REMOVE_PRODUCT_IN_STATIC_ORDER,
     key: number | string,
 }
 
 
 
-export type ActionType = ListAction | CreateMultiAction | UpdateAction | DeleteAction;
+export type ActionType = ListAction | CreateMultiAction | UpdateAction | DeleteProductAction;
 
 

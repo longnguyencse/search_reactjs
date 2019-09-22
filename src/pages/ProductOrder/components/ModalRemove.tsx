@@ -4,7 +4,7 @@ import { Modal } from 'antd';
 
 
 import { Order } from '../../../store/order/static/types';
-import { remove } from '../../../store/order/static/actions';
+import { removeProduct } from '../../../store/order/static/actions';
 
 // import {executeGet, executeRemove, list} from '../../../store/order/dynamic/actions';
 
@@ -30,7 +30,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-    remove: typeof remove
+    removeProduct: typeof removeProduct
     // list: typeof list,
 }
 
@@ -101,7 +101,7 @@ class ModalRemoveOrder extends React.Component<IProps, IState> {
             const {productId, isDynamic, currentPage} = this.props;
 
             if(!isDynamic && !currentPage){
-                await this.props.remove(productId);
+                await this.props.removeProduct(productId);
             }
             else {
                 // const checkRemove = await executeRemove(productKey);
@@ -147,7 +147,7 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: OwnProps): DispatchProps => ({
-    remove: (productKey: number | string) => dispatch(remove(productKey)),
+    removeProduct: (productKey: number | string) => dispatch(removeProduct(productKey)),
     // list: (page: number = DEFAULT_PAGE, size: number = DEFAULT_SIZE) => dispatch(list(page, size)),
 });
 

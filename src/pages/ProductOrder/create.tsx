@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Table } from 'antd';
 
 import FormCreate from './components/FormCreate';
+import ModalUpdate from './components/ModalUpdate';
 import ModalRemove from './components/ModalRemove';
 
 import { Order } from '../../store/order/static/types';
@@ -42,6 +43,7 @@ interface IState {
     saveAllLoading: boolean,
     redirectToList: boolean,
     productId: any,
+    openUpdateModal: boolean,
     openRemoveModal: boolean
 }
 
@@ -56,6 +58,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
             saveAllLoading: false,
             redirectToList: false,
             productId: null,
+            openUpdateModal: false,
             openRemoveModal: false
         }
 
@@ -113,20 +116,22 @@ class CreateProductOrder extends React.Component<IProps, IState> {
         this.setState(dataToSetState);
     }
 
-    handleClickUpdate = (productKey: any) => {
-        // if (productKey) {
-        //     this.setState({
-        //         openUpdateModal: true,
-        //         productKey
-        //     })
-        // }
+    handleClickUpdate = (productId: any) => {
+        if (productId) {
+            this.setState({
+                productId,
+                openUpdateModal: true
+            })
+        }
     }
 
     handleClickRemove = async (productId: any) => {
-        this.setState({
-            productId,
-            openRemoveModal: true
-        })
+        if(productId){
+            this.setState({
+                productId,
+                openRemoveModal: true
+            })
+        } 
     }
 
     handleSaveAll = () => {
@@ -182,7 +187,7 @@ class CreateProductOrder extends React.Component<IProps, IState> {
             },
         ];
 
-        const { order, saveAllLoading, redirectToList } = this.state;
+        const { suppliers, products, order, saveAllLoading, redirectToList, productId, openUpdateModal, openRemoveModal } = this.state;
         const checkExist = order && order.supplierId ? true : false;
 
         if (redirectToList) {
@@ -193,15 +198,25 @@ class CreateProductOrder extends React.Component<IProps, IState> {
             <div id="create-order">
                 <div className="search-result-list">
                     <FormCreate
-                        suppliers={this.state.suppliers}
+                        suppliers={suppliers}
 
-                        products={this.state.products}
+                        products={products}
+                    />
+
+                    <ModalUpdate
+                        productId={productId}
+
+                        visible={openUpdateModal}
+
+                        products={products}
+
+                        onCancel={() => { this.setState({ openUpdateModal: false }) }}
                     />
 
                     <ModalRemove
-                        productId={this.state.productId}
+                        productId={productId}
 
-                        visible={this.state.openRemoveModal}
+                        visible={openRemoveModal}
 
                         onCancel={() => { this.setState({ openRemoveModal: false }) }}
                     />
