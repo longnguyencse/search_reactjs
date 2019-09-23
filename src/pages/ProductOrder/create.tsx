@@ -211,6 +211,8 @@ class CreateProductOrder extends React.Component<IProps, IState> {
                         products={products}
 
                         onCancel={() => { this.setState({ openUpdateModal: false }) }}
+
+                        order={order}
                     />
 
                     <ModalRemove

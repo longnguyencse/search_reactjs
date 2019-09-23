@@ -31,6 +31,7 @@ interface OwnProps {
     products: any,
     onCancel: () => void,
     isDynamic?: boolean,
+    order: any,
     // categories: any,
     // groups: any,
     // classes: any,
@@ -48,7 +49,7 @@ interface DispatchProps {
 type IProps = OwnProps & StateProps & DispatchProps & FormComponentProps;
 
 interface IState {
-    findProduct: any,
+    findItem: any,
     confirmLoading: boolean
 }
 
@@ -57,19 +58,30 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            findProduct: null,
+            findItem: null,
             confirmLoading: false
         }
     }
 
     async componentWillReceiveProps(newProps: any) {
-        // const { products } = this.props;
-        // const { productId, isDynamic } = newProps;
+        const { products, order } = this.props;
+        const { productId, isDynamic } = newProps;
 
-        // if (!productId) {
-        //     return;
-        // }
+        if (!productId) {
+            return;
+        }
 
+        let findItem;
+        if(!isDynamic){
+            findItem = findElementInArrayObjectByAttribute(order.items, 'productId', productId);
+        }
+        else {
+            findItem = {};
+        }
+
+        this.setState({
+            findItem
+        });
         // let findProduct: { categoryId: any; category: { id: any; }; groupId: any; group: { id: any; }; classId: any; productClass: { id: any; }; };
         // if (!isDynamic) {
         //     findProduct = findElementInArrayObjectByAttribute(products, 'key', productId);
@@ -98,24 +110,22 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
 
     getFields = () => {
         const { form, products } = this.props;
-        // const { findProduct } = this.state;
+        const { findItem } = this.state;
 
         // const key = null;
 
-        // let code = null;
-        // let name = null;
-        // let note = null;
-        // let categoryId = null;
-        // let groupId = null;
-        // let classId = null;
-        // if (findProduct) {
-        //     code = findProduct.code;
-        //     name = findProduct.name;
-        //     note = findProduct.note;
-        //     categoryId = findProduct.categoryId;
-        //     groupId = findProduct.groupId;
-        //     classId = findProduct.classId;
-        // }
+        let productId = null;
+        let quantity = null;
+        let price = null;
+        let money = null;
+        let discount = null;
+        if (findItem) {
+            productId = findItem.productId;
+            quantity = findItem.quantity;
+            price = findItem.price;
+            money = findItem.money;
+            discount = findItem.discount;
+        }
 
         return (
             <div>
@@ -125,11 +135,11 @@ class ModalUpdateProduct extends React.Component<IProps, IState> {
                 <SelectGroup form={form} k={key} values={groups} loadValue={groupId} />
                 <SelectClass form={form} k={key} values={classes} loadValue={classId} />
                 <ProductNoteTextArea form={form} k={key} loadValue={note} /> */}
-                <SelectProduct form={form} values={products}/>
-                <InputQuantity form={form} />
-                <InputPrice form={form} />
-                <InputMoney form={form} />
-                <InputDiscount form={form} />
+                <SelectProduct form={form} values={products} loadValue={productId} />
+                <InputQuantity form={form} loadValue={quantity} />
+                <InputPrice form={form} loadValue={price} />
+                <InputMoney form={form} loadValue={money} />
+                <InputDiscount form={form} loadValue={discount} />
             </div>
         );
     }
