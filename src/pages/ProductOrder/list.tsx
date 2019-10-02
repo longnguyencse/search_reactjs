@@ -146,7 +146,6 @@ class List extends React.Component<IProps, IState> {
     }
 
     render() {
-
         const columns = [
             {
                 title: "Ngày tạo",
